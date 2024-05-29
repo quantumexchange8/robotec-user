@@ -38,7 +38,7 @@ let removeFinishEventListener = Inertia.on("finish", () => {
 <template>
     <Head :title="title"></Head>
 
-    <div class="min-h-screen bg-gray-900">
+    <div class="min-h-screen bg-gray-900"> <!-- bg-gray-900 -->
         <!-- Sidebar -->
         <Sidebar />
 
@@ -61,9 +61,7 @@ let removeFinishEventListener = Inertia.on("finish", () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="mt-20">
-                <div class="px-4 py-5 font-semibold">
-                    <slot name="header" />
-                </div>
+                <slot name="header" />
             </header>
 
             <!-- Page Content -->

@@ -51,8 +51,8 @@ let removeFinishEventListener = Inertia.on("finish", () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), var(--gray-900, #0C111D);">
-        <div class="flex items-center gap-2 self-stretch w-full justify-end pt-2 pr-2 sm:pr-8">
+    <div class="min-h-screen flex flex-col justify-center items-center px-4" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), var(--gray-900, #0C111D);">
+        <div class="flex py-5 items-center self-stretch justify-end w-full sm:max-w-md sm:mx-auto">
             <Dropdown align="right">
                 <template #trigger>
                     <Button
@@ -90,7 +90,7 @@ let removeFinishEventListener = Inertia.on("finish", () => {
         </div>
 
         <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 shadow-md overflow-hidden sm:rounded-lg"
+            class="w-full sm:max-w-md shadow-md overflow-hidden sm:rounded-lg"
         >
             <Alert
                 :show="showAlert"
