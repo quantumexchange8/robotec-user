@@ -55,7 +55,7 @@ const register = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <Label for="email" value="Email" class="text-gray-300" :invalid="form.errors.email" />
+                <Label for="email" value="Email" class="text-gray-300" :invalid="form.errors.email" :is_required="false" />
 
                 <Input
                     id="email"
@@ -63,7 +63,6 @@ const register = () => {
                     class="mt-1 block w-full"
                     :invalid="form.errors.email"
                     v-model="form.email"
-                    required
                     autofocus
                     autocomplete="username"
                 />
@@ -72,7 +71,7 @@ const register = () => {
             </div>
 
             <div class="mt-4">
-                <Label for="password" value="Password" class="text-gray-300" :invalid="form.errors.password" />
+                <Label for="password" value="Password" class="text-gray-300" :invalid="form.errors.password" :is_required="false" />
 
                 <Input
                     id="password"
@@ -80,7 +79,6 @@ const register = () => {
                     class="mt-1 block w-full"
                     v-model="form.password"
                     :invalid="form.errors.password"
-                    required
                     autocomplete="current-password"
                 />
 

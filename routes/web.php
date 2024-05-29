@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/deposit', [DashboardController::class, 'showDeposit'])->name('deposit');
 
     /**
      * ==============================
