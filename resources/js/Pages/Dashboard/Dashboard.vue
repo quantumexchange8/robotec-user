@@ -16,6 +16,9 @@ const eaModelVisible = () => {
     eaModel.value = true;
 }
 
+const closeModal = () => {
+    eaModel.value = false
+}
 </script>
 
 <template>
@@ -39,7 +42,7 @@ const eaModelVisible = () => {
                         >
                             <QrCode01Icon />
                         </Button>
-                        <div class="w-8 h-8 rounded-full">
+                        <div class="w-8 h-8 rounded-full overflow-hidden">
                             <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
                         </div>
                     </div>
@@ -47,7 +50,7 @@ const eaModelVisible = () => {
             </div>
         </template>
 
-        <div class="flex py-6 px-5 flex-col items-center gap-5 rounded-2xl bg-gray-700">
+        <div class="flex mx-4 py-6 px-5 flex-col items-center gap-5 rounded-2xl bg-gray-700">
             <div class="flex justify-between items-center self-stretch">
                 <div class="flex flex-col items-start gap-1">
                     <div class="text-gray-300 text-xs font-medium">Cash Wallet ($)</div>
@@ -89,7 +92,7 @@ const eaModelVisible = () => {
             </div>
         </div>
 
-        <div class="flex pt-5 pb-3 flex-col items-center gap-5 relative">
+        <div class="flex pt-5 pb-3 px-4 flex-col items-center gap-5 relative">
             <div class="text-white">progress bar</div>
 
             <RobotIllustration class="absolute right-0"/>
@@ -114,6 +117,7 @@ const eaModelVisible = () => {
 
                 <Modal
                     :show="eaModel"
+                    @close="closeModal"
                 >
                     Purchase Robotec
                 </Modal>
