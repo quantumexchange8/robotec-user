@@ -53,7 +53,7 @@ let removeFinishEventListener = Inertia.on("finish", () => {
                 </nav>
 
                 <!-- Page Heading -->
-                <header v-if="$slots.header" class="mt-20">
+                <header v-if="$slots.header">
                     <div class="px-4 py-5 font-semibold">
                         <slot name="header" />
                     </div>
