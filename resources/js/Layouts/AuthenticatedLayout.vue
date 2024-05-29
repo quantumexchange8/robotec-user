@@ -37,48 +37,46 @@ let removeFinishEventListener = Inertia.on("finish", () => {
 
 <template>
     <Head :title="title"></Head>
-
-    <div class="min-h-screen bg-gray-900"> <!-- bg-gray-900 -->
-        <!-- Sidebar -->
+    <div class="min-h-screen flex justify-center bg-gray-900">
         <Sidebar />
 
-        <div
-            style="transition-property: margin; transition-duration: 150ms"
-            :class="[
-                'min-h-screen flex flex-col',
-                {
-                    'lg:ml-72': sidebarState.isOpen,
-                    'md:ml-16': !sidebarState.isOpen,
-                },
-            ]"
-        >
-            <!-- Navbar -->
-            <nav class="fixed bg-gray-800 w-full">
-                <div class="flex justify-between">
-                    <Navbar />
-                </div>
-            </nav>
+        <div class="flex justify-center w-full sm:max-w-[360px]">
+            <div
+                class="w-full"
+                style="transition-property: margin; transition-duration: 150ms"
+            >
+                <!-- Navbar -->
+                <nav class="bg-gray-800 w-full">
+                    <div class="flex justify-between">
+                        <Navbar />
+                    </div>
+                </nav>
 
-            <!-- Page Heading -->
-            <header v-if="$slots.header" class="mt-20">
-                <slot name="header" />
-            </header>
+                <!-- Page Heading -->
+                <header v-if="$slots.header" class="mt-20">
+                    <div class="px-4 py-5 font-semibold">
+                        <slot name="header" />
+                    </div>
+                </header>
 
-            <!-- Page Content -->
-            <main class="flex-1 px-4">
-                <Alert
-                    :show="showAlert"
-                    :on-dismiss="() => showAlert = false"
-                    :title="alertTitle"
-                    :intent="intent"
-                    :alertButton="alertButton"
-                >
-                    {{ alertMessage }}
-                </Alert>
-                <ToastList />
-                <slot />
-            </main>
+                <!-- Page Content -->
+                <main class="flex-1 px-4">
+                    <Alert
+                        :show="showAlert"
+                        :on-dismiss="() => showAlert = false"
+                        :title="alertTitle"
+                        :intent="intent"
+                        :alertButton="alertButton"
+                    >
+                        {{ alertMessage }}
+                    </Alert>
+                    <ToastList />
+                    <slot />
+                </main>
 
+            </div>
         </div>
+<!--        &lt;!&ndash; Sidebar &ndash;&gt;-->
+
     </div>
 </template>
