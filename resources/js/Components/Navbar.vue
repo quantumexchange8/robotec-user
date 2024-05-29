@@ -62,6 +62,7 @@ const changeLanguage = async (langVal) => {
             v-slot="{ iconSizeClasses }"
             class="flex items-center justify-center"
             srText="Search"
+            size="sm"
         >
             <Bars3BottomLeftIcon
                 v-show="!sidebarState.isOpen"
@@ -90,6 +91,7 @@ const changeLanguage = async (langVal) => {
                         v-slot="{ iconSizeClasses }"
                         class="inline-flex"
                         srText="Toggle dark mode"
+                        size="sm"
                     >
                         <GlobeAltIcon
                             aria-hidden="true"
