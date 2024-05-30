@@ -112,13 +112,6 @@ const closeModal = () => {
                     </Button>
                 </div>
 
-                <Modal
-                    :show="eaModel"
-                    @close="closeModal"
-                >
-                    Purchase Robotec
-                </Modal>
-
                 <div class="flex flex-col items-start gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-2 self-stretch">
                         <div class="text-white text-md font-semibold">Step 2: Set Up Your Trading Account</div>
@@ -159,5 +152,25 @@ const closeModal = () => {
                 </div>
             </div>
         </div>
+
+        <Modal
+            :show="eaModel"
+            title="Purchase Robotec"
+            @close="closeModal"
+        >
+            <div class="py-5">
+                <div class="text-white">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue vitae enim venenatis viverra vel a turpis. In et mattis quam, vitae volutpat eros. Pellentesque lectus quam, accumsan quis leo eget, faucibus pretium mauris. Donec efficitur mollis urna, at sodales felis sollicitudin sit amet. Integer nisl diam, lacinia ut malesuada eu, tincidunt quis magna. Phasellus interdum dui vitae metus facilisis, vel vulputate dui lobortis. Nam aliquet felis quis condimentum vestibulum. Proin in tincidunt justo. Cras interdum odio augue, sit amet viverra diam commodo a. Maecenas nec facilisis sem. Nunc gravida dolor eros, at eleifend lorem molestie et.
+
+                    Morbi et malesuada felis. Phasellus at volutpat lorem. Vestibulum faucibus nulla sit amet nunc tincidunt, et lobortis magna ultrices. Vestibulum eu nulla vel quam lobortis malesuada ac ut tellus. Curabitur pharetra turpis eu tincidunt ultrices. Suspendisse sagittis quis nulla auctor vehicula. Praesent tempor pellentesque odio, in convallis justo pharetra et. Fusce massa urna, hendrerit sit amet nibh sed, sagittis maximus massa. Donec fermentum mauris sed est condimentum, id luctus eros suscipit.
+
+                    Duis consequat nulla nisl, sed blandit odio sagittis in. Duis non viverra magna, at blandit quam. Vestibulum finibus leo purus, id eleifend elit lacinia ac. Duis maximus vehicula purus, nec venenatis felis rhoncus a. Cras et elit ut justo pellentesque interdum. Aliquam pellentesque lectus dui, vel placerat lorem iaculis mattis. Duis gravida commodo nunc. Curabitur viverra auctor placerat. Quisque id varius libero. Duis rutrum lectus erat, ac varius magna dictum sed. Suspendisse a urna quis nibh facilisis auctor. Fusce fringilla justo nec magna pretium feugiat. Nunc a ligula feugiat, vulputate sapien id, tempor mi.
+
+                    Sed sed dolor urna. Nam sed ipsum scelerisque, maximus odio at, semper erat. Etiam eget laoreet diam. Praesent non enim posuere, vulputate libero quis, tristique urna. Pellentesque ut leo malesuada, tristique nulla at, tincidunt risus. Vivamus elit urna, placerat ut dolor vitae, lacinia efficitur libero. Maecenas ac orci a urna varius semper sit amet ut nisi. Mauris vel varius sapien. Quisque mattis fermentum felis eget bibendum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ultrices varius arcu et maximus. Integer efficitur sit amet ex sit amet consectetur. Duis tincidunt facilisis sagittis. Ut condimentum libero malesuada turpis placerat varius. Donec lobortis, libero in volutpat tincidunt, lacus diam placerat metus, vitae tincidunt nisl ligula eu elit.
+
+                    Morbi maximus justo vitae leo venenatis, a ullamcorper eros ultricies. Nullam scelerisque interdum elit, ac pellentesque leo blandit ut. Proin interdum, eros ac pretium efficitur, mauris dolor ultricies purus, ac tempor nisi orci eget turpis. Quisque porttitor malesuada orci. Curabitur pulvinar quis elit vitae fringilla. Curabitur facilisis tortor a diam sollicitudin, vitae ultrices nunc pretium. Sed ultricies, tellus in tincidunt ultrices, ligula nunc congue nulla, sed mattis dolor dolor sit amet odio. Nulla facilisi. Proin congue, tortor a iaculis dictum, orci odio ultrices velit, sed lacinia lacus enim quis ex. Aenean vulputate, nisi vitae fermentum aliquet, tortor arcu fringilla erat, a tincidunt risus orci in dui. Suspendisse euismod convallis elit, vitae laoreet elit euismod eu. Maecenas non.
+                </div>
+            </div>
+        </Modal>
     </AuthenticatedLayout>
 </template>

@@ -51,48 +51,45 @@ let removeFinishEventListener = Inertia.on("finish", () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col justify-center items-center px-4 pb-4" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), #0C111D;">
-        <div class="w-full sm:max-w-md">
-            <div class="flex py-5 items-center gap-2 self-stretch w-full justify-end">
-                <Dropdown align="right">
-                    <template #trigger>
-                        <Button
-                            iconOnly
-                            variant="transparent"
-                            type="button"
-                            v-slot="{ iconSizeClasses }"
-                            class="inline-flex"
-                            srText="Change language"
-                        >
-                            <GlobeAltIcon
-                                aria-hidden="true"
-                                :class="iconSizeClasses"
-                            />
-                        </Button>
-                    </template>
-                    <template #content>
-                        <DropdownLink @click="changeLanguage('en')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
-                            <div class="inline-flex items-center gap-2 text-white">
-                                English
-                            </div>
-                        </DropdownLink>
-                        <DropdownLink @click="changeLanguage('cn')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
-                            <div class="inline-flex items-center gap-2 text-white">
-                                简体中文
-                            </div>
-                        </DropdownLink>
-                        <DropdownLink @click="changeLanguage('bm')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
-                            <div class="inline-flex items-center gap-2 text-white">
-                                Bahasa Melayu
-                            </div>
-                        </DropdownLink>
-                    </template>
-                </Dropdown>
-            </div>
+    <div class="min-h-screen flex flex-col sm:justify-center items-center px-4" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), #0C111D;">
+        <div class="flex items-center gap-2 self-stretch w-full justify-end py-5">
+            <Dropdown align="right">
+                <template #trigger>
+                    <Button
+                        iconOnly
+                        variant="transparent"
+                        type="button"
+                        class="inline-flex"
+                        srText="Change language"
+                    >
+                        <GlobeAltIcon
+                            aria-hidden="true"
+                            class="w-6 h-6"
+                        />
+                    </Button>
+                </template>
+                <template #content>
+                    <DropdownLink @click="changeLanguage('en')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
+                        <div class="inline-flex items-center gap-2 text-white">
+                            English
+                        </div>
+                    </DropdownLink>
+                    <DropdownLink @click="changeLanguage('cn')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
+                        <div class="inline-flex items-center gap-2 text-white">
+                            简体中文
+                        </div>
+                    </DropdownLink>
+                    <DropdownLink @click="changeLanguage('bm')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
+                        <div class="inline-flex items-center gap-2 text-white">
+                            Bahasa Melayu
+                        </div>
+                    </DropdownLink>
+                </template>
+            </Dropdown>
         </div>
 
         <div
-            class="w-full sm:max-w-md shadow-md overflow-hidden sm:rounded-lg"
+            class="w-full sm:max-w-md overflow-hidden sm:rounded-lg"
         >
             <Alert
                 :show="showAlert"
