@@ -33,10 +33,9 @@ const closeModal = () => {
                 </div>
                 <div class="flex items-center gap-3">
                     <Button
-                        variant="transparent"
+                        variant="ring-transparent"
                         type="button"
                         :iconOnly="true"
-                        class="border border-solid border-gray-600 bg-gray-900"
                         v-slot="{ iconSizeClasses }"
                     >
                         <QrCode01Icon />

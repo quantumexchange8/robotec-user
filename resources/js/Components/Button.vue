@@ -66,7 +66,7 @@ const variantClasses = (variant) => ({
     'bg-success-500 text-white focus:bg-success-900 focus:text-success-800': variant === 'success',
     'bg-error-500 text-white focus:bg-error-700 focus:text-error-600': variant === 'warning',
     'bg-transparent text-white focus:text-gray-600 focus:bg-transparent': variant === 'transparent',
-    'bg-transparent text-white-600 ring ring-gray-600 focus:ring-gray-700 focus:text-gray-600': variant === 'ring-transparent',
+    'bg-transparent text-white ring ring-gray-600 focus:ring-gray-700 focus:text-gray-600': variant === 'ring-transparent',
     'bg-white text-gray-500 focus:bg-primary-500 focus:text-primary-700': variant === 'secondary',
     'bg-red-500 text-white focus:bg-red-500': variant === 'danger',
     'bg-primary-400 text-white focus:bg-primary-500': variant === 'info',
