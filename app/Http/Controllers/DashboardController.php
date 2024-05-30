@@ -16,4 +16,9 @@ class DashboardController extends Controller
     {
         return Inertia::render('Dashboard/Deposit');
     }
+
+    public function showClientData()
+    {
+        return Inertia::render('ClientData/ClientData');
+    }
 }

@@ -27,10 +27,10 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
             </template>
         </SidebarLink>
 
-        <!-- <SidebarLink
+        <SidebarLink
             :title="$t('public.sidebar.client_data')"
-            :href="route('profile.edit')"
-            :active="route().current('profile.edit')"
+            :href="route('clientData')"
+            :active="route().current('clientData')"
         >
             <template #icon>
                 <Users01Icon
@@ -38,7 +38,7 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
                     aria-hidden="true"
                 />
             </template>
-        </SidebarLink> -->
+        </SidebarLink>
 
         <SidebarLink
             :title="$t('public.sidebar.withdrawal')"

@@ -100,7 +100,7 @@ const is_disabled = ref(true);
     <Head title="Deposit" />
 
     <AuthenticatedLayout>
-        <div class="flex py-3 flex-col items-center gap-3">
+        <div class="flex py-3 px-4 flex-col items-center gap-3">
             <div class="py-2 items-center self-stretch text-white text-xl font-semibold">Deposit</div>
             
             <form @submit.prevent="submitForm">
