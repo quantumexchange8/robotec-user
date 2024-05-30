@@ -51,8 +51,8 @@ let removeFinishEventListener = Inertia.on("finish", () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center px-4" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), #0C111D;">
-        <div class="flex items-center gap-2 self-stretch w-full justify-end py-5">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), #0C111D;">
+        <div class="flex items-center gap-2 self-stretch w-full justify-end py-5 px-4">
             <Dropdown align="right">
                 <template #trigger>
                     <Button

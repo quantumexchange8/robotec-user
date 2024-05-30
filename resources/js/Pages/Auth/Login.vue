@@ -45,7 +45,7 @@ const register = () => {
         </div>
 
         <form @submit.prevent="submit">
-            <div class="flex flex-col justify-center items-center gap-10">
+            <div class="flex flex-col justify-center items-center gap-10 px-4">
                 <div class="flex flex-col items-center gap-3 self-stretch">
                     <Link href="/">
                         <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
