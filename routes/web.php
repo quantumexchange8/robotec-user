@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
      * ==============================
      */
     Route::prefix('transaction')->group(function () {
-        Route::get('/withdrawal_request', [TransactionController::class, 'withdrawal_request'])->name('transaction.withdrawal_request');
+        Route::get('/withdrawal', [TransactionController::class, 'withdrawal'])->name('transaction.withdrawal');
     });
 
 });

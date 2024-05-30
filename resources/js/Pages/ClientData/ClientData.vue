@@ -11,9 +11,11 @@ const is_set = ref(true);
     <Head title="Client Data" />
 
     <AuthenticatedLayout>
-        <div class="flex py-3 px-4 flex-col items-center gap-3">
-            <div class="flex py-2 items-center self-stretch text-white text-xl font-semibold">Client Data</div>
+        <template #header>
+            <div class="text-white text-xl">Client Data</div>
+        </template>
 
+        <div class="flex pb-3 px-4 flex-col items-center gap-3">
             <div class="flex p-3 justify-around items-start gap-3 self-stretch rounded-xl bg-gray-800">
                 <div class="flex flex-col items-center">
                     <div class="text-white text-center text-lg font-semibold">5</div>

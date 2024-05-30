@@ -26,25 +26,23 @@ const closeModal = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="pt-3">
-                <div class="flex py-2 justify-between items-center self-stretch">
-                    <div class="flex flex-col justify-center items-start">
-                        <div class="self-stretch text-white text-xs font-medium">Welcome back👋</div>
-                        <h2 class="self-stretch text-white text-lg font-semibold">Amanda Watson</h2>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <Button
-                            variant="transparent"
-                            type="button"
-                            :iconOnly="true"
-                            class="border border-solid border-gray-600 bg-gray-900"
-                            v-slot="{ iconSizeClasses }"
-                        >
-                            <QrCode01Icon />
-                        </Button>
-                        <div class="w-8 h-8 rounded-full overflow-hidden">
-                            <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
-                        </div>
+            <div class="flex py-2 justify-between items-center self-stretch">
+                <div class="flex flex-col justify-center items-start">
+                    <div class="self-stretch text-white text-xs font-medium">Welcome back👋</div>
+                    <div class="self-stretch text-white text-lg font-semibold">Amanda Watson</div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <Button
+                        variant="transparent"
+                        type="button"
+                        :iconOnly="true"
+                        class="border border-solid border-gray-600 bg-gray-900"
+                        v-slot="{ iconSizeClasses }"
+                    >
+                        <QrCode01Icon />
+                    </Button>
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                        <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
                     </div>
                 </div>
             </div>
@@ -69,7 +67,7 @@ const closeModal = () => {
                 </Button>
             </div>
 
-            <div class="border-b border-solid border-gray-600 w-full"></div>
+            <div class="self-stretch border-b border-solid border-gray-600 flex-1"></div>
 
             <div class="flex items-center gap-7 self-stretch">
                 <div class="flex flex-col items-start gap-1 grow">
@@ -80,7 +78,7 @@ const closeModal = () => {
                     </div>
                 </div>
 
-                <div class="border-l border-solid self-stretch border-gray-600 w-1"></div>
+                <div class="self-stretch border-l border-solid border-gray-600 flex-1"></div>
 
                 <div class="flex flex-col items-start gap-1 grow">
                     <div class="text-gray-300 text-xs font-medium">Refree (pax)</div>

@@ -119,8 +119,8 @@ const is_disabled = ref(true);
                         <div class="shrink-0">
                             <Qrcode :value="qrAddress" :size="160" render-as="svg" :margin="1" level="M" background="#F7F7F7" />
                         </div>
-                        <div class="flex justify-center items-center gap-2 self-stretch">
-                            <div class="max-w-64 h-5 whitespace-nowrap overflow-hidden text-gray-300 text-ellipsis text-xxs" id="WalletCode">
+                        <div class="flex justify-center items-center gap-2 self-stretch flex-wrap">
+                            <div class="text-gray-300 text-xxs" id="WalletCode">
                                 {{ qrAddress }}
                             </div>
                             <div class="relative" @click="hoverCopy = true" @mouseleave="hoverCopy = false">

@@ -42,8 +42,8 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
 
         <SidebarLink
             :title="$t('public.sidebar.withdrawal')"
-            :href="route('transaction.withdrawal_request')"
-            :active="route().current('transaction.withdrawal_request')"
+            :href="route('transaction.withdrawal')"
+            :active="route().current('transaction.withdrawal')"
         >
             <template #icon>
                 <CreditCardDownloadIcon

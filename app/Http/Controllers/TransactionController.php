@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function withdrawal_request(Request $request)
+    public function withdrawal()
     {
-        return Inertia::render('WithdrawalRequest/WithdrawalRequest');
+        return Inertia::render('Withdrawal/Withdrawal');
     }
 }

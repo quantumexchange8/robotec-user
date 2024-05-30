@@ -7,7 +7,11 @@ defineProps({
         type: Boolean,
         default: false,
     },
-    invalid: [String, Array]
+    invalid: [String, Array],
+    is_disabled: {
+        type: Boolean,
+        default: false
+    },
 })
 
 defineEmits(['update:modelValue'])
@@ -46,7 +50,7 @@ watch(isFocused, (newValue) => {
     <input
         :class="[
             'py-2.5 rounded-lg text-base font-normal shadow-xs border placeholder:text-gray-500 caret-primary-500',
-            'disabled:bg-gray-200 disabled:cursor-not-allowed dark:disabled:bg-gray-800 disabled:text-gray-400 dark:disabled:text-gray-500',
+            'disabled:bg-gray-700 disabled:cursor-not-allowed dark:disabled:bg-gray-800 disabled:text-gray-300 dark:disabled:text-gray-500',
             {
                 'px-4': !withIcon,
                 'pl-11 pr-4': withIcon,
@@ -56,12 +60,13 @@ watch(isFocused, (newValue) => {
                 'border-error-500 focus:ring-error-500 hover:border-error-500 focus:border-error-500': invalid,
             },
             {
-                'bg-gray-700 text-gray-300': modelValue && !isFocused,
+                'bg-gray-900 text-white': modelValue && !isFocused,
                 'bg-transparent text-white': !modelValue || isFocused
             }
         ]"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         ref="input"
+        :disabled="is_disabled"
     />
 </template>
