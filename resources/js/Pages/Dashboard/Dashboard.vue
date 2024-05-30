@@ -92,12 +92,12 @@ const closeModal = () => {
             </div>
         </div>
 
-        <div class="flex pt-5 pb-3 px-4 flex-col items-center gap-5 relative">
+        <div class="flex pt-5 pb-3 flex-col items-center gap-5 relative">
             <div class="text-white">progress bar</div>
 
             <RobotIllustration class="absolute right-0"/>
 
-            <div class="flex py-5 flex-col items-center gap-10 self-stretch" style="background: linear-gradient(180deg, rgba(24, 34, 48, 0.00) 0%, rgba(24, 34, 48, 0.80) 100%);">
+            <div class="flex py-5 px-4 flex-col items-center gap-10 self-stretch" style="background: linear-gradient(180deg, rgba(24, 34, 48, 0.00) 0%, rgba(24, 34, 48, 0.80) 100%);">
                 <div class="flex flex-col items-start gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-2 self-stretch">
                         <div class="text-white text-md font-semibold">Step 1: Purchase Robotec</div>
@@ -142,7 +142,7 @@ const closeModal = () => {
                 </div>
             </div>
 
-            <div class="flex flex-col items-center self-stretch">
+            <div class="flex px-4 flex-col items-center self-stretch">
                 <div class="flex py-2 items-center self-stretch text-white text-xl font-semibold">Overview</div>
                 <div class="flex py-2 flex-col items-center gap-3 self-stretch">
                     <div class="flex justify-between items-center self-stretch">

@@ -43,75 +43,79 @@ const register = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-        <div class="flex flex-col items-center justify-center">
-            <Link href="/">
-                <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
-            </Link>
-            <div class="text-center mt-3 mb-10">
-                <div class="mb-2 text-white text-xl font-semibold">Log in</div>
-                <div class="text-gray-300">Welcome back! Please enter your details.</div>
-            </div>
-        </div>
 
         <form @submit.prevent="submit">
-            <div>
-                <Label for="email" value="Email" class="text-gray-300" :invalid="form.errors.email" :is_required="false" />
+            <div class="flex flex-col justify-center items-center gap-10">
+                <div class="flex flex-col items-center gap-3 self-stretch">
+                    <Link href="/">
+                        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+                    </Link>
+                    <div class="flex flex-col items-center gap-2 self-stretch">
+                        <div class="text-white text-center text-lg font-semibold">Log in</div>
+                        <div class="self-stretch text-gray-300 text-center text-sm">Welcome back! Please enter your details.</div>
+                    </div>
+                </div>
 
-                <Input
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    :invalid="form.errors.email"
-                    v-model="form.email"
-                    autofocus
-                    autocomplete="username"
-                />
+                <div class="flex flex-col items-center gap-3 self-stretch">
+                    <div class="flex flex-col items-start gap-1.5 self-stretch">
+                        <Label for="email" value="Email" class="text-gray-300" :invalid="form.errors.email" :is_required="false" />
+                        <Input
+                            id="email"
+                            type="email"
+                            class="block w-full"
+                            :invalid="form.errors.email"
+                            v-model="form.email"
+                            autofocus
+                            autocomplete="email"
+                        />
+                        <InputError :message="form.errors.email" />
+                    </div>
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+                    <div class="flex flex-col items-start gap-1.5 self-stretch">
+                        <Label for="password" value="Password" class="text-gray-300" :invalid="form.errors.password" :is_required="false" />
+                        <Input
+                            id="password"
+                            type="password"
+                            class="block w-full"
+                            v-model="form.password"
+                            :invalid="form.errors.password"
+                            autocomplete="password"
+                        />
+                        <InputError :message="form.errors.password" />
+                    </div>
+                </div>
 
-            <div class="mt-4">
-                <Label for="password" value="Password" class="text-gray-300" :invalid="form.errors.password" :is_required="false" />
-
-                <Input
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    :invalid="form.errors.password"
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-10">
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center">
+                <div class="flex justify-between items-center self-stretch">
+                    <div class="flex items-center gap-2">
                         <Switch name="remember" v-model:checked="form.remember" />
-                        <span class="ms-2 text-sm text-white">Remember me</span>
-                    </label>
-                    <Link
-                        v-if="canResetPassword"
+                        <label class="flex items-center">
+                            <span class="text-sm text-white">Remember me</span>
+                        </label>
+                    </div>
+
+                    <Button
+                        variant="transparent"
+                        type="button"
                         :href="route('password.request')"
-                        class="text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        class="text-center font-semibold"
                     >
                         Forgot Password
-                    </Link>
+                    </Button>
                 </div>
-            </div>
 
-            <div class="flex items-center justify-end mt-10">
-
-                <Button variant="primary" class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <Button 
+                    variant="primary"
+                    size="lg"
+                    class="w-full font-semibold"
+                    :disabled="form.processing"
+                >
                     Log in
                 </Button>
             </div>
         </form>
 
-        <Button variant="transparent" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="w-full" @click="register">
+        <!-- <Button variant="transparent" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="w-full" @click="register">
                 Register
-        </Button>
-
+        </Button> -->
     </GuestLayout>
 </template>
