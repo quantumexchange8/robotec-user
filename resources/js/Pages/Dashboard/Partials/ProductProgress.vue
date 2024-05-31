@@ -3,7 +3,7 @@ import Button from '@/Components/Button.vue';
 import { Lock01Icon } from '@/Components/Icons/outline';
 import RobotIllustration from './RobotIllustration.vue';
 import Modal from '@/Components/Modal.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import RobotecBanner from './RobotecBanner.vue';
 
 const eaModal = ref(false);
@@ -14,6 +14,71 @@ const eaModalVisible = () => {
 const closeEaModal = () => {
     eaModal.value = false
 }
+
+// step1 success button
+const step1 = ref(true);
+const button1Variant = ref('primary');
+const button1Class = ref('font-semibold')
+const button1Content = ref('Purchase Now with $ 250.00');
+
+const button2Variant = ref('outline');
+const button2Disabled = ref(true);
+const button2Content = ref('Complete Step 1 to Unlock');
+
+watch(step1, (newValue) => {
+    if(newValue) {
+        // button1Variant.value = 'success';
+        // button1Class.value = 'w-full text-success-500 font-semibold';
+        // button1Content.value = 'Well Done! Step 1 is completed. 🌟';
+
+        button2Variant.value = 'primary';
+        button2Disabled.value = false;
+        button2Content.value = 'Create Trading Account'
+    }
+},
+{immediate:true});
+
+// create account
+/* 
+    status should filter out the condition of the user
+    create_account -> when step 1 done (once)
+    fund_in -> after create_account done && when no investment (repeatable)
+    start_auto_trading -> after first fund_in (once)
+    top_up -> when got investment (repeatable)
+*/
+const button2Status = ref('create_account');
+const button2 = (status) => {
+    switch(status) {
+        case 'create_account':
+            console.log('Creating trading account');
+            button2Status.value = 'fund_in';
+            break;
+        case 'fund_in':
+            console.log('open fund in modal');
+            break;
+        case 'start_auto_trading':
+            console.log('open start auto trading dialog');
+            break;
+        case 'top_up':
+            console.log('open top up capital modal');
+            break;
+    }
+}
+
+watch(button2Status, (newValue) => {
+    switch(newValue) {
+        case 'fund_in':
+            button2Content.value = 'Fund In'
+            break;
+        case 'start_auto_trading':
+            button2Content.value = 'Start Robotec Auto Trading'
+            break;
+        case 'top_up':
+            button2Content.value = 'Top Up Capital'
+            break;
+    }
+})
+
 </script>
 
 <template>
@@ -32,11 +97,13 @@ const closeEaModal = () => {
                 </div>
 
                 <Button
+                    :variant="button1Variant"
+                    type="button"
                     size="lg"
-                    class="font-semibold"
+                    :class="button1Class"
                     @click="eaModalVisible"
                 >
-                    Purchase Now with $ 250.00
+                    {{ button1Content }}
                 </Button>
             </div>
 
@@ -49,13 +116,16 @@ const closeEaModal = () => {
                 </div>
 
                 <Button
+                    :variant="button2Variant"
+                    type="button"
                     size="lg"
-                    :disabled="true"
+                    :disabled="button2Disabled"
                     class="font-semibold"
                     v-slot="{ iconSizeClasses }"
+                    @click="button2(button2Status)"
                 >
-                    <Lock01Icon class="pr-2"/>
-                    Complete Step 1 to Unlock
+                    <Lock01Icon v-if="!step1" class="pr-2"/> 
+                    {{ button2Content }}
                 </Button>
             </div>
         </div>
@@ -66,7 +136,7 @@ const closeEaModal = () => {
         title="Purchase Robotec"
         @close="closeEaModal"
     >
-        <div class="py-5 flex flex-col items-center gap-5">
+        <div class="py-5 flex flex-col items-center gap-5 max-w-xs">
             <div class="flex flex-col items-center gap-5 self-stretch">
                 <RobotecBanner />
 
