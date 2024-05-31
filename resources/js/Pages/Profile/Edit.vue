@@ -110,7 +110,7 @@ const usdt = 'asd';
                     Enhance your profile by adding your USDT address. This allows you to receive payments and process transactions smoothly.
                 </div>
                 <Button
-                    variant="ring-transparent"
+                    variant="outline"
                     type="button"
                     class="font-semibold flex gap-2"
                     v-slot="{ iconSizeClasses }"
