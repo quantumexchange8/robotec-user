@@ -57,7 +57,7 @@ const maxWidthClass = computed(() => {
         md: 'sm:max-w-md',
         lg: 'sm:max-w-lg',
         xl: 'sm:max-w-xl',
-        '2xl': 'sm:max-w-[360px]',
+        '2xl': 'max-w-[360px]',
     }[props.maxWidth];
 });
 </script>
@@ -70,7 +70,7 @@ const maxWidthClass = computed(() => {
                 class="fixed inset-0"
                 scroll-region
             >
-                <div class="flex items-center justify-center p-4">
+                <div class="flex items-center min-h-[calc(100vh-5rem)] justify-center p-4">
                     <Transition
                         enter-active-class="ease-out duration-300"
                         enter-from-class="opacity-0"
@@ -94,7 +94,7 @@ const maxWidthClass = computed(() => {
                     >
                         <div
                             v-if="show"
-                            class="p-4 bg-gray-900 max-h-[calc(100vh-2rem)] rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
+                            class="p-4 bg-gray-900 max-h-[calc(100vh-2rem)] rounded-lg overflow-hidden shadow-xl transform transition-all w-full mx-auto"
                             :class="maxWidthClass"
                         >
                             <div class="flex justify-between items-center pb-3">
