@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import NoData from '@/Components/NoData.vue';
 import Button from '@/Components/Button.vue';
 import { QrCode01Icon } from '@/Components/Icons/outline';
@@ -9,15 +9,65 @@ import { Lock01Icon } from '@/Components/Icons/outline';
 import RobotIllustration from './Partials/RobotIllustration.vue';
 import Modal from '@/Components/Modal.vue';
 import { ref } from 'vue';
+import RobotecBanner from './Partials/RobotecBanner.vue';
+import Input from '@/Components/Input.vue';
+import Qrcode from "qrcode.vue";
+import EmptyQrIllustration from './Partials/EmptyQrIllustration.vue';
+import EmptyHistoryIllustration from './Partials/EmptyHistoryIllustration.vue';
 
-const eaModel = ref(false);
-
-const eaModelVisible = () => {
-    eaModel.value = true;
+const referralCodeModal = ref(false);
+const referralCodeModalVisible = () => {
+    referralCodeModal.value = true;
 }
 
-const closeModal = () => {
-    eaModel.value = false
+const closeReferralCodeModal = () => {
+    referralCodeModal.value = false
+}
+
+const step1 = true;
+const referralQr = 'http://thisisalink.test/register/asdasdasd';
+
+const hoverCopy = ref(false);
+const copyLink = () => {
+    const tempInput = document.createElement('input');
+    tempInput.value = referralQr;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    setTimeout(function () {
+        hoverCopy.value = false;
+    }, 3000);
+}
+
+const cashWalletModal = ref(false);
+const cashWalletModalVisible = () => {
+    cashWalletModal.value = true;
+}
+
+const closeCashWalletModal = () => {
+    cashWalletModal.value = false;
+}
+
+const transaction = true;
+
+const comissionWalletModal = ref(false);
+const comissionWalletModalVisible = () => {
+    comissionWalletModal.value = true;
+}
+
+const closeComissionWalletModal = () => {
+    comissionWalletModal.value = false;
+}
+
+const eaModal = ref(false);
+const eaModalVisible = () => {
+    eaModal.value = true;
+}
+
+const closeEaModal = () => {
+    eaModal.value = false
 }
 </script>
 
@@ -37,11 +87,14 @@ const closeModal = () => {
                         type="button"
                         :iconOnly="true"
                         v-slot="{ iconSizeClasses }"
+                        @click="referralCodeModalVisible"
                     >
                         <QrCode01Icon />
                     </Button>
                     <div class="w-8 h-8 rounded-full overflow-hidden">
-                        <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
+                        <Link :href="route('profile.edit')">
+                            <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -51,7 +104,7 @@ const closeModal = () => {
             <div class="flex justify-between items-center self-stretch">
                 <div class="flex flex-col items-start gap-1">
                     <div class="text-gray-300 text-xs font-medium">Cash Wallet ($)</div>
-                    <div class="flex items-center gap-5">
+                    <div class="flex items-center gap-5 cursor-pointer" @click="cashWalletModalVisible">
                         <div class="text-white text-xl font-semibold">0.00</div>
                         <ChevronRightIcon class="text-gray-600"/>
                     </div>
@@ -71,7 +124,7 @@ const closeModal = () => {
             <div class="flex items-center gap-7 self-stretch">
                 <div class="flex flex-col items-start gap-1 grow">
                     <div class="text-gray-300 text-xs font-medium">Commission ($)</div>
-                    <div class="flex items-center gap-5">
+                    <div class="flex items-center gap-5 cursor-pointer" @click="comissionWalletModalVisible">
                         <div class="text-white text-xl font-semibold">0.00</div>
                         <ChevronRightIcon class="text-gray-600"/>
                     </div>
@@ -106,7 +159,7 @@ const closeModal = () => {
                     <Button
                         size="lg"
                         class="font-semibold"
-                        @click="eaModelVisible"
+                        @click="eaModalVisible"
                     >
                         Purchase Now with $ 250.00
                     </Button>
@@ -154,21 +207,175 @@ const closeModal = () => {
         </div>
 
         <Modal
-            :show="eaModel"
-            title="Purchase Robotec"
-            @close="closeModal"
+            :show="referralCodeModal"
+            title="My Referral Code"
+            @close="closeReferralCodeModal"
         >
             <div class="py-5">
-                <div class="text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non augue vitae enim venenatis viverra vel a turpis. In et mattis quam, vitae volutpat eros. Pellentesque lectus quam, accumsan quis leo eget, faucibus pretium mauris. Donec efficitur mollis urna, at sodales felis sollicitudin sit amet. Integer nisl diam, lacinia ut malesuada eu, tincidunt quis magna. Phasellus interdum dui vitae metus facilisis, vel vulputate dui lobortis. Nam aliquet felis quis condimentum vestibulum. Proin in tincidunt justo. Cras interdum odio augue, sit amet viverra diam commodo a. Maecenas nec facilisis sem. Nunc gravida dolor eros, at eleifend lorem molestie et.
+                <div v-if="step1" class="flex flex-col items-center gap-5 self-stretch">
+                    <div class="flex flex-col items-center gap-2 self-stretch">
+                        <div class="text-white font-semibold">Scan QR Code</div>
+                        <div class="self-stretch text-gray-300 text-center text-xs">
+                            Use your unique QR below code to invite friends to join ROBOTEC
+                        </div>
+                    </div>
 
-                    Morbi et malesuada felis. Phasellus at volutpat lorem. Vestibulum faucibus nulla sit amet nunc tincidunt, et lobortis magna ultrices. Vestibulum eu nulla vel quam lobortis malesuada ac ut tellus. Curabitur pharetra turpis eu tincidunt ultrices. Suspendisse sagittis quis nulla auctor vehicula. Praesent tempor pellentesque odio, in convallis justo pharetra et. Fusce massa urna, hendrerit sit amet nibh sed, sagittis maximus massa. Donec fermentum mauris sed est condimentum, id luctus eros suscipit.
+                    <Qrcode :value="referralQr" :size="240" render-as="svg" :margin="1" level="M" background="#FFF" />
 
-                    Duis consequat nulla nisl, sed blandit odio sagittis in. Duis non viverra magna, at blandit quam. Vestibulum finibus leo purus, id eleifend elit lacinia ac. Duis maximus vehicula purus, nec venenatis felis rhoncus a. Cras et elit ut justo pellentesque interdum. Aliquam pellentesque lectus dui, vel placerat lorem iaculis mattis. Duis gravida commodo nunc. Curabitur viverra auctor placerat. Quisque id varius libero. Duis rutrum lectus erat, ac varius magna dictum sed. Suspendisse a urna quis nibh facilisis auctor. Fusce fringilla justo nec magna pretium feugiat. Nunc a ligula feugiat, vulputate sapien id, tempor mi.
+                    <div class="flex items-center gap-2 self-stretch">
+                        <Input
+                            v-model="referralQr"
+                            type="text"
+                            class="block w-full text-xxs"
+                            :is_disabled="true"
+                        />
+                        <div class="relative min-w-fit" @click="hoverCopy = true" @mouseleave="hoverCopy = false">
+                            <Button
+                                variant="gray"
+                                type="button"
+                                class="font-semibold self-stretch"
+                                @click="copyLink"
+                            >
+                                Copy Link
+                            </Button>
 
-                    Sed sed dolor urna. Nam sed ipsum scelerisque, maximus odio at, semper erat. Etiam eget laoreet diam. Praesent non enim posuere, vulputate libero quis, tristique urna. Pellentesque ut leo malesuada, tristique nulla at, tincidunt risus. Vivamus elit urna, placerat ut dolor vitae, lacinia efficitur libero. Maecenas ac orci a urna varius semper sit amet ut nisi. Mauris vel varius sapien. Quisque mattis fermentum felis eget bibendum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ultrices varius arcu et maximus. Integer efficitur sit amet ex sit amet consectetur. Duis tincidunt facilisis sagittis. Ut condimentum libero malesuada turpis placerat varius. Donec lobortis, libero in volutpat tincidunt, lacus diam placerat metus, vitae tincidunt nisl ligula eu elit.
+                            <div
+                                v-show="hoverCopy"
+                                id="copied_success"
+                                class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"
+                            >
+                                Copied!
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    Morbi maximus justo vitae leo venenatis, a ullamcorper eros ultricies. Nullam scelerisque interdum elit, ac pellentesque leo blandit ut. Proin interdum, eros ac pretium efficitur, mauris dolor ultricies purus, ac tempor nisi orci eget turpis. Quisque porttitor malesuada orci. Curabitur pulvinar quis elit vitae fringilla. Curabitur facilisis tortor a diam sollicitudin, vitae ultrices nunc pretium. Sed ultricies, tellus in tincidunt ultrices, ligula nunc congue nulla, sed mattis dolor dolor sit amet odio. Nulla facilisi. Proin congue, tortor a iaculis dictum, orci odio ultrices velit, sed lacinia lacus enim quis ex. Aenean vulputate, nisi vitae fermentum aliquet, tortor arcu fringilla erat, a tincidunt risus orci in dui. Suspendisse euismod convallis elit, vitae laoreet elit euismod eu. Maecenas non.
+                <div v-else class="flex flex-col items-center gap-5 self-stretch">
+                    <EmptyQrIllustration />
+                    <div class="flex flex-col items-center gap-2 self-stretch">
+                        <div class="text-white text-center font-semibold">Invitation QR Code Not Available</div>
+                        <div class="self-stretch text-gray-300 text-center text-sm">
+                            You haven't completed Step 1 yet. Purchase Robotec to unlock your unique QR code for inviting friends and earning commissions.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+
+        <Modal
+            :show="cashWalletModal"
+            title="Cash Wallet Transaction"
+            @close="closeCashWalletModal"
+        >
+            <div class="py-5">
+                <div v-if="transaction" class="flex flex-col items-start self-stretch">
+                    <div class="flex py-2 items-center gap-3 self-stretch">
+                        <div class="flex flex-col items-start flex-1">
+                            <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div> <!--timestamp-->
+                            <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
+                                Auto Trading
+                            </div>
+                        </div>
+
+                        <div class="min-w-fit text-white text-right font-medium">- $ 250.00</div>
+                    </div>
+
+                    <div class="flex py-2 items-center gap-3 self-stretch">
+                        <div class="flex flex-col items-start flex-1">
+                            <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div> <!--timestamp-->
+                            <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
+                                Deposit
+                            </div>
+                        </div>
+
+                        <div class="min-w-fit text-success-500 text-right font-medium">+ $ 1,000.00</div>
+                    </div>
+                </div>
+
+                <div v-else class="flex py-5 flex-col items-center gap-3 self-stretch">
+                    <EmptyHistoryIllustration />
+                    <div class="self-stretch text-gray-300 text-center text-sm">
+                        No transactions found
+                    </div>
+                </div>
+            </div>
+        </Modal>
+
+        <Modal
+            :show="comissionWalletModal"
+            title="Comission Wallet Transaction"
+            @close="closeComissionWalletModal"
+        >
+            <div class="py-5">
+                <div v-if="transaction" class="flex flex-col items-start self-stretch">
+                    <div class="flex py-2 items-center gap-3 self-stretch">
+                        <div class="flex flex-col items-start flex-1">
+                            <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div> <!--timestamp-->
+                            <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
+                                Auto Trading
+                            </div>
+                        </div>
+
+                        <div class="min-w-fit text-white text-right font-medium">- $ 250.00</div>
+                    </div>
+
+                    <div class="flex py-2 items-center gap-3 self-stretch">
+                        <div class="flex flex-col items-start flex-1">
+                            <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div> <!--timestamp-->
+                            <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
+                                Comission
+                            </div>
+                        </div>
+
+                        <div class="min-w-fit text-success-500 text-right font-medium">+ $ 1,000.00</div>
+                    </div>
+                </div>
+
+                <div v-else class="flex py-5 flex-col items-center gap-3 self-stretch">
+                    <EmptyHistoryIllustration />
+                    <div class="self-stretch text-gray-300 text-center text-sm">
+                        No transactions found
+                    </div>
+                </div>
+            </div>
+        </Modal>
+
+        <Modal
+            :show="eaModal"
+            title="Purchase Robotec"
+            @close="closeEaModal"
+        >
+            <div class="py-5 flex flex-col items-center gap-5">
+                <div class="flex flex-col items-center gap-5 self-stretch">
+                    <RobotecBanner />
+
+                    <div class="flex flex-col items-center gap-2 self-stretch">
+                        <div class="text-white text-center font-semibold">Purchase Robotec for $250.00</div>
+
+                        <div class="self-stretch text-gray-300 text-center text-xs">
+                            By purchasing Robotec, $250.00 will be deducted from your cash wallet. Confirm your purchase to proceed and unlock your unique QR code for inviting friends and earning commissions.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex pt-8 px-1 justify-around items-center gap-3 self-stretch">
+                    <Button
+                        variant="ring-transparent"
+                        size="lg"
+                        type="button"
+                        class="w-full font-semibold"
+                        @click="closeEaModal"
+                    >
+                        Cancel
+                    </Button>
+
+                    <Button
+                        size="lg"
+                        type="button"
+                        class="w-full font-semibold"
+                    >
+                        Purchase
+                    </Button>
                 </div>
             </div>
         </Modal>

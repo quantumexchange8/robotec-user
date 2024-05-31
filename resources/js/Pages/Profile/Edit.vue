@@ -25,7 +25,7 @@ const usdt = 'asd';
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="flex-1 text-white text-xl">My Profile</h2>
+            <div class="flex-1 text-white text-xl">My Profile</div>
         </template>
 
         <!-- <div class="py-12">
