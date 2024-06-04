@@ -1,23 +1,32 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import { Upload01Icon, Key01Icon, PlusIcon } from '@/Components/Icons/outline';
 import Input from '@/Components/Input.vue';
+import Modal from '@/Components/Modal.vue';
+import { ref } from 'vue';
+import AddUSDTAddressForm from './Partials/AddUSDTAddressForm.vue';
 
-defineProps({
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+const usdt = '';
 
-const usdt = 'asd';
+const profileModal = ref(false);
+const modalComponent = ref('');
+const openProfileModal = (modalType) => {
+    profileModal.value = true;
+
+    if (modalType === 'change_password') {
+        modalComponent.value = modalType;
+    } else if (modalType === 'add_usdt_address') {
+        modalComponent.value = modalType;
+    }
+}
+
+const closeModal = () => {
+    profileModal.value = false;
+}
+
 </script>
 
 <template>
@@ -49,6 +58,7 @@ const usdt = 'asd';
                         size="lg"
                         class="font-semibold flex gap-2 self-stretch"
                         v-slot="{ iconSizeClasses }"
+                        @click="openProfileModal('change_password')"
                     >
                         <Key01Icon/>
                         Change Password
@@ -94,6 +104,7 @@ const usdt = 'asd';
                     type="button"
                     class="font-semibold flex gap-2"
                     v-slot="{ iconSizeClasses }"
+                    @click="openProfileModal('add_usdt_address')"
                 >
                     <PlusIcon />
                     Add USDT Address
@@ -102,4 +113,18 @@ const usdt = 'asd';
 
         </div>
     </AuthenticatedLayout>
+
+    <Modal
+        :show="profileModal"
+        :title="modalComponent"
+        @close="closeModal"
+    >
+        <template v-if="modalComponent === 'change_password'">
+            <UpdatePasswordForm @closeModal = "closeModal" />
+        </template>
+
+        <template v-if="modalComponent === 'add_usdt_address'">
+            <AddUSDTAddressForm @closeModal = "closeModal" />
+        </template>
+    </Modal>
 </template>
