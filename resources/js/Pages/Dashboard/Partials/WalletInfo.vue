@@ -43,7 +43,7 @@ const closeModal = () => {
 
             <Button
                 type="button"
-                href="/deposit"
+                :href="route('deposit')"
                 class="text-sm font-semibold"
             >
                 Deposit

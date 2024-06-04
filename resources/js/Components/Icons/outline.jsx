@@ -332,12 +332,23 @@ export const PlusIcon = defineComponent({
         )
     }
 })
+
 export const XIcon = defineComponent({
     setup() {
         return () => (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round"
                       stroke-linejoin="round"/>
+            </svg>
+        )
+    },
+})
+
+export const ArrowNarrowUpRightIcon = defineComponent({
+    setup() {
+        return () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M4 12L12 4M12 4H6.66667M12 4V9.33333" stroke="#52CE39" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         )
     },

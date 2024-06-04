@@ -1,5 +1,5 @@
 <template>
-    <svg width="328" height="185" viewBox="0 0 328 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="100%" viewBox="0 0 328 185" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_205_14356)">
             <rect width="328" height="184.5" fill="url(#paint0_linear_205_14356)" />
             <g opacity="0.1">
