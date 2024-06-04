@@ -59,6 +59,7 @@ const submitForm = () => {
                 <Button
                     size="lg"
                     class="w-full font-semibold"
+                    :disabled="form.processing"
                 >
                     Add
                 </Button>

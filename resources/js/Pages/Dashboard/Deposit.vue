@@ -10,6 +10,10 @@ import Label from '@/Components/Label.vue';
 import Button from '@/Components/Button.vue';
 import { computed, onMounted, ref, watch } from "vue";
 
+const is_disabled = ref(true);
+const amount = ref('');
+const txId = ref('');
+
 const walletAddressesSelect = ["Lorem, ipsum dolor sit amet consectetur adipisicing elit.", "Officia earum eveniet dignissimos ex debitis, hic repudiandae mollitia fugiat?", "Lorem ipsum dolor sit amet consectetur adipisicing elit."];
 const addressLength = walletAddressesSelect.length;
 let currentIndex = 0;
@@ -73,7 +77,8 @@ const form = useForm({
 });
 
 const submitForm = () => {
-    console.log("submitting");
+    form.depositAmount = amount;
+    form.txid = txId;
     return;
 
     is_disabled = form.processing;
@@ -93,7 +98,24 @@ const submitForm = () => {
     })
 }
 
-const is_disabled = ref(true);
+const buttonStatus = () => {
+    if (amount.value && txId.value) {
+        is_disabled.value = false;
+    } else {
+        is_disabled.value = true;
+    }
+}
+
+watch(amount, () => {
+    buttonStatus();
+});
+
+watch(txId, () => {
+    buttonStatus();
+});
+
+// watch checkbox to true
+
 </script>
 
 <template>
@@ -138,7 +160,7 @@ const is_disabled = ref(true);
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <Label for="deposit_amount" value="Deposit Amount"/>
                         <Input
-                            v-model="form.depositAmount"
+                            v-model="amount"
                             id="deposit_amount"
                             type="text"
                             class="block w-full"
@@ -149,7 +171,7 @@ const is_disabled = ref(true);
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <Label for="tx_id" value="TxID"/>
                         <Input
-                            v-model="form.txid"
+                            v-model="txId"
                             id="tx_id"
                             type="text"
                             class="block w-full"

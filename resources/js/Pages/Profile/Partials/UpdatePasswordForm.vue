@@ -87,6 +87,7 @@ const updatePassword = () => {
                 <Button
                     size="lg"
                     class="w-full font-semibold"
+                    :disabled="form.processing"
                 >
                     Save Changes
                 </Button>
