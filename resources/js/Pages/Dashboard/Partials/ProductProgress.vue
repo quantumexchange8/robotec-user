@@ -7,6 +7,7 @@ import { ref, watch } from 'vue';
 import PurchaseRobotecForm from '@/Pages/Dashboard/Partials/PurchaseRobotecForm.vue';
 import InvestmentForm from '@/Pages/Dashboard/Partials/InvestmentForm.vue';
 import TransferForm from '@/Pages/Dashboard/Partials/TransferForm.vue';
+import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 
 const productProgressModal = ref(false);
 const modalComponent = ref('');
@@ -101,9 +102,11 @@ watch(step1, (newValue) => {
 
 <template>
     <div class="flex pt-5 flex-col items-center gap-10 relative">
-        <div class="text-white">progress bar</div>
+        <div class="relative">
+            <ProgressBar />
+        </div>
 
-        <RobotIllustration class="absolute right-0"/>
+        <RobotIllustration class="absolute right-2 top-[11%]"/>
 
         <div class="flex py-5 px-4 flex-col items-center gap-10 self-stretch" style="background: linear-gradient(180deg, rgba(24, 34, 48, 0.00) 0%, rgba(24, 34, 48, 0.80) 100%);">
             <div class="flex flex-col items-start gap-5 self-stretch">
