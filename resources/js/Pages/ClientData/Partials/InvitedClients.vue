@@ -2,9 +2,10 @@
 import EmptyInviteHistoryIllustration from '@/Pages/ClientData/Partials/EmptyInviteHistoryIllustration.vue';
 import { ref } from 'vue';
 import Modal from '@/Components/Modal.vue';
+import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 
 const is_set = ref(true);
-const progress = ref('1');
+const progress = ref('0');
 
 const clientDataModal = ref(false);
 
@@ -102,14 +103,8 @@ const closeModal = () => {
                     </div>
                 </div>
 
-                <div v-if="progress === '0'" class="text-white">
-                    progress bar 0
-                </div>
-                <div v-if="progress === '1'" class="text-white">
-                    progress bar 1
-                </div>
-                <div v-if="progress === '2'" class="text-white">
-                    progress bar 2
+                <div class="max-w-fit">
+                    <ProgressBar />
                 </div>
             </div>
         </div>
