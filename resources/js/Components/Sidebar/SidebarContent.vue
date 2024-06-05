@@ -15,7 +15,7 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
         class="relative flex flex-col flex-1 max-h-full gap-4 px-3"
     >
         <SidebarLink
-            :title="$t('public.sidebar.dashboard')"
+            :title="$t('public.dashboard')"
             :href="route('dashboard')"
             :active="route().current('dashboard')"
         >
@@ -28,7 +28,7 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
         </SidebarLink>
 
         <SidebarLink
-            :title="$t('public.sidebar.client_data')"
+            :title="$t('public.client_data')"
             :href="route('clientData')"
             :active="route().current('clientData')"
         >
@@ -41,7 +41,7 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
         </SidebarLink>
 
         <SidebarLink
-            :title="$t('public.sidebar.withdrawal')"
+            :title="$t('public.withdrawal')"
             :href="route('transaction.withdrawal')"
             :active="route().current('transaction.withdrawal')"
         >
@@ -54,7 +54,7 @@ import { HomeIcon, UserCircleIcon, GlobeAltIcon, Users01Icon, CoinsHandIcon, Spe
         </SidebarLink>
 
         <SidebarLink
-            :title="$t('public.sidebar.my_profile')"
+            :title="$t('public.my_profile')"
             :href="route('profile.edit')"
             :active="route().current('profile.edit')"
         >

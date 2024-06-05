@@ -25,18 +25,18 @@ const closeModal = () => {
             <div class="border-b border-solid flex-1 rounded-lg border-gray-600"></div>
         </div>
 
-        <div 
-            v-if="is_set" 
-            class="flex items-center content-center gap-3 self-stretch flex-wrap"
+        <div
+            v-if="is_set"
+            class="grid grid-cols-3 w-full gap-3"
         >
-            <div 
+            <div
                 @click="openClientDataModal()"
                 class="flex min-w-24 py-5 px-2 flex-col justify-center items-center gap-2 flex-1 rounded-2xl bg-gray-800"
             >
                 <div class="w-7 h-7 rounded-full overflow-hidden">
                     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
                 </div>
-                <div 
+                <div
                     class="self-stretch overflow-hidden text-white text-center text-ellipsis text-xs font-medium whitespace-nowrap"
                 >
                     Mario Mario
@@ -44,7 +44,7 @@ const closeModal = () => {
             </div>
         </div>
 
-        <div 
+        <div
             v-else
             class="flex py-5 flex-col items-center gap-3 self-stretch"
         >
@@ -67,7 +67,7 @@ const closeModal = () => {
                     <div class="w-9 h-9 rounded-full overflow-hidden">
                         <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
                     </div>
-                    <div 
+                    <div
                         class="flex flex-col justify-center self-stretch overflow-hidden text-white text-ellipsis font-medium whitespace-nowrap"
                     >
                         Mario Mario
