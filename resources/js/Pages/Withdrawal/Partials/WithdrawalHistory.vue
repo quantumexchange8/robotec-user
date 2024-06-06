@@ -3,7 +3,7 @@ import EmptyHistoryIllustration from '@/Pages/Dashboard/Partials/EmptyHistoryIll
 import { ref } from 'vue';
 
 const approval = ref('Pending');
-const history = ref(false);
+const history = ref(true);
 
 </script>
 
@@ -19,29 +19,32 @@ const history = ref(false);
                     v-if="approval === 'Approved'"
                     class="text-success-500 text-sm font-medium"
                 >
-                    Approved
+                    {{ $t('public.approved') }}
                 </div>
                 <div
                     v-else-if="approval === 'Pending'"
                     class="text-warning-500 text-sm font-medium"
                 >
-                    Pending
+                    {{ $t('public.pending') }}
                 </div>
                 <div
                     v-else-if="approval === 'Rejected'"
                     class="text-error-500 text-sm font-medium"
                 >
-                    Rejected
+                    {{ $t('public.rejected') }}
                 </div>
             </div>
 
             <div class="text-white text-right font-medium">$ 250.00</div>
         </div>
 
-        <div v-else class="flex py-5 flex-col items-center gap-3 self-stretch">
+        <div 
+            v-else 
+            class="flex py-5 flex-col items-center gap-3 self-stretch"
+        >
             <EmptyHistoryIllustration />
             <div class="self-stretch text-gray-300 text-center text-sm">
-                No history found
+                {{ $t('public.no_history_found') }}
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import Label from '@/Components/Label.vue';
@@ -30,10 +29,6 @@ const submit = () => {
     });
 };
 
-const register = () => {
-    window.location.href = '/register'; // Redirect to the login page URL
-}
-
 </script>
 
 <template>
@@ -51,14 +46,24 @@ const register = () => {
                         <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
                     </Link>
                     <div class="flex flex-col items-center gap-2 self-stretch">
-                        <div class="text-white text-center text-lg font-semibold">Log in</div>
-                        <div class="self-stretch text-gray-300 text-center text-sm">Welcome back! Please enter your details.</div>
+                        <div class="text-white text-center text-lg font-semibold">
+                            {{ $t('public.log_in') }}
+                        </div>
+                        <div class="self-stretch text-gray-300 text-center text-sm">
+                            {{ $t('public.log_in_desc') }}
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex flex-col items-center gap-3 self-stretch">
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="email" value="Email" class="text-gray-300" :invalid="form.errors.email" :is_required="false" />
+                        <Label 
+                            for="email" 
+                            :value="$t('public.email')" 
+                            class="text-gray-300" 
+                            :invalid="form.errors.email" 
+                            :is_required="false" 
+                        />
                         <Input
                             id="email"
                             type="email"
@@ -67,12 +72,19 @@ const register = () => {
                             v-model="form.email"
                             autofocus
                             autocomplete="email"
+                            :placeholder="$t('public.enter_email')"
                         />
                         <InputError :message="form.errors.email" />
                     </div>
 
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="password" value="Password" class="text-gray-300" :invalid="form.errors.password" :is_required="false" />
+                        <Label 
+                            for="password" 
+                            :value="$t('public.password')" 
+                            class="text-gray-300" 
+                            :invalid="form.errors.password" 
+                            :is_required="false" 
+                        />
                         <Input
                             id="password"
                             type="password"
@@ -80,6 +92,7 @@ const register = () => {
                             v-model="form.password"
                             :invalid="form.errors.password"
                             autocomplete="password"
+                            :placeholder="$t('public.enter_password')"
                         />
                         <InputError :message="form.errors.password" />
                     </div>
@@ -89,7 +102,7 @@ const register = () => {
                     <div class="flex items-center gap-2">
                         <Switch name="remember" v-model:checked="form.remember" />
                         <label class="flex items-center">
-                            <span class="text-sm text-white">Remember me</span>
+                            <span class="text-sm text-white">{{ $t('public.remember_me') }}</span>
                         </label>
                     </div>
 
@@ -99,7 +112,7 @@ const register = () => {
                         :href="route('password.request')"
                         class="text-center font-semibold"
                     >
-                        Forgot Password
+                        {{ $t('public.forgot_password') }}
                     </Button>
                 </div>
 
@@ -109,13 +122,9 @@ const register = () => {
                     class="w-full font-semibold"
                     :disabled="form.processing"
                 >
-                    Log in
+                    {{ $t('public.log_in') }}
                 </Button>
             </div>
         </form>
-
-        <!-- <Button variant="transparent" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="w-full" @click="register">
-                Register
-        </Button> -->
     </GuestLayout>
 </template>

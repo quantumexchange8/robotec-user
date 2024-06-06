@@ -56,15 +56,15 @@ const copyLink = () => {
 
     <Modal
             :show="referralCodeModal"
-            title="My Referral Code"
+            :title="$t('public.my_referral_code')"
             @close="closeReferralCodeModal"
         >
             <div class="py-5">
                 <div v-if="step1" class="flex flex-col items-center gap-5 self-stretch">
                     <div class="flex flex-col items-center gap-2 self-stretch">
-                        <div class="text-white font-semibold">Scan QR Code</div>
+                        <div class="text-white font-semibold">{{ $t('public.scan_qr_code') }}</div>
                         <div class="self-stretch text-gray-300 text-center text-xs">
-                            Use your unique QR below code to invite friends to join ROBOTEC
+                            {{ $t('public.scan_qr_desc') }}
                         </div>
                     </div>
 
@@ -84,7 +84,7 @@ const copyLink = () => {
                                 class="font-semibold self-stretch"
                                 @click="copyLink"
                             >
-                                Copy Link
+                                {{ $t('public.copy_link') }}
                             </Button>
 
                             <div
@@ -92,7 +92,7 @@ const copyLink = () => {
                                 id="copied_success"
                                 class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"
                             >
-                                Copied!
+                                {{ $t('public.copied') }}
                             </div>
                         </div>
                     </div>
@@ -101,9 +101,9 @@ const copyLink = () => {
                 <div v-else class="flex flex-col items-center gap-5 self-stretch">
                     <EmptyQrIllustration />
                     <div class="flex flex-col items-center gap-2 self-stretch">
-                        <div class="text-white text-center font-semibold">Invitation QR Code Not Available</div>
+                        <div class="text-white text-center font-semibold">{{ $t('public.referral_qr_not_available') }}</div>
                         <div class="self-stretch text-gray-300 text-center text-sm">
-                            You haven't completed Step 1 yet. Purchase Robotec to unlock your unique QR code for inviting friends and earning commissions.
+                            {{ $t('public.referral_qr_not_available_desc') }}
                         </div>
                     </div>
                 </div>

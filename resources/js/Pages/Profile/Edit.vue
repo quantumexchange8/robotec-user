@@ -34,7 +34,7 @@ const closeModal = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex-1 text-white text-xl">My Profile</div>
+            <div class="flex-1 text-white text-xl">{{ $t('public.my_profile') }}</div>
         </template>
 
         <div class="flex py-3 px-4 flex-col items-center gap-3">
@@ -50,7 +50,7 @@ const closeModal = () => {
                         v-slot="{ iconSizeClasses }"
                     >
                         <Upload01Icon />
-                        Upload Profile Photo
+                        {{ $t('public.upload_profile_photo') }}
                     </Button>
                     <Button
                         variant="gray"
@@ -61,27 +61,27 @@ const closeModal = () => {
                         @click="openProfileModal('change_password')"
                     >
                         <Key01Icon/>
-                        Change Password
+                        {{ $t('public.change_password') }}
                     </Button>
                 </div>
 
                 <div class="flex flex-col items-start gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-1 self-stretch">
-                        <div class="text-neutral-500 text-sm font-medium">Name</div>
+                        <div class="text-neutral-500 text-sm font-medium">{{ $t('public.name') }}</div>
                         <div class="text-gray-100 font-semibold">Amanda Watson</div>
                     </div>
                     <div class="flex flex-col items-start gap-1 self-stretch">
-                        <div class="text-neutral-500 text-sm font-medium">Email</div>
+                        <div class="text-neutral-500 text-sm font-medium">{{ $t('public.email') }}</div>
                         <div class="text-gray-100 font-semibold">you@example.com</div>
                     </div>
                     <div class="flex flex-col items-start gap-1 self-stretch">
-                        <div class="text-neutral-500 text-sm font-medium">Phone Number</div>
+                        <div class="text-neutral-500 text-sm font-medium">{{ $t('public.phone_number') }}</div>
                         <div class="text-gray-100 font-semibold">+60 162739223</div>
                     </div>
                 </div>
             </div>
 
-            <div class="flex py-2 items-center self-stretch flex-1 text-white font-semibold">USDT Address</div>
+            <div class="flex py-2 items-center self-stretch flex-1 text-white font-semibold">{{ $t('public.usdt_address') }}</div>
 
             <div v-if="usdt" class="flex flex-col items-start gap-1.5 w-full">
                 <Input
@@ -92,12 +92,12 @@ const closeModal = () => {
                     class="block w-full"
                 />
                 <div class="self-stretch text-gray-500 text-xs">
-                    Note that USDT address cannot be edited. Please contact us for further assistance if needed.
+                    {{ $t('public.usdt_desc') }}
                 </div>
             </div>
             <div v-else class="flex flex-col items-start gap-3 self-stretch">
                 <div class="self-stretch text-gray-300 text-xs">
-                    Enhance your profile by adding your USDT address. This allows you to receive payments and process transactions smoothly.
+                    {{ $t('public.add_usdt_desc') }}
                 </div>
                 <Button
                     variant="outline"
@@ -107,7 +107,7 @@ const closeModal = () => {
                     @click="openProfileModal('add_usdt_address')"
                 >
                     <PlusIcon />
-                    Add USDT Address
+                    {{ $t('public.add_usdt_address') }}
                 </Button>
             </div>
 
@@ -116,7 +116,7 @@ const closeModal = () => {
 
     <Modal
         :show="profileModal"
-        :title="modalComponent"
+        :title="$t('public.'+ modalComponent)"
         @close="closeModal"
     >
         <template v-if="modalComponent === 'change_password'">

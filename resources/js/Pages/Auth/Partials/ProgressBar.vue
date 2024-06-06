@@ -17,7 +17,7 @@ const progress = ref('0');
                     <div class="w-6 h-6 text-lg text-white flex items-center bg-gray-700 rounded-full border-[3px] border-success-500 justify-center">
                         <div class="w-2 h-2 rounded-full text-lg text-white flex items-center bg-success-500"></div>
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Profile Info</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.profile_info') }}</div>
                 </div>
             </div>
 
@@ -28,7 +28,7 @@ const progress = ref('0');
             <div class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                 <div class="flex flex-col items-center">
                     <div class="w-6 h-6 text-lg text-white flex items-center rounded-full bg-gray-700 justify-center"></div>
-                    <div class="text-center text-white text-xs font-medium">Create Password</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.create_password') }}</div>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@ const progress = ref('0');
                     <div class="w-6 h-6 text-lg flex items-center rounded-full bg-success-500 justify-center">
                         <WhiteCheckIcon />
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Profile Info</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.profile_info') }}</div>
                 </div>
             </div>
 
@@ -67,7 +67,7 @@ const progress = ref('0');
             <div class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                 <div class="flex flex-col items-center">
                     <div class="w-6 h-6 text-lg flex items-center rounded-full bg-gray-700 justify-center"></div>
-                    <div class="text-center text-white text-xs font-medium">Create Password</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.create_password') }}</div>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@ const progress = ref('0');
                     <div class="w-6 h-6 text-lg flex items-center rounded-full bg-success-500 justify-center">
                         <WhiteCheckIcon />
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Profile Info</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.profile_info') }}</div>
                 </div>
             </div>
 
@@ -95,7 +95,7 @@ const progress = ref('0');
                     <div class="w-6 h-6 text-lg flex items-center rounded-full bg-success-500 justify-center">
                         <WhiteCheckIcon />
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Create Password</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.create_password') }}</div>
                 </div>
             </div>
         </div>

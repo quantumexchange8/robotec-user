@@ -15,7 +15,7 @@ const transaction = ref(true);
                     <div class="flex flex-col items-start flex-1">
                         <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div>
                         <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
-                            Auto Trading
+                            {{ $t('public.auto_trading') }}
                         </div>
                     </div>
 
@@ -26,7 +26,7 @@ const transaction = ref(true);
                     <div class="flex flex-col items-start flex-1">
                         <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div>
                         <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
-                            Deposit
+                            {{ $t('public.deposit') }}
                         </div>
                     </div>
 

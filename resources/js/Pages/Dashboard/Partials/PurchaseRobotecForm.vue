@@ -10,10 +10,10 @@ import Button from '@/Components/Button.vue';
             <RobotecBanner />
 
             <div class="flex flex-col items-center gap-2 self-stretch">
-                <div class="text-white text-center font-semibold">Purchase Robotec for $250.00</div>
+                <div class="text-white text-center font-semibold">{{ $t('public.purchase_robotec_modal') }}</div>
 
                 <div class="self-stretch text-gray-300 text-center text-xs">
-                    By purchasing Robotec, $250.00 will be deducted from your cash wallet. Confirm your purchase to proceed and unlock your unique QR code for inviting friends and earning commissions.
+                    {{ $t('public.purchase_robotec_modal_desc') }}
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@ import Button from '@/Components/Button.vue';
                 class="w-full font-semibold"
                 @click="$emit('closeModal')"
             >
-                Cancel
+                {{ $t('public.cancel') }}
             </Button>
 
             <Button
@@ -35,7 +35,7 @@ import Button from '@/Components/Button.vue';
                 class="w-full font-semibold"
                 @click="$emit('purchasingRobotec')"
             >
-                Purchase
+                {{ $t('public.purchase') }}
             </Button>
         </div>
     </div>

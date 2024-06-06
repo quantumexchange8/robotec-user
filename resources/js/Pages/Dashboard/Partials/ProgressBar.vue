@@ -17,7 +17,7 @@ const props = defineProps({
                     <div class="w-6 h-6 text-lg text-white flex items-center bg-gray-700 rounded-full border-[3px] border-success-500 justify-center">
                         <div class="w-2 h-2 rounded-full text-lg text-white flex items-center bg-success-500"></div>
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Start here!</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.progress_start_here') }}</div>
                 </div>
             </div>
 
@@ -28,7 +28,7 @@ const props = defineProps({
             >
                 <div class="flex flex-col items-center">
                     <div class="w-6 h-6 text-lg text-white flex items-center rounded-full bg-gray-700 justify-center"></div>
-                    <div class="text-center text-white text-xs font-medium">Step 1</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.progress_step_1') }}</div>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@ const props = defineProps({
                     <div class="w-6 h-6 text-lg text-white flex items-center rounded-full bg-success-500 justify-center">
                         <WhiteCheckIcon />
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Step 1</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.progress_step_1') }}</div>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@ const props = defineProps({
             >
                 <div class="flex flex-col items-center">
                     <div class="w-6 h-6 text-lg text-white flex items-center rounded-full bg-gray-700 justify-center"></div>
-                    <div class="text-center text-white text-xs font-medium">Step 2</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.progress_step_2') }}</div>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@ const props = defineProps({
                     <div class="w-6 h-6 text-lg text-white flex items-center rounded-full bg-success-500 justify-center">
                         <WhiteCheckIcon />
                     </div>
-                    <div class="text-center text-white text-xs font-medium">Step 2</div>
+                    <div class="text-center text-white text-xs font-medium">{{ $t('public.progress_step_2') }}</div>
                 </div>
             </div>
 

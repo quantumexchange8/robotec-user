@@ -74,7 +74,7 @@ const closeModal = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="flex-1 text-white text-xl">Withdrawal</h2>
+            <h2 class="flex-1 text-white text-xl">{{ $t('public.withdrawal') }}</h2>
         </template>
 
         <form 
@@ -88,29 +88,30 @@ const closeModal = () => {
                     class="font-semibold"
                     @click="openWithdrawalModal('withdrawal_history')"
                 >
-                    View Withdrawal History
+                    {{ $t('public.view_withdrawal_history') }}
                 </Button>
                 <div class="flex py-8 px-5 flex-col justify-center items-center gap-3 self-stretch rounded-2xl bg-gray-800">
                     <div class="flex flex-col items-center">
-                        <div class="text-white text-center font-semibold">Commision Wallet Balance</div>
-                        <div class="text-gray-300 text-center text-xs">Min withdrawal amount: $ 250</div>
+                        <div class="text-white text-center font-semibold">{{ $t('public.commission_wallet_balance') }}</div>
+                        <div class="text-gray-300 text-center text-xs">{{ $t('public.min_withdrawal_amount') }}</div>
                     </div>
                     <div class="text-white text-center text-xxl font-semibold">$ 300.00</div>
                 </div>
                 <div class="flex flex-col items-center gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="amount" value="Amount"/>
+                        <Label for="amount" :value="$t('public.amount')" :invalid="form.errors.amount" />
                         <Input
                             v-model="withdrawalAmount"
                             id="amount"
                             type="text"
                             class="block w-full"
                             placeholder="$ 0.00"
+                            :invalid="form.errors.amount"
                         />
                         <InputError :message="form.errors.amount" />
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="usdt" value="USDT Address" :is_required="false" />
+                        <Label for="usdt" :value="$t('public.usdt_address')" :is_required="false" :invalid="form.errors.usdt" />
                         <Input
                             v-model="usdtAddress"
                             id="usdt"
@@ -118,10 +119,11 @@ const closeModal = () => {
                             :is_disabled="true"
                             class="block w-full"
                             :placeholder="usdtAddress ? usdtAddress : '-'"
+                            :invalid="form.errors.usdt"
                         />
                         <InputError :message="form.errors.usdt" />
                         <div v-if="!usdtAddress" class="self-stretch text-gray-300 text-xs">
-                            You haven't set up your USDT address yet. Please add one in "My Profile" to enable smooth transactions.
+                            {{ $t('public.usdt_empty') }}
                         </div>
                     </div>
                 </div>
@@ -130,11 +132,11 @@ const closeModal = () => {
 
                 <div class="flex flex-col items-center gap-2 self-stretch">
                     <div class="flex items-center gap-3 self-stretch">
-                        <div class="text-gray-300 text-xs">Fee Charges (10%)</div>
+                        <div class="text-gray-300 text-xs">{{ $t('public.fee_charges') }} (10%)</div>
                         <div class="flex-1 text-white text-sm font-medium">$ {{ feeCharge }}</div>
                     </div>
                     <div class="flex items-center gap-3 self-stretch">
-                        <div class="text-gray-300 text-xs">Receivable Amount</div>
+                        <div class="text-gray-300 text-xs">{{ $t('public.receivable_amount') }}</div>
                         <div class="flex-1 text-white text-sm font-medium">$ {{ receivable }}</div>
                     </div>
                 </div>
@@ -143,7 +145,7 @@ const closeModal = () => {
                     :disabled="is_disabled"
                     class="block w-full font-semibold"
                 >
-                    Withdraw Now
+                    {{ $t('public.withdraw_now') }}
                 </Button>
             </div>
         </form>
@@ -155,17 +157,17 @@ const closeModal = () => {
             <CompleteStep2Illustration />
             <div class="flex flex-col items-center gap-2 self-stretch">
                 <div class="text-white text-center font-semibold">
-                    Withdrawal Not Available
+                    {{ $t('public.withdraw_not_available') }}
                 </div>
                 <div class="self-stretch text-gray-300 text-center text-sm">
-                    Almost there! You need to complete Step 2 before you can make a withdrawal. Finish up Step 2 and you'll be all set!
+                    {{ $t('public.withdraw_not_available_desc') }}
                 </div>
             </div>
         </div>
 
         <Modal
             :show="withdrawalModal"
-            :title="modalComponent"
+            :title="$t('public.'+ modalComponent)"
             @close="closeModal"
         >
             <WithdrawalHistory />

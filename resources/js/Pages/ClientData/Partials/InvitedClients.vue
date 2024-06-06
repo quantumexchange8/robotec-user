@@ -5,7 +5,7 @@ import Modal from '@/Components/Modal.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 
 const is_set = ref(true);
-const progress = ref('0');
+const progress = ref('2');
 
 const clientDataModal = ref(false);
 
@@ -22,7 +22,7 @@ const closeModal = () => {
 <template>
     <div class="flex flex-col items-center gap-1 self-stretch">
         <div class="flex py-1 items-center gap-1 self-stretch">
-            <div class="text-gray-300 text-sm">Your Invited Clients</div>
+            <div class="text-gray-300 text-sm">{{ $t('public.your_invited_clients') }}</div>
             <div class="border-b border-solid flex-1 rounded-lg border-gray-600"></div>
         </div>
 
@@ -51,7 +51,7 @@ const closeModal = () => {
         >
             <EmptyInviteHistoryIllustration />
             <div class="self-stretch text-gray-300 text-center text-sm">
-                It looks like your invite history is empty. Start inviting friends now to earn commission! 🚀
+                {{ $t('public.client_data_empty') }}
             </div>
         </div>
 
@@ -80,25 +80,25 @@ const closeModal = () => {
                 <div class="flex flex-col items-center gap-2 self-stretch">
                     <div class="text-white text-center font-semibold">
                         <div v-if="progress === '0'">
-                            No Steps Completed
+                            {{ $t('public.client_progress_0') }}
                         </div>
                         <div v-if="progress === '1'">
-                            Client Completed Step 1
+                            {{ $t('public.client_progress_1') }}
                         </div>
                         <div v-if="progress === '2'">
-                            Client Completed Steps 1 and 2!
+                            {{ $t('public.client_progress_2') }}
                         </div>
                     </div>
 
                     <div class="self-stretch text-gray-300 text-center text-xs">
                         <div v-if="progress === '0'">
-                            It appears your invited client has not completed any steps yet. Encourage them to get started to unlock the benefits!
+                            {{ $t('public.client_progress_0_desc') }}
                         </div>
                         <div v-if="progress === '1'">
-                            Your invited client has successfully completed Step 1. Keep them engaged as they progress through the process!
+                            {{ $t('public.client_progress_1_desc') }}
                         </div>
                         <div v-if="progress === '2'">
-                            Your invited client has successfully completed Steps 1 and 2. Great job keeping them engaged through the process!
+                            {{ $t('public.client_progress_2_desc') }}
                         </div>
                     </div>
                 </div>

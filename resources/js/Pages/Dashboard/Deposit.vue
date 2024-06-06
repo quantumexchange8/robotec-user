@@ -123,7 +123,7 @@ watch(txId, () => {
 
     <AuthenticatedLayout>
         <div class="flex py-3 px-4 flex-col items-center gap-3">
-            <div class="py-2 items-center self-stretch text-white text-xl font-semibold">Deposit</div>
+            <div class="py-2 items-center self-stretch text-white text-xl font-semibold">{{ $t('public.deposit') }}</div>
             
             <form @submit.prevent="submitForm">
                 <div class="flex flex-col items-center gap-8 self-stretch">
@@ -133,10 +133,10 @@ watch(txId, () => {
                             <div class="text-white text-lg font-semibold uppercase">trc20</div>
                         </div>
                         <div class="text-gray-300 text-center text-xs">
-                            QR code will be refreshed automatically in
+                            {{ $t('public.qr_countdown_desc') }}
                         </div>
                         <div id="time" class="text-error-500 text-center text-sm font-semibold">
-                            {{ formatTime }} minutes
+                            {{ formatTime }} {{ $t('public.minutes') }} 
                         </div>
                         <div class="shrink-0">
                             <Qrcode :value="qrAddress" :size="160" render-as="svg" :margin="1" level="M" background="#F7F7F7" />
@@ -152,37 +152,39 @@ watch(txId, () => {
                                     id="copied_success"
                                     class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"
                                 >
-                                    Copied!
+                                    {{ $t('public.copied') }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="deposit_amount" value="Deposit Amount"/>
+                        <Label for="deposit_amount" :value="$t('public.deposit_amount')" :invalid="form.errors.depositAmount" />
                         <Input
                             v-model="amount"
                             id="deposit_amount"
                             type="text"
                             class="block w-full"
                             placeholder="$ 0.00"
+                            :invalid="form.errors.depositAmount"
                         />
                         <InputError :message="form.errors.depositAmount" />
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="tx_id" value="TxID"/>
+                        <Label for="tx_id" value="TxID"  :invalid="form.errors.txid" />
                         <Input
                             v-model="txId"
                             id="tx_id"
                             type="text"
                             class="block w-full"
-                            placeholder="Paste your TxID here"
+                            :placeholder="$t('public.txid_placeholder')"
+                            :invalid="form.errors.txid"
                         />
                         <InputError :message="form.errors.txid" />
                     </div>
                     <div class="flex items-start gap-3 self-stretch">
                         <div class="text-white">checkbox</div>
                         <div class="text-gray-300 text-xxs">
-                            I understand and accept the risks, absolving the company of responsibility.
+                            {{ $t('public.deposit_checkbox_desc') }}
                         </div>
                     </div>
                     <Button
@@ -190,7 +192,7 @@ watch(txId, () => {
                         :disabled="is_disabled"
                         class="w-full font-semibold"
                     >
-                        Deposit Now
+                        {{ $t('public.deposit_now') }}
                     </Button>
                 </div>
             </form>

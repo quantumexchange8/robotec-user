@@ -31,7 +31,7 @@ const closeModal = () => {
     <div class="flex mx-4 py-6 px-5 flex-col items-center gap-5 rounded-2xl bg-gray-700">
         <div class="flex justify-between items-center self-stretch">
             <div class="flex flex-col items-start gap-1">
-                <div class="text-gray-300 text-xs font-medium">Cash Wallet ($)</div>
+                <div class="text-gray-300 text-xs font-medium">{{ $t('public.cash_wallet') }} ($)</div>
                 <div 
                     class="flex items-center gap-5 cursor-pointer" 
                     @click="openWalletInfoModal('cash_wallet_transactions')"
@@ -46,7 +46,7 @@ const closeModal = () => {
                 :href="route('deposit')"
                 class="text-sm font-semibold"
             >
-                Deposit
+            {{ $t('public.deposit') }}
             </Button>
         </div>
 
@@ -54,7 +54,7 @@ const closeModal = () => {
 
         <div class="flex items-center gap-7 self-stretch">
             <div class="flex flex-col items-start gap-1 grow">
-                <div class="text-gray-300 text-xs font-medium">Commission ($)</div>
+                <div class="text-gray-300 text-xs font-medium">{{ $t('public.commission') }} ($)</div>
                 <div 
                     class="flex items-center gap-5 cursor-pointer" 
                     @click="openWalletInfoModal('commission_wallet_transactions')"
@@ -67,7 +67,7 @@ const closeModal = () => {
             <div class="self-stretch border-l border-solid border-gray-600 flex-1"></div>
 
             <div class="flex flex-col items-start gap-1 grow">
-                <div class="text-gray-300 text-xs font-medium">Refree (pax)</div>
+                <div class="text-gray-300 text-xs font-medium">{{ $t('public.referee') }} (pax)</div>
                 <div 
                     class="flex items-center gap-5 cursor-pointer" 
                     @click="openWalletInfoModal('invite_history')"
@@ -81,7 +81,7 @@ const closeModal = () => {
 
     <Modal
         :show="walletInfoModal"
-        :title="modalComponent"
+        :title="$t('public.'+ modalComponent)"
         @close="closeModal"
     >
         <template v-if="modalComponent === 'cash_wallet_transactions'">

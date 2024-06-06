@@ -31,16 +31,16 @@ const submitForm = () => {
     >
         <div class="flex flex-col items-center gap-5">
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="usdt" value="USDT Address" :is_required="false" />
+                <Label for="usdt" :value="$t('public.usdt_address')" :is_required="false" />
                 <Input
-                    v-model="form.current_password"
+                    v-model="form.usdt"
                     id="usdt"
                     type="text"
                     class="block w-full"
-                    placeholder="Paste your USDT address here"
+                    :placeholder="$t('public.add_usdt_placeholder')"
                 />
                 <div class="self-stretch text-gray-300 text-xs">
-                    Keep in mind that once you've created your USDT address, it cannot be edited later. Please ensure accuracy before submission.
+                    {{ $t('public.add_usdt_address_desc') }}
                 </div>
                 <InputError :message="form.errors.usdt" />
             </div>
@@ -53,7 +53,7 @@ const submitForm = () => {
                     class="w-full font-semibold"
                     @click="$emit('closeModal')"
                 >
-                    Cancel
+                    {{ $t('public.cancel') }}
                 </Button>
 
                 <Button
@@ -61,7 +61,7 @@ const submitForm = () => {
                     class="w-full font-semibold"
                     :disabled="form.processing"
                 >
-                    Add
+                    {{ $t('public.add') }}
                 </Button>
             </div>
         </div>

@@ -18,13 +18,13 @@ const msg = ''
     <div class="py-5">
         <div class="flex flex-col items-center gap-5 self-stretch">
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="select_wallet" value="Select wallet" />
+                <Label for="select_wallet" :value="$t('public.select_wallet')" :invalid="msg" />
                 <div class="text-white">2 Radio button</div>
                 <InputError :message="msg" />
             </div>
 
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="amount" value="Fund In Amount" />
+                <Label for="amount" :value="('public.fund_in_amount')" :invalid="msg" />
                 <div class="text-white">4 button group</div>
                 <InputError :message="msg" />
             </div>
@@ -34,8 +34,8 @@ const msg = ''
                 class="self-stretch text-neutral-400 text-xs"
             >
                 <div class="flex flex-col gap-4">
-                    <div>Please note that the minimum trading period is 90 days or longer. Funds in the trading account cannot be withdrawn before the end of this period.</div>
-                    <div>By clicking 'confirm', your funds will be locked to start Robotec Auto Trading.</div>
+                    <div>{{ $t('public.top_up_desc_1') }}</div>
+                    <div>{{ $t('public.top_up_desc_2') }}</div>
                 </div>
             </div>
 
@@ -47,7 +47,7 @@ const msg = ''
                     class="w-full font-semibold"
                     @click="$emit('closeModal')"
                 >
-                    Cancel
+                    {{ $t('public.cancel') }}
                 </Button>
 
                 <Button
@@ -56,7 +56,7 @@ const msg = ''
                     class="w-full font-semibold"
                     @click="$emit('investment')"
                 >
-                    Confirm
+                    {{ $t('public.confirm') }}
                 </Button>
             </div>
         </div>

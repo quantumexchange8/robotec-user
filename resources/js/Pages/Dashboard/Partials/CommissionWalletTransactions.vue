@@ -12,7 +12,7 @@ const transaction = ref(true);
                     <div class="flex flex-col items-start flex-1">
                         <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div>
                         <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
-                            Auto Trading 123
+                            {{ $t('public.auto_trading') }}
                         </div>
                     </div>
 
@@ -23,7 +23,7 @@ const transaction = ref(true);
                     <div class="flex flex-col items-start flex-1">
                         <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div>
                         <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
-                            Comission
+                            {{ $t('public.commission') }}
                         </div>
                     </div>
 
@@ -34,7 +34,7 @@ const transaction = ref(true);
             <div v-else class="flex py-5 flex-col items-center gap-3 self-stretch">
                 <EmptyHistoryIllustration />
                 <div class="self-stretch text-gray-300 text-center text-sm">
-                    No transactions found
+                    {{ $t('public.no_transaction') }}
                 </div>
             </div>
         </div>

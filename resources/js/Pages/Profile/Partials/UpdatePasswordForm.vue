@@ -35,40 +35,43 @@ const updatePassword = () => {
     >
         <div class="flex flex-col items-center gap-5 self-stretch">
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="currentPassword" value="Current Password"/>
+                <Label for="currentPassword" :value="$t('public.current_password')" :invalid="form.errors.current_password" />
                 <Input
                     v-model="form.current_password"
                     id="currentPassword"
                     type="password"
                     class="block w-full"
-                    placeholder="Enter current password"
+                    :placeholder="$t('public.enter_current_password')"
+                    :invalid="form.errors.current_password"
                 />
                 <InputError :message="form.errors.current_password" />
             </div>
 
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="newPassword" value="New Password"/>
+                <Label for="newPassword" :value="$t('public.new_password')" :invalid="form.errors.password" />
                 <Input
                     v-model="form.password"
                     id="newPassword"
                     type="password"
                     class="block w-full"
-                    placeholder="Create new password"
+                    :placeholder="$t('public.create_new_password')"
+                    :invalid="form.errors.password"
                 />
                 <div class="self-stretch text-gray-300 text-xs  ">
-                    Must be at least 8 characters containing one uppercase letter, one lowercase letter, one number, and one special character.
+                    {{ $t('public.password_condition') }}
                 </div>
                 <InputError :message="form.errors.password" />
             </div>
 
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="confrmPassword" value="Confirm Password"/>
+                <Label for="confrmPassword" :value="$t('public.confirm_password')" :invalid="form.errors.password_confirmation" />
                 <Input
                     v-model="form.password_confirmation"
                     id="confirmPassword"
                     type="password"
                     class="block w-full"
-                    placeholder="Must match with new password"
+                    :placeholder="$t('public.confirm_password_placeholder')"
+                    :invalid="form.errors.password_confirmation"
                 />
                 <InputError :message="form.errors.password_confirmation" />
             </div>
@@ -81,7 +84,7 @@ const updatePassword = () => {
                     class="w-full font-semibold"
                     @click="$emit('closeModal')"
                 >
-                    Cancel
+                    {{ $t('public.cancel') }}
                 </Button>
 
                 <Button
@@ -89,7 +92,7 @@ const updatePassword = () => {
                     class="w-full font-semibold"
                     :disabled="form.processing"
                 >
-                    Save Changes
+                    {{ $t('public.save_changes') }}
                 </Button>
             </div>
         </div>

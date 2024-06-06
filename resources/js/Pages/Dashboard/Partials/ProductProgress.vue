@@ -80,7 +80,7 @@ const investing = () => {
     }
 }
 
-const investmentDuration = ref(89);
+const investmentDuration = ref(90);
 
 const transferring = () => {
     console.log('transferring');
@@ -103,10 +103,10 @@ const transferring = () => {
             <div class="flex flex-col items-start gap-5 self-stretch">
                 <div class="flex flex-col items-start gap-2 self-stretch">
                     <div class="text-white text-md font-semibold">
-                        Step 1: Purchase Robotec
+                        {{ $t('public.product_step_1') }}
                     </div>
                     <div class="self-stretch text-gray-300 text-xs">
-                        Purchase Robotec to receive a unique QR code for inviting friends. Share your code, and start earning commissions with every successful referral!
+                        {{ $t('public.product_step_1_desc') }}
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@ const transferring = () => {
                     class="flex py-3 px-4 justify-center self-stretch rounded-lg text-success-500 text-center text-sm font-semibold"
                     style="background: linear-gradient(180deg, rgba(10, 98, 23, 0.04) 0%, rgba(10, 98, 23, 0.20) 100%);"
                 >
-                    Well Done! Step 1 is completed. 🌟
+                    {{ $t('public.product_step_1_completed') }}
                 </div>
 
                 <Button
@@ -125,17 +125,17 @@ const transferring = () => {
                     class="font-semibold"
                     @click="openProductProgressModal('purchase_robotec')"
                 >
-                    Purchase Now with $ 250.00
+                    {{ $t('public.product_step_1_purchase') }}
                 </Button>
             </div>
 
             <div class="flex flex-col items-start gap-5 self-stretch">
                 <div class="flex flex-col items-start gap-2 self-stretch">
                     <div class="text-white text-md font-semibold">
-                        Step 2: Set Up Your Trading Account
+                        {{ $t('public.product_step_2') }}
                     </div>
                     <div class="self-stretch text-gray-300 text-xs">
-                        Create a trading account and fund it to start auto trading and withdraw your earned commissions. Get started now to unlock your trading potential!
+                        {{ $t('public.product_step_2_desc') }}
                     </div>
                 </div>
 
@@ -146,7 +146,7 @@ const transferring = () => {
                     class="font-semibold"
                     @click="button2(button2Status)"
                 >
-                    {{ button2Status }}
+                    {{ $t('public.'+ button2Status) }}
                 </Button>
 
                 <Button
@@ -159,7 +159,7 @@ const transferring = () => {
                     v-slot="{ iconSizeClasses }"
                 >
                     <Lock01Icon class="pr-2 text-success-500"/> 
-                    Complete Step 1 to Unlock
+                    {{ $t('public.complete_step_1_unlock') }}
                 </Button>
 
                 <div 
@@ -167,7 +167,7 @@ const transferring = () => {
                     class="flex flex-col items-start gap-2 self-stretch"
                 >
                     <div class="text-xs font-medium">
-                        <span class="text-gray-300">1st investment: </span>
+                        <span class="text-gray-300">1st {{ $t('public.investment') }}: </span>
                         <span class="text-success-500">$ 250.00</span>
                     </div>
 
@@ -180,14 +180,14 @@ const transferring = () => {
                         class="w-full font-semibold"
                         @click="openProductProgressModal('transfer');"
                     >
-                        Transfer
+                        {{ $t('public.transfer') }}
                     </Button>
 
                     <div 
                         v-else
                         class="flex py-3 px-4 justify-center items-center self-stretch rounded-lg bg-gray-900 text-white text-center text-sm font-semibold"
                     >
-                        Matures in {{ 90 - investmentDuration }} days
+                        {{ $t('public.matures_in') }} {{ 90 - investmentDuration }} {{ $t('public.days') }}
                     </div>
                 </div>
             </div>
@@ -196,7 +196,7 @@ const transferring = () => {
 
     <Modal
         :show="productProgressModal"
-        :title="modalComponent"
+        :title="$t('public.'+ modalComponent)"
         @close="closeModal"
     >
         <template v-if="modalComponent === 'purchase_robotec'">

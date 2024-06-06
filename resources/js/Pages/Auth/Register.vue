@@ -9,8 +9,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ProgressBar from '@/Pages/Auth/Partials/ProgressBar.vue'
 
 const form = useForm({
-    name: '',
+    fullName: '',
     email: '',
+    phoneNumber:'',
     password: '',
     password_confirmation: '',
 });
@@ -33,10 +34,10 @@ const submit = () => {
             </Link>
             <div class="flex flex-col items-center gap-2 self-stretch">
                 <div class="text-white text-center text-lg font-semibold">
-                    Create Your Account
+                    {{ $t('public.create_your_account') }}
                 </div>
                 <div class="self-stretch text-gray-300 text-center text-sm">
-                    Welcome! Fill in the details below to join our community. Let's get started!
+                    {{ $t('public.register_desc') }}
                 </div>
             </div>
         </div>
@@ -49,64 +50,64 @@ const submit = () => {
         >
             <div class="flex flex-col items-center gap-3 self-stretch">
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
-                    <Label for="fullName" value="Full Name"/>
+                    <Label for="fullName" :value="$t('public.full_name')" :invalid="form.errors.fullName" />
                     <Input
-                        v-model="fullName"
+                        v-model="form.fullName"
                         id="fullName"
                         type="text"
                         class="block w-full"
-                        placeholder="Name as per NRIC"
+                        :placeholder="$t('public.full_name_placeholder')"
                     />
                     <InputError :message="form.errors.fullName" />
                 </div>
 
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
-                    <Label for="email" value="Email"/>
+                    <Label for="email" :value="('public.email')" :invalid="form.errors.email" />
                     <Input
-                        v-model="email"
+                        v-model="form.email"
                         id="email"
                         type="text"
                         class="block w-full"
-                        placeholder="Enter Email"
+                        :placeholder="$t('public.enter_email')"
                     />
                     <InputError :message="form.errors.email" />
                 </div>
 
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
-                    <Label for="phoneNumber" value="Phone Number"/>
+                    <Label for="phoneNumber" :value="$t('public.phone_number')" :invalid="form.errors.phoneNumber" />
                     <Input
-                        v-model="phoneNumber"
+                        v-model="form.phoneNumber"
                         id="phoneNumber"
                         type="text"
                         class="block w-full"
-                        placeholder="Phone Number"
+                        :placeholder="$t('public.phone_number')"
                     />
                     <InputError :message="form.errors.phoneNumber" />
                 </div>
 
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
-                    <Label for="password" value="Create Password"/>
+                    <Label for="password" :value="$t('public.create_password')" :invalid="form.errors.password" />
                     <Input
-                        v-model="password"
+                        v-model="form.password"
                         id="password"
                         type="password"
                         class="block w-full"
-                        placeholder="New password"
+                        :placeholder="$t('public.new_password')"
                     />
                     <div class="self-stretch text-gray-300 text-xs">
-                        Must be at least 8 characters containing one uppercase letter, one lowercase letter, one number, and one special character.
+                        {{ $t('public.password_condition') }}
                     </div>
                     <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
-                    <Label for="confirmPassword" value="Confirm Password"/>
+                    <Label for="confirmPassword" :value="$t('public.confirm_password')" :invalid="form.errors.password_confirmation" />
                     <Input
-                        v-model="password_confirmation"
+                        v-model="form.password_confirmation"
                         id="confirmPassword"
                         type="text"
                         class="block w-full"
-                        placeholder="Must match with new password"
+                        :placeholder="$t('public.confirm_password_placeholder')"
                     />
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
@@ -117,18 +118,18 @@ const submit = () => {
                     size="lg"
                     class="w-full font-semibold"
                 >
-                    Next
+                    {{ $t('public.next') }}
                 </Button>
 
                 <div class="flex py-3 justify-center items-center gap-3 self-stretch">
                     <div class="text-gray-300 text-center text-sm">
-                        Already have an account?
+                        {{ $t('public.already_have_account') }}
                     </div>
                     <Link
                         :href="route('login')"
                         class="text-white text-center text-sm font-semibold"
                     >
-                        Log in here
+                        {{ $t('public.log_in_here') }}
                     </Link>
                 </div>
             </div>

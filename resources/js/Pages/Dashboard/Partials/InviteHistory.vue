@@ -54,7 +54,7 @@ const history = ref(true);
         <div v-else class="py-5 flex flex-col items-center gap-3 self-stretch">
             <EmptyInviteHistoryIllustration />
             <div class="self-stretch text-gray-300 text-center text-xs">
-                It looks like your invite history is empty. Start inviting friends now to earn commission! 🚀
+                {{ $t('public.invite_history_empty_desc') }}
             </div>
         </div>
     </div>

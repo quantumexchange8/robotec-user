@@ -10,27 +10,27 @@ import InvitedClients from '@/Pages/ClientData/Partials/InvitedClients.vue';
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="text-white text-xl">Client Data</div>
+            <div class="text-white text-xl">{{ $t('public.client_data') }}</div>
         </template>
 
         <div class="flex pb-3 px-4 flex-col items-center gap-3">
             <div class="flex p-3 justify-around items-start gap-3 self-stretch rounded-xl bg-gray-800">
                 <div class="flex flex-col items-center w-full">
                     <div class="text-white text-center text-lg font-semibold">5</div>
-                    <div class="text-white text-center text-xs font-medium">Client</div>
-                    <div class="self-stretch text-gray-300 text-center text-xxs">signed up with your QR code</div>
+                    <div class="text-white text-center text-xs font-medium">{{ $t('public.client') }}</div>
+                    <div class="self-stretch text-gray-300 text-center text-xxs">{{ $t('public.client_data_0') }}</div>
                 </div>
 
                 <div class="flex flex-col items-center w-full">
                     <div class="text-white text-center text-lg font-semibold">3</div>
-                    <div class="text-white text-center text-xs font-medium">Client</div>
-                    <div class="self-stretch text-gray-300 text-center text-xxs">completed Step 1</div>
+                    <div class="text-white text-center text-xs font-medium">{{ $t('public.client') }}</div>
+                    <div class="self-stretch text-gray-300 text-center text-xxs">{{ $t('public.client_data_1') }}</div>
                 </div>
 
                 <div class="flex flex-col items-center w-full">
                     <div class="text-white text-center text-lg font-semibold">2</div>
-                    <div class="text-white text-center text-xs font-medium">Client</div>
-                    <div class="self-stretch text-gray-300 text-center text-xxs">completed Step 2</div>
+                    <div class="text-white text-center text-xs font-medium">{{ $t('public.client') }}</div>
+                    <div class="self-stretch text-gray-300 text-center text-xxs">{{ $t('public.client_data_2') }}</div>
                 </div>
             </div>
 
