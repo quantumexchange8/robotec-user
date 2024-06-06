@@ -104,7 +104,7 @@ const closeModal = () => {
                 </div>
 
                 <div class="max-w-fit">
-                    <ProgressBar />
+                    <ProgressBar :step="progress" />
                 </div>
             </div>
         </div>

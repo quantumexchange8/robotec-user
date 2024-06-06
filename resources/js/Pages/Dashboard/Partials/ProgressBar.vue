@@ -1,9 +1,11 @@
 <script setup>
 import { WhiteCheckIcon } from '@/Components/Icons/solid';
 import { ProgressCurrentIcon } from '@/Components/Icons/solid';
-import { ref } from 'vue';
 
-const progress = ref('0');
+const props = defineProps({
+    step:String,
+});
+
 </script>
 
 <template>
@@ -21,7 +23,7 @@ const progress = ref('0');
 
             <!-- Center shape -->
             <div 
-                v-if="progress === '0'"
+                v-if="props.step === '0'"
                 class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
             >
                 <div class="flex flex-col items-center">
@@ -31,7 +33,7 @@ const progress = ref('0');
             </div>
 
             <div 
-                v-if="progress === '1' || progress === '2'"
+                v-if="props.step === '1' || props.step === '2'"
                 class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
             >
                 <div class="flex flex-col items-center">
@@ -44,7 +46,7 @@ const progress = ref('0');
 
             <!-- Right shape -->
             <div 
-                v-if="progress === '0' || progress === '1'"
+                v-if="props.step === '0' || props.step === '1'"
                 class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10"
             >
                 <div class="flex flex-col items-center">
@@ -54,7 +56,7 @@ const progress = ref('0');
             </div>
 
             <div 
-                v-if="progress === '2'"
+                v-if="props.step === '2'"
                 class="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10"
             >
                 <div class="flex flex-col items-center">
@@ -67,7 +69,7 @@ const progress = ref('0');
 
             <!-- Progress bar -->
             <div 
-                v-if="progress === '0'"
+                v-if="props.step === '0'"
                 class="absolute left-0 bottom-1.5 w-full h-1 rounded-[20px]"
             >
                 <!-- Left half -->
@@ -77,7 +79,7 @@ const progress = ref('0');
             </div>
 
             <div 
-                v-if="progress === '1'"
+                v-if="props.step === '1'"
                 class="absolute left-0 bottom-1.5 w-full h-1 rounded-[20px]"
             >
                 <!-- Left half -->
@@ -87,7 +89,7 @@ const progress = ref('0');
             </div>
 
             <div 
-                v-if="progress === '2'"
+                v-if="props.step === '2'"
                 class="absolute left-0 bottom-1.5 w-full h-1 rounded-[20px]"
             >
                 <div class="absolute left-0 top-0 w-full h-full bg-success-500"></div>
@@ -95,7 +97,7 @@ const progress = ref('0');
 
             <!-- Current -->
             <div 
-                v-if="progress === '0'"
+                v-if="props.step === '0'"
                 class="absolute z-10 left-[25%] -bottom-1 transform -translate-x-1/2 -translate-y-1/2"
             >
                 <div class="relative">
@@ -104,7 +106,7 @@ const progress = ref('0');
             </div>
 
             <div 
-                v-if="progress === '1'"
+                v-if="props.step === '1'"
                 class="absolute z-10 right-[25%] -bottom-1 transform -translate-x-1/2 -translate-y-1/2"
             >
                 <div class="relative">

@@ -28,85 +28,76 @@ const closeModal = () => {
     productProgressModal.value = false;
 }
 
-const button2 = () => {
-    // openProductProgressModal('fund_in');
-    // openProductProgressModal('top_up_capital');
-    openProductProgressModal('transfer');
+const step1 = ref(false);
+const progress = ref('0');
+
+const purchasingRobotec = () => {
+    step1.value = true;
+    progress.value = '1';
+    closeModal();
 }
 
-// step1 success button
-const step1 = ref(true);
-const button1Variant = ref('primary');
-const button1Class = ref('font-semibold')
-const button1Content = ref('Purchase Now with $ 250.00');
-
-const button2Variant = ref('outline');
-const button2Disabled = ref(true);
-const button2Content = ref('Complete Step 1 to Unlock');
-
-watch(step1, (newValue) => {
-    if(newValue) {
-        // button1Variant.value = 'success';
-        // button1Class.value = 'w-full text-success-500 font-semibold';
-        // button1Content.value = 'Well Done! Step 1 is completed. 🌟';
-
-        button2Variant.value = 'primary';
-        button2Disabled.value = false;
-        button2Content.value = 'Create Trading Account'
-    }
-},
-{immediate:true});
-
-// create account
 /* 
     status should filter out the condition of the user
     create_account -> when step 1 done (once)
     fund_in -> after create_account done && when no investment (repeatable)
-    start_auto_trading -> after first fund_in (repeatable)
+    start_auto_trading -> after fund_in (repeatable)
     top_up -> when got investment (repeatable)
 */
-// const button2Status = ref('create_account');
-// const button2 = (status) => {
-//     switch(status) {
-//         case 'create_account':
-//             console.log('Creating trading account');
-//             button2Status.value = 'fund_in';
-//             break;
-//         case 'fund_in':
-//             console.log('open fund in modal');
-//             break;
-//         case 'start_auto_trading':
-//             console.log('open start auto trading dialog');
-//             break;
-//         case 'top_up':
-//             console.log('open top up capital modal');
-//             break;
-//     }
-// }
+const button2Status = ref('create_account');
+const investmentStatus = ref(false);
 
-// watch(button2Status, (newValue) => {
-//     switch(newValue) {
-//         case 'fund_in':
-//             button2Content.value = 'Fund In'
-//             break;
-//         case 'start_auto_trading':
-//             button2Content.value = 'Start Robotec Auto Trading'
-//             break;
-//         case 'top_up':
-//             button2Content.value = 'Top Up Capital'
-//             break;
-//     }
-// })
+const button2 = (status) => {
+    switch(status) {
+        case 'create_account':
+            console.log('Creating trading account');
+            button2Status.value = 'fund_in';
+            break;
+        case 'fund_in':
+            console.log('open fund in modal');
+            openProductProgressModal('fund_in');
+            break;
+        case 'start_auto_trading':
+            console.log('open start auto trading dialog');
+            progress.value = '2';
+            button2Status.value = 'top_up_capital'
+            investmentStatus.value = true;
+            break;
+        case 'top_up_capital':
+            console.log('open top up capital modal');
+            openProductProgressModal('top_up_capital');
+            break;
+    }
+}
+
+const investing = () => {
+    if (modalComponent.value === 'fund_in') {
+        button2Status.value = 'start_auto_trading';
+        closeModal();
+    } else if (modalComponent.value === 'top_up_capital') {
+        console.log('add investment');
+        closeModal();
+    }
+}
+
+const investmentDuration = ref(89);
+
+const transferring = () => {
+    console.log('transferring');
+    button2Status.value = 'fund_in';
+    investmentStatus.value = false;
+    closeModal();
+}
 
 </script>
 
 <template>
     <div class="flex pt-5 flex-col items-center gap-10 relative">
         <div class="relative">
-            <ProgressBar />
+            <ProgressBar :step="progress"/>
         </div>
 
-        <RobotIllustration class="absolute right-2 top-[11%]"/>
+        <RobotIllustration class="absolute right-2 top-[12%]"/>
 
         <div class="flex py-5 px-4 flex-col items-center gap-10 self-stretch" style="background: linear-gradient(180deg, rgba(24, 34, 48, 0.00) 0%, rgba(24, 34, 48, 0.80) 100%);">
             <div class="flex flex-col items-start gap-5 self-stretch">
@@ -119,14 +110,22 @@ watch(step1, (newValue) => {
                     </div>
                 </div>
 
+                <div 
+                    v-if="step1"
+                    class="flex py-3 px-4 justify-center self-stretch rounded-lg text-success-500 text-center text-sm font-semibold"
+                    style="background: linear-gradient(180deg, rgba(10, 98, 23, 0.04) 0%, rgba(10, 98, 23, 0.20) 100%);"
+                >
+                    Well Done! Step 1 is completed. 🌟
+                </div>
+
                 <Button
-                    :variant="button1Variant"
+                    v-else
                     type="button"
                     size="lg"
-                    :class="button1Class"
+                    class="font-semibold"
                     @click="openProductProgressModal('purchase_robotec')"
                 >
-                    {{ button1Content }}
+                    Purchase Now with $ 250.00
                 </Button>
             </div>
 
@@ -141,36 +140,55 @@ watch(step1, (newValue) => {
                 </div>
 
                 <Button
-                    :variant="button2Variant"
+                    v-if="step1"
                     type="button"
                     size="lg"
-                    :disabled="button2Disabled"
+                    class="font-semibold"
+                    @click="button2(button2Status)"
+                >
+                    {{ button2Status }}
+                </Button>
+
+                <Button
+                    v-else
+                    variant="outline"
+                    type="button"
+                    size="lg"
+                    :disabled="true"
                     class="font-semibold"
                     v-slot="{ iconSizeClasses }"
-                    @click="button2()"
                 >
-                    <Lock01Icon v-if="!step1" class="pr-2 text-success-500"/> 
-                    {{ button2Content }}
+                    <Lock01Icon class="pr-2 text-success-500"/> 
+                    Complete Step 1 to Unlock
                 </Button>
 
                 <div 
-                    v-if="true"
+                    v-if="investmentStatus"
                     class="flex flex-col items-start gap-2 self-stretch"
                 >
                     <div class="text-xs font-medium">
                         <span class="text-gray-300">1st investment: </span>
                         <span class="text-success-500">$ 250.00</span>
                     </div>
-<!-- button bot gray -->
+
                     <Button
+                        v-if="investmentDuration >= 90"
                         variant="gray"
                         type="button"
                         size="lg"
-                        :disabled="true"
+                        :disabled="false"
                         class="w-full font-semibold"
+                        @click="openProductProgressModal('transfer');"
                     >
-                        Matures in 90 days
+                        Transfer
                     </Button>
+
+                    <div 
+                        v-else
+                        class="flex py-3 px-4 justify-center items-center self-stretch rounded-lg bg-gray-900 text-white text-center text-sm font-semibold"
+                    >
+                        Matures in {{ 90 - investmentDuration }} days
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,15 +200,15 @@ watch(step1, (newValue) => {
         @close="closeModal"
     >
         <template v-if="modalComponent === 'purchase_robotec'">
-            <PurchaseRobotecForm @closeModal = "closeModal"/>
+            <PurchaseRobotecForm @closeModal = "closeModal" @purchasingRobotec="purchasingRobotec" />
         </template>
         
         <template v-if="modalComponent === 'fund_in' || modalComponent === 'top_up_capital'">
-            <InvestmentForm :modalType="modalComponent" @closeModal = "closeModal"/>
+            <InvestmentForm :modalType="modalComponent" @closeModal = "closeModal" @investment="investing" />
         </template>
         
         <template v-if="modalComponent === 'transfer'">
-            <TransferForm @closeModal = "closeModal"/>
+            <TransferForm @closeModal = "closeModal" @transferring="transferring" />
         </template>
         
     </Modal>

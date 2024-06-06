@@ -33,6 +33,7 @@ import Button from '@/Components/Button.vue';
                 size="lg"
                 type="button"
                 class="w-full font-semibold"
+                @click="$emit('purchasingRobotec')"
             >
                 Purchase
             </Button>

@@ -54,6 +54,7 @@ const msg = ''
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
+                    @click="$emit('investment')"
                 >
                     Confirm
                 </Button>

@@ -41,6 +41,7 @@ import { ArrowNarrowUpRightIcon } from '@/Components/Icons/outline';
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
+                    @click="$emit('transferring')"
                 >
                     Transfer Now
                 </Button>
