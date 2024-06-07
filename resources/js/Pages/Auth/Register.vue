@@ -62,7 +62,7 @@ const submit = () => {
                 </div>
 
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
-                    <Label for="email" :value="('public.email')" :invalid="form.errors.email" />
+                    <Label for="email" :value="$t('public.email')" :invalid="form.errors.email" />
                     <Input
                         v-model="form.email"
                         id="email"

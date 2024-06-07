@@ -40,16 +40,12 @@ const feeCharge = ref('0.00');
 const receivable = ref('0.00')
 
 watch(withdrawalAmount, (newValue) => {
-    if (withdrawalAmount.value.length > 0 && usdtAddress.value) {
+    if (newValue >= 250 && usdtAddress.value) {
         is_disabled.value = false;
-    } else {
-        is_disabled.value = true;
-    }
-
-    if (newValue >= 250) {
         feeCharge.value = (newValue * 0.1).toFixed(2);
         receivable.value = (newValue - feeCharge.value).toFixed(2);
     } else {
+        is_disabled.value = true;
         feeCharge.value = '0.00';
         receivable.value = '0.00';
     }

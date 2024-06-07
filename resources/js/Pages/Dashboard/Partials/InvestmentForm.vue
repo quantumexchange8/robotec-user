@@ -24,7 +24,7 @@ const msg = ''
             </div>
 
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="amount" :value="('public.fund_in_amount')" :invalid="msg" />
+                <Label for="amount" :value="$t('public.fund_in_amount')" :invalid="msg" />
                 <div class="text-white">4 button group</div>
                 <InputError :message="msg" />
             </div>

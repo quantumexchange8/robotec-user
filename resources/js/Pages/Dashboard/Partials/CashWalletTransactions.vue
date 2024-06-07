@@ -37,7 +37,7 @@ const transaction = ref(true);
             <div v-else class="flex py-5 flex-col items-center gap-3 self-stretch">
                 <EmptyHistoryIllustration />
                 <div class="self-stretch text-gray-300 text-center text-sm">
-                    No transactions found
+                    {{ $t('public.no_transaction') }}
                 </div>
             </div>
         </div>

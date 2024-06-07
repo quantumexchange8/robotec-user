@@ -9,7 +9,7 @@ import EmptyQrIllustration from './EmptyQrIllustration.vue';
 import { ref } from 'vue';
 
 const referralCodeModal = ref(false);
-const referralCodeModalVisible = () => {
+const openReferralCodeModal = () => {
     referralCodeModal.value = true;
 }
 
@@ -43,7 +43,7 @@ const copyLink = () => {
             type="button"
             :iconOnly="true"
             v-slot="{ iconSizeClasses }"
-            @click="referralCodeModalVisible"
+            @click="openReferralCodeModal"
         >
             <QrCode01Icon />
         </Button>
@@ -60,7 +60,10 @@ const copyLink = () => {
             @close="closeReferralCodeModal"
         >
             <div class="py-5">
-                <div v-if="step1" class="flex flex-col items-center gap-5 self-stretch">
+                <div 
+                    v-if="step1" 
+                    class="flex flex-col items-center gap-5 self-stretch"
+                >
                     <div class="flex flex-col items-center gap-2 self-stretch">
                         <div class="text-white font-semibold">{{ $t('public.scan_qr_code') }}</div>
                         <div class="self-stretch text-gray-300 text-center text-xs">
@@ -98,7 +101,10 @@ const copyLink = () => {
                     </div>
                 </div>
 
-                <div v-else class="flex flex-col items-center gap-5 self-stretch">
+                <div 
+                    v-else 
+                    class="flex flex-col items-center gap-5 self-stretch"
+                >
                     <EmptyQrIllustration />
                     <div class="flex flex-col items-center gap-2 self-stretch">
                         <div class="text-white text-center font-semibold">{{ $t('public.referral_qr_not_available') }}</div>

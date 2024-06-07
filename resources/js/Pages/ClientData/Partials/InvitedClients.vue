@@ -59,7 +59,7 @@ const closeModal = () => {
 
     <Modal
         :show="clientDataModal"
-        title="Client's Progress"
+        :title="$t('public.client_progress')"
         @close="closeModal"
     >
         <div class="pt-5">
