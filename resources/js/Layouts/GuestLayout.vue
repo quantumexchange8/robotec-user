@@ -16,8 +16,11 @@ const props = defineProps({
     title: String,
 });
 
+const currentLocale = ref(usePage().props.locale);
+
 const changeLanguage = async (langVal) => {
     try {
+        currentLocale.value = langVal;
         await loadLanguageAsync(langVal);
         await axios.get(`/locale/${langVal}`);
     } catch (error) {
@@ -69,17 +72,17 @@ let removeFinishEventListener = Inertia.on("finish", () => {
                     </Button>
                 </template>
                 <template #content>
-                    <DropdownLink @click="changeLanguage('en')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
+                    <DropdownLink @click="changeLanguage('en')" :class="{'bg-primary-900': currentLocale === 'en'}">
                         <div class="inline-flex items-center gap-2 text-white">
                             English
                         </div>
                     </DropdownLink>
-                    <DropdownLink @click="changeLanguage('cn')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
+                    <DropdownLink @click="changeLanguage('cn')" :class="{'bg-primary-900': currentLocale === 'cn'}">
                         <div class="inline-flex items-center gap-2 text-white">
                             简体中文
                         </div>
                     </DropdownLink>
-                    <DropdownLink @click="changeLanguage('bm')" class="bg-gray-900 hover:bg-primary-900 focus:bg-primary-900">
+                    <DropdownLink @click="changeLanguage('bm')" :class="{'bg-primary-900': currentLocale === 'bm'}">
                         <div class="inline-flex items-center gap-2 text-white">
                             Bahasa Melayu
                         </div>

@@ -94,10 +94,10 @@ const submit = () => {
                         class="block w-full"
                         :placeholder="$t('public.new_password')"
                     />
+                    <InputError :message="form.errors.password" />
                     <div class="self-stretch text-gray-300 text-xs">
                         {{ $t('public.password_condition') }}
                     </div>
-                    <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
