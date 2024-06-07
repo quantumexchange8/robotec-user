@@ -129,5 +129,7 @@ return [
     "next" => "下一步",
     "already_have_account" => "已经有账户了吗?",
     "log_in_here" => "在此登录",
+    "full_amount" => "全部金额",
+    "clear" => "清除",
     
 ];

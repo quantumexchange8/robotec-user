@@ -7,6 +7,10 @@ import Input from '@/Components/Input.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ProgressBar from '@/Pages/Auth/Partials/ProgressBar.vue'
+import { ref } from 'vue';
+
+// 0, 1
+const step = ref('1');
 
 const form = useForm({
     fullName: '',
@@ -42,12 +46,13 @@ const submit = () => {
             </div>
         </div>
 
-        <ProgressBar />
+        <ProgressBar :step="step" />
 
         <form 
             @submit.prevent="submit"
             class="px-4 pt-3 flex flex-col items-center gap-10 self-stretch"
         >
+        <!-- page 1 (step 0) -->
             <div class="flex flex-col items-center gap-3 self-stretch">
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
                     <Label for="fullName" :value="$t('public.full_name')" :invalid="form.errors.fullName" />
@@ -56,6 +61,7 @@ const submit = () => {
                         id="fullName"
                         type="text"
                         class="block w-full"
+                        :invalid="form.errors.fullName"
                         :placeholder="$t('public.full_name_placeholder')"
                     />
                     <InputError :message="form.errors.fullName" />
@@ -68,6 +74,7 @@ const submit = () => {
                         id="email"
                         type="text"
                         class="block w-full"
+                        :invalid="form.errors.email"
                         :placeholder="$t('public.enter_email')"
                     />
                     <InputError :message="form.errors.email" />
@@ -80,19 +87,20 @@ const submit = () => {
                         id="phoneNumber"
                         type="text"
                         class="block w-full"
+                        :invalid="form.errors.phoneNumber"
                         :placeholder="$t('public.phone_number')"
                     />
                     <InputError :message="form.errors.phoneNumber" />
                 </div>
-
+<!-- page 2 (step 1) -->
                 <div class="flex flex-col items-start gap-1.5 self-stretch">
                     <Label for="password" :value="$t('public.create_password')" :invalid="form.errors.password" />
                     <Input
                         v-model="form.password"
                         id="password"
-                        type="password"
-                        class="block w-full"
-                        :placeholder="$t('public.new_password')"
+                        :is_password="true"
+                        :invalid="form.errors.password"
+                        :placeholderText="$t('public.new_password')"
                     />
                     <InputError :message="form.errors.password" />
                     <div class="self-stretch text-gray-300 text-xs">
@@ -105,14 +113,14 @@ const submit = () => {
                     <Input
                         v-model="form.password_confirmation"
                         id="confirmPassword"
-                        type="text"
-                        class="block w-full"
-                        :placeholder="$t('public.confirm_password_placeholder')"
+                        :is_password="true"
+                        :invalid="form.errors.password_confirmation"
+                        :placeholderText="$t('public.confirm_password_placeholder')"
                     />
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
             </div>
-
+<!-- based on step(0 / 1), display next block/ register block -->
             <div class="flex flex-col justify-center items-center self-stretch">
                 <Button
                     size="lg"

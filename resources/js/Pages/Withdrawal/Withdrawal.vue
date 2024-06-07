@@ -11,6 +11,8 @@ import CompleteStep2Illustration from '@/Pages/Withdrawal/Partials/CompleteStep2
 import WithdrawalHistory from '@/Pages/Withdrawal/Partials/WithdrawalHistory.vue'
 
 const step2 = true;
+const commisionWalletBal = ref('300.01');
+const amountButton = ref('full_amount');
 const is_disabled = ref(true);
 const usdtAddress = ref('asd');
 const withdrawalAmount = ref('');
@@ -36,10 +38,24 @@ const submitForm = () => {
     // });
 }
 
+const fullOrClear = () => {
+    if (amountButton.value === 'full_amount') {
+        withdrawalAmount.value = parseFloat(commisionWalletBal.value);
+    } else if (amountButton.value === 'clear') {
+        withdrawalAmount.value = '';
+    }
+}
+
 const feeCharge = ref('0.00');
 const receivable = ref('0.00')
 
 watch(withdrawalAmount, (newValue) => {
+    if (newValue > 0) {
+        amountButton.value = 'clear';
+    } else {
+        amountButton.value = 'full_amount';
+    }
+
     if (newValue >= 250 && usdtAddress.value) {
         is_disabled.value = false;
         feeCharge.value = (newValue * 0.1).toFixed(2);
@@ -91,19 +107,31 @@ const closeModal = () => {
                         <div class="text-white text-center font-semibold">{{ $t('public.commission_wallet_balance') }}</div>
                         <div class="text-gray-300 text-center text-xs">{{ $t('public.min_withdrawal_amount') }}</div>
                     </div>
-                    <div class="text-white text-center text-xxl font-semibold">$ 300.00</div>
+                    <div class="text-white text-center text-xxl font-semibold">$ {{ commisionWalletBal }}</div>
                 </div>
                 <div class="flex flex-col items-center gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <Label for="amount" :value="$t('public.amount')" :invalid="form.errors.amount" />
-                        <Input
-                            v-model="withdrawalAmount"
-                            id="amount"
-                            type="text"
-                            class="block w-full"
-                            placeholder="$ 0.00"
-                            :invalid="form.errors.amount"
-                        />
+                        <div class="relative w-full">
+                            <Input
+                                v-model="withdrawalAmount"
+                                id="amount"
+                                type="text"
+                                class="block w-full pr-32"
+                                placeholder="$ 0.00"
+                                :invalid="form.errors.amount"
+                            />
+                            <Button
+                                variant="transparent"
+                                type="button"
+                                class="max-w-fit absolute top-0.5 right-0 font-semibold"
+                                @click="fullOrClear"
+                            >
+                                <div :class="{'text-error-500': amountButton === 'clear'}">
+                                    {{ $t('public.'+ amountButton) }}
+                                </div>
+                            </Button>
+                        </div>
                         <InputError :message="form.errors.amount" />
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">

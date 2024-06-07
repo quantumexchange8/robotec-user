@@ -87,12 +87,10 @@ const submit = () => {
                         />
                         <Input
                             id="password"
-                            type="password"
-                            class="block w-full"
                             v-model="form.password"
+                            :is_password="true"
                             :invalid="form.errors.password"
-                            autocomplete="password"
-                            :placeholder="$t('public.enter_password')"
+                            :placeholderText="$t('public.enter_password')"
                         />
                         <InputError :message="form.errors.password" />
                     </div>

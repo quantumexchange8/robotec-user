@@ -129,5 +129,7 @@ return [
     "next" => "Seterusnya",
     "already_have_account" => "Sudah ada akaun?",
     "log_in_here" => "Log masuk di sini",
+    "full_amount" => "Amaun Penuh",
+    "clear" => "Padam",
     
 ];

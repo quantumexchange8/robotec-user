@@ -2,7 +2,11 @@
 import { WhiteCheckIcon } from '@/Components/Icons/solid';
 import { ref } from 'vue';
 
-const progress = ref('0');
+const props = defineProps({
+    step: String,
+});
+
+const progress = props.step;
 </script>
 
 <template>

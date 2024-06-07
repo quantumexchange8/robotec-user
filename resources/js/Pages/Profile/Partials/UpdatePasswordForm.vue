@@ -39,9 +39,8 @@ const updatePassword = () => {
                 <Input
                     v-model="form.current_password"
                     id="currentPassword"
-                    type="password"
-                    class="block w-full"
-                    :placeholder="$t('public.enter_current_password')"
+                    :is_password="true"
+                    :placeholderText="$t('public.enter_current_password')"
                     :invalid="form.errors.current_password"
                 />
                 <InputError :message="form.errors.current_password" />
@@ -52,9 +51,8 @@ const updatePassword = () => {
                 <Input
                     v-model="form.password"
                     id="newPassword"
-                    type="password"
-                    class="block w-full"
-                    :placeholder="$t('public.create_new_password')"
+                    :is_password="true"
+                    :placeholderText="$t('public.create_new_password')"
                     :invalid="form.errors.password"
                 />
                 <InputError :message="form.errors.password" />
@@ -68,9 +66,8 @@ const updatePassword = () => {
                 <Input
                     v-model="form.password_confirmation"
                     id="confirmPassword"
-                    type="password"
-                    class="block w-full"
-                    :placeholder="$t('public.confirm_password_placeholder')"
+                    :is_password="true"
+                    :placeholderText="$t('public.confirm_password_placeholder')"
                     :invalid="form.errors.password_confirmation"
                 />
                 <InputError :message="form.errors.password_confirmation" />

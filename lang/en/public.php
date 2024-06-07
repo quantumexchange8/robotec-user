@@ -79,7 +79,7 @@ return [
     "client_progress_2" => "Client Completed Steps 1 and 2!",
     "client_progress_2_desc" => "Your invited client has successfully completed Steps 1 and 2. Great job keeping them engaged through the process!",
     "view_withdrawal_history" => "View Withdrawal History",
-    "commission_wallet_balance" => "Commision Wallet Balance",
+    "commission_wallet_balance" => "Commission Wallet Balance",
     "min_withdrawal_amount" => "Min withdrawal amount: $ 250",
     "amount" => "Amount",
     "usdt_address" => "USDT Address",
@@ -129,5 +129,7 @@ return [
     "next" => "Next",
     "already_have_account" => "Already have an account?",
     "log_in_here" => "Log in here",
+    "full_amount" => "Full Amount",
+    "clear" => "Clear",
     
 ];
