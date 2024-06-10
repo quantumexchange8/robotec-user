@@ -6,13 +6,12 @@ const props = defineProps({
     step: String,
 });
 
-const progress = props.step;
 </script>
 
 <template>
     <div class="w-full py-6">
         <div 
-            v-if="progress === '0'"
+            v-if="props.step === '0'"
             class="mx-auto w-48 relative flex justify-center items-center"
         >
             <!-- Left shape -->
@@ -38,7 +37,7 @@ const progress = props.step;
         </div>
 
         <div 
-            v-if="progress === '1'"
+            v-if="props.step === '1'"
             class="mx-auto w-48 relative flex justify-center items-center"
         >
             <!-- Left shape -->
@@ -77,7 +76,7 @@ const progress = props.step;
         </div>
 
         <div 
-            v-if="progress === '2'"
+            v-if="props.step === '2'"
             class="mx-auto w-48 relative flex justify-center items-center"
         >
             <!-- Left shape -->

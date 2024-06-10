@@ -7,45 +7,87 @@ import Input from '@/Components/Input.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ProgressBar from '@/Pages/Auth/Partials/ProgressBar.vue'
-import { ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { ArrowNarrowLeftIcon } from '@/Components/Icons/outline';
 
-// 0, 1
-const step = ref('0');
+const props = defineProps({
+    referral_code: String,
+});
+
+const step = ref('1');
 
 const form = useForm({
-    fullName: '',
+    full_name: '',
     email: '',
-    phoneNumber:'',
+    phone_number:'',
     password: '',
     password_confirmation: '',
-    formStep: 0,
+    formStep: 1,
+    referral_code: props.referral_code,
 });
 
 const firstStep = () => {
-    // console.log(form.fullName);
-    // console.log(form.email);
-    // console.log(form.phoneNumber);
-    // form.post(route('register.firstStep'), {
-        // onSuccess: () => {
+    form.post(route('register.first.step'), {
+        onSuccess: () => {
             step.value = '1';
             form.formStep++;
-        // },
-    // });
+        },
+        onError: (e) => {
+            console.log(e);
+        }
+    });
 }
 
 const backToFirstStep = () => {
     step.value = '0';
     form.formStep--;
 }
-watch(step, (v) => {
-    console.log('new: '+ v);
-})
+
+const passwordRules = [
+    { regex: /.{8,}/, message: 'At least 8 characters' },
+    { regex: /[A-Z]+/, message: 'At least one uppercase letter' },
+    { regex: /[a-z]+/, message: 'At least one lowercase letter' },
+    { regex: /[0-9]+/, message: 'At least one number' },
+    { regex: /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]+/, message: 'At least one special character' }
+];
+
+const passwordValidation = computed(() => {
+    let valid = false;
+    let messages = [];
+
+    for (let condition of passwordRules) {
+        const isConditionValid = condition.regex.test(form.password);
+
+        if (isConditionValid) {
+            valid = true;
+        }
+
+        messages.push({
+            message: condition.message,
+            valid: isConditionValid,
+        });
+    }
+
+    // Check if the new password matches the confirm password
+    const isMatch = form.password === form.password_confirmation;
+
+    messages.push({
+        message: 'Password matched',
+        valid: isMatch && form.password !== '',
+    });
+
+    // Set valid to false if there's any condition that failed
+    valid = valid && isMatch;
+
+    return {valid, messages};
+});
+
 const submitForm = () => {
-    form.post(route('register'), {
+    form.post(route('register.store', props.referral_code), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
+
 </script>
 
 <template>
@@ -66,8 +108,9 @@ const submitForm = () => {
                 </div>
             </div>
         </div>
-
-        <ProgressBar :step="step" />
+{{ console.log(passwordValidation)
+ }}
+        <ProgressBar :step="passwordValidation.valid && step === '1' ? '2' : step" />
 
         <form 
             @submit.prevent="submitForm"
@@ -76,23 +119,23 @@ const submitForm = () => {
 <!-- page 1 (step 0) -->
             <div class="flex flex-col items-center gap-3 self-stretch">
                 <div 
-                    v-show="step === '0'"
+                    v-show="form.formStep === 0"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
-                    <Label for="fullName" :value="$t('public.full_name')" :invalid="form.errors.fullName" />
+                    <Label for="fullName" :value="$t('public.full_name')" :invalid="form.errors.full_name" />
                     <Input
-                        v-model="form.fullName"
+                        v-model="form.full_name"
                         id="fullName"
                         type="text"
                         class="block w-full"
-                        :invalid="form.errors.fullName"
+                        :invalid="form.errors.full_name"
                         :placeholder="$t('public.full_name_placeholder')"
                     />
-                    <InputError :message="form.errors.fullName" />
+                    <InputError :message="form.errors.full_name" />
                 </div>
 
                 <div 
-                    v-show="step === '0'"
+                    v-show="form.formStep === 0"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
                     <Label for="email" :value="$t('public.email')" :invalid="form.errors.email" />
@@ -108,23 +151,23 @@ const submitForm = () => {
                 </div>
 
                 <div 
-                    v-show="step === '0'"
+                    v-show="form.formStep === 0"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
-                    <Label for="phoneNumber" :value="$t('public.phone_number')" :invalid="form.errors.phoneNumber" />
+                    <Label for="phoneNumber" :value="$t('public.phone_number')" :invalid="form.errors.phone_number" />
                     <Input
-                        v-model="form.phoneNumber"
+                        v-model="form.phone_number"
                         id="phoneNumber"
                         type="text"
                         class="block w-full"
-                        :invalid="form.errors.phoneNumber"
+                        :invalid="form.errors.phone_number"
                         :placeholder="$t('public.phone_number')"
                     />
-                    <InputError :message="form.errors.phoneNumber" />
+                    <InputError :message="form.errors.phone_number" />
                 </div>
 <!-- page 2 (step 1) -->
                 <div 
-                    v-show="step === '1'"
+                    v-show="form.formStep === 1"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
                     <Label for="password" :value="$t('public.create_password')" :invalid="form.errors.password" />
@@ -142,7 +185,7 @@ const submitForm = () => {
                 </div>
 
                 <div 
-                    v-show="step === '1'"
+                    v-show="form.formStep === 1"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
                     <Label for="confirmPassword" :value="$t('public.confirm_password')" :invalid="form.errors.password_confirmation" />
@@ -158,11 +201,12 @@ const submitForm = () => {
             </div>
 <!-- based on step(0 / 1), display next block/ register block -->
             <div class="flex flex-col justify-center items-center gap-3 self-stretch">
-                <template v-if="step === '0'">
+                <template v-if="form.formStep === 0">
                     <Button
                         size="lg"
                         type="button"
                         class="w-full font-semibold"
+                        :disabled="form.processing"
                         @click="firstStep"
                     >
                         {{ $t('public.next') }}
@@ -187,6 +231,7 @@ const submitForm = () => {
                     <Button
                         size="lg"
                         class="w-full font-semibold"
+                        :disabled="form.processing"
                     >
                         {{ $t('public.register') }}
                     </Button>
@@ -195,6 +240,7 @@ const submitForm = () => {
                         type="button"
                         size="lg"
                         class="w-full font-semibold flex gap-2"
+                        :disabled="form.processing"
                         v-slot="{ iconSizeClasses }"
                         @click="backToFirstStep"
                     >
