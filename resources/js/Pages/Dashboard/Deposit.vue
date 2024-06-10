@@ -9,6 +9,7 @@ import Input from '@/Components/Input.vue';
 import Label from '@/Components/Label.vue';
 import Button from '@/Components/Button.vue';
 import { computed, onMounted, ref, watch } from "vue";
+import Tooltip from "@/Components/Tooltip.vue";
 
 const is_disabled = ref(true);
 const amount = ref('');
@@ -124,7 +125,7 @@ watch(txId, () => {
     <AuthenticatedLayout>
         <div class="flex py-3 px-4 flex-col items-center gap-3">
             <div class="py-2 items-center self-stretch text-white text-xl font-semibold">{{ $t('public.deposit') }}</div>
-            
+
             <form @submit.prevent="submitForm">
                 <div class="flex flex-col items-center gap-8 self-stretch">
                     <div class="flex p-5 flex-col items-center gap-2 self-stretch rounded-2xl bg-gray-800">
@@ -136,7 +137,7 @@ watch(txId, () => {
                             {{ $t('public.qr_countdown_desc') }}
                         </div>
                         <div id="time" class="text-error-500 text-center text-sm font-semibold">
-                            {{ formatTime }} {{ $t('public.minutes') }} 
+                            {{ formatTime }} {{ $t('public.minutes') }}
                         </div>
                         <div class="shrink-0">
                             <Qrcode :value="qrAddress" :size="160" render-as="svg" :margin="1" level="M" background="#F7F7F7" />
@@ -145,16 +146,20 @@ watch(txId, () => {
                             <div class="text-gray-300 text-xxs" id="WalletCode">
                                 {{ qrAddress }}
                             </div>
-                            <div class="relative" @click="hoverCopy = true" @mouseleave="hoverCopy = false">
+                            <Tooltip content="Copied!" placement="top">
                                 <Copy01Icon class="text-bilbao-700 hover:cursor-pointer hover:text-bilbao-800 focus:text-bilbao-900" @click="copyCode" />
-                                <div
-                                    v-show="hoverCopy"
-                                    id="copied_success"
-                                    class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"
-                                >
-                                    {{ $t('public.copied') }}
-                                </div>
-                            </div>
+                            </Tooltip>
+
+<!--                            <div class="relative" @click="hoverCopy = true" @mouseleave="hoverCopy = false">-->
+<!--                                <Copy01Icon class="text-bilbao-700 hover:cursor-pointer hover:text-bilbao-800 focus:text-bilbao-900" @click="copyCode" />-->
+<!--                                <div-->
+<!--                                    v-show="hoverCopy"-->
+<!--                                    id="copied_success"-->
+<!--                                    class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"-->
+<!--                                >-->
+<!--                                    {{ $t('public.copied') }}-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
