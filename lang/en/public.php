@@ -131,5 +131,8 @@ return [
     "log_in_here" => "Log in here",
     "full_amount" => "Full Amount",
     "clear" => "Clear",
+    "register_agree_desc" => "By clicking “Register” you agree to Robotec's Terms of Service and Privacy Policy applies.",
+    "register" => "Register",
+    "go_back" => "Go back",
     
 ];

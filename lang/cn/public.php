@@ -131,5 +131,8 @@ return [
     "log_in_here" => "在此登录",
     "full_amount" => "全部金额",
     "clear" => "清除",
+    "register_agree_desc" => "点击“注册”即表示您同意适用于Robotec的服务条款和隐私政策。",
+    "register" => "注册",
+    "go_back" => "返回",
     
 ];

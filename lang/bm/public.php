@@ -131,5 +131,8 @@ return [
     "log_in_here" => "Log masuk di sini",
     "full_amount" => "Amaun Penuh",
     "clear" => "Padam",
+    "register_agree_desc" => "Dengan mengklik 'Daftar', anda bersetuju dengan Terma Perkhidmatan dan Polisi Privasi Robotec yang terpakai.",
+    "register" => "Daftar",
+    "go_back" => "Kembali",
     
 ];

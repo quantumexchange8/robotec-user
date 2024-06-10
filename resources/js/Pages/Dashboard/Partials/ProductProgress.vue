@@ -155,10 +155,10 @@ const transferring = () => {
                     type="button"
                     size="lg"
                     :disabled="true"
-                    class="font-semibold"
+                    class="font-semibold flex gap-2"
                     v-slot="{ iconSizeClasses }"
                 >
-                    <Lock01Icon class="pr-2 text-success-500"/> 
+                    <Lock01Icon /> 
                     {{ $t('public.complete_step_1_unlock') }}
                 </Button>
 
@@ -167,7 +167,7 @@ const transferring = () => {
                     class="flex flex-col items-start gap-2 self-stretch"
                 >
                     <div class="text-xs font-medium">
-                        <span class="text-gray-300">1st {{ $t('public.investment') }}: </span>
+                        <span class="text-gray-300">{{ $t('public.investment') }} 1: </span>
                         <span class="text-success-500">$ 250.00</span>
                     </div>
 
