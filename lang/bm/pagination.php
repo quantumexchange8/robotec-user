@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'Previous' => 'Previous',
-    'Back' => 'Back',
-    'Next' => 'Next',
+    'Previous' => 'Sebelumnya',
+    'Back' => 'Kembali',
+    'Next' => 'Seterusnya',
 
 ];

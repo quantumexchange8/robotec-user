@@ -124,7 +124,7 @@ const closeModal = () => {
                             <Button
                                 variant="transparent"
                                 type="button"
-                                class="max-w-fit absolute top-0.5 right-0 font-semibold"
+                                class="max-w-fit absolute top-1 right-0 font-semibold"
                                 @click="fullOrClear"
                             >
                                 <div :class="{'text-error-500': amountButton === 'clear'}">
