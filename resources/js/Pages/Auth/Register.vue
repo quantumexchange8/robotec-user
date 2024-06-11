@@ -9,17 +9,22 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ProgressBar from '@/Pages/Auth/Partials/ProgressBar.vue'
 import { computed, ref } from 'vue';
 import { ArrowNarrowLeftIcon } from '@/Components/Icons/outline';
+import CountryLists from '/public/data/countries.json'
+import Combobox from "@/Components/Combobox.vue";
 
 const props = defineProps({
     referral_code: String,
 });
 
 const step = ref('0');
+const malaysiaIndex = CountryLists.findIndex(country => country.label === "Malaysia");
+const defaultDialCode = malaysiaIndex !== -1 ? CountryLists[malaysiaIndex] : null;
 
 const form = useForm({
     full_name: '',
     email: '',
-    phone_number:'',
+    dial_code: defaultDialCode,
+    phone_number: '',
     password: '',
     password_confirmation: '',
     formStep: 0,
@@ -95,13 +100,13 @@ const submitForm = () => {
 
         <ProgressBar :step="validatePassword() && step === '1' ? '2' : step" />
 
-        <form 
+        <form
             @submit.prevent="submitForm"
             class="px-4 pt-3 flex flex-col items-center gap-10 self-stretch"
         >
 <!-- page 1 (step 0) -->
             <div class="flex flex-col items-center gap-3 self-stretch">
-                <div 
+                <div
                     v-show="form.formStep === 0"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
@@ -117,7 +122,7 @@ const submitForm = () => {
                     <InputError :message="form.errors.full_name" />
                 </div>
 
-                <div 
+                <div
                     v-show="form.formStep === 0"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
@@ -133,23 +138,34 @@ const submitForm = () => {
                     <InputError :message="form.errors.email" />
                 </div>
 
-                <div 
+                <div
                     v-show="form.formStep === 0"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
                     <Label for="phoneNumber" :value="$t('public.phone_number')" :invalid="form.errors.phone_number" />
-                    <Input
-                        v-model="form.phone_number"
-                        id="phoneNumber"
-                        type="text"
-                        class="block w-full"
-                        :invalid="form.errors.phone_number"
-                        :placeholder="$t('public.phone_number')"
-                    />
+                    <div class="flex gap-1.5 items-center self-stretch">
+                        <Combobox
+                            :options="CountryLists"
+                            id="dial_code"
+                            class="block w-1/3"
+                            :invalid="form.errors.phone_number"
+                            v-model="form.dial_code"
+                            isPhoneCode
+                        />
+
+                        <Input
+                            v-model="form.phone_number"
+                            id="phoneNumber"
+                            type="text"
+                            class="block w-full"
+                            :invalid="form.errors.phone_number"
+                            :placeholder="$t('public.phone_number')"
+                        />
+                    </div>
                     <InputError :message="form.errors.phone_number" />
                 </div>
 <!-- page 2 (step 1) -->
-                <div 
+                <div
                     v-show="form.formStep === 1"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >
@@ -167,7 +183,7 @@ const submitForm = () => {
                     </div>
                 </div>
 
-                <div 
+                <div
                     v-show="form.formStep === 1"
                     class="flex flex-col items-start gap-1.5 self-stretch"
                 >

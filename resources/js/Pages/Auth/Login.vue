@@ -57,12 +57,10 @@ const submit = () => {
 
                 <div class="flex flex-col items-center gap-3 self-stretch">
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label 
-                            for="email" 
-                            :value="$t('public.email')" 
-                            class="text-gray-300" 
-                            :invalid="form.errors.email" 
-                            :is_required="false" 
+                        <Label
+                            for="email"
+                            :value="$t('public.email')"
+                            :invalid="form.errors.email"
                         />
                         <Input
                             id="email"
@@ -78,12 +76,10 @@ const submit = () => {
                     </div>
 
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label 
-                            for="password" 
-                            :value="$t('public.password')" 
-                            class="text-gray-300" 
-                            :invalid="form.errors.password" 
-                            :is_required="false" 
+                        <Label
+                            for="password"
+                            :value="$t('public.password')"
+                            :invalid="form.errors.password"
                         />
                         <Input
                             id="password"
@@ -114,7 +110,7 @@ const submit = () => {
                     </Button>
                 </div>
 
-                <Button 
+                <Button
                     variant="primary"
                     size="lg"
                     class="w-full font-semibold"

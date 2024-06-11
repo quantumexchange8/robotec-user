@@ -8,6 +8,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import Input from '@/Components/Input.vue';
 import Label from '@/Components/Label.vue';
 import Button from '@/Components/Button.vue';
+import Checkbox from '@/Components/Checkbox.vue';
 import { computed, onMounted, ref, watch } from "vue";
 import Tooltip from "@/Components/Tooltip.vue";
 
@@ -73,38 +74,25 @@ const copyCode = () => {
 }
 
 const form = useForm({
-    depositAmount: null,
+    amount: '',
     txid: '',
+    terms: ''
 });
 
 const submitForm = () => {
-    form.depositAmount = amount;
-    form.txid = txId;
-    return;
+    form.amount = amount.value;
+    form.txid = txId.value;
 
-    is_disabled = form.processing;
     form.post(route('dashboard.deposit'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
         },
-        onError: () => {
-            if (form.errors.depositAmount) {
-                form.reset('depositAmount');
-            }
-            if (form.errors.txid) {
-                form.reset('txid');
-            }
-        }
     })
 }
 
 const buttonStatus = () => {
-    if (amount.value && txId.value) {
-        is_disabled.value = false;
-    } else {
-        is_disabled.value = true;
-    }
+    is_disabled.value = !(amount.value && txId.value);
 }
 
 watch(amount, () => {
@@ -163,19 +151,19 @@ watch(txId, () => {
                         </div>
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="deposit_amount" :value="$t('public.deposit_amount')" :invalid="form.errors.depositAmount" />
+                        <Label for="deposit_amount" :value="$t('public.deposit_amount')" :invalid="form.errors.amount" />
                         <Input
                             v-model="amount"
                             id="deposit_amount"
                             type="text"
                             class="block w-full"
                             placeholder="$ 0.00"
-                            :invalid="form.errors.depositAmount"
+                            :invalid="form.errors.amount"
                         />
-                        <InputError :message="form.errors.depositAmount" />
+                        <InputError :message="form.errors.amount" />
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="tx_id" value="TxID"  :invalid="form.errors.txid" />
+                        <Label for="tx_id" value="TxID" :invalid="form.errors.txid" />
                         <Input
                             v-model="txId"
                             id="tx_id"
@@ -186,15 +174,19 @@ watch(txId, () => {
                         />
                         <InputError :message="form.errors.txid" />
                     </div>
-                    <div class="flex items-start gap-3 self-stretch">
-                        <div class="text-white">checkbox</div>
-                        <div class="text-gray-300 text-xxs">
-                            {{ $t('public.deposit_checkbox_desc') }}
+                    <div class="flex flex-col items-start self-stretch">
+                        <div class="flex gap-3 items-start self-stretch">
+                            <Checkbox id="terms" v-model="form.terms"/>
+                            <Label for="terms" class="text-gray-300 text-xxs">
+                                {{ $t('public.deposit_checkbox_desc') }}
+                            </Label>
                         </div>
+                        <InputError :message="form.errors.terms" />
                     </div>
+
                     <Button
                         size="lg"
-                        :disabled="is_disabled"
+                        :disabled="is_disabled || form.processing"
                         class="w-full font-semibold"
                     >
                         {{ $t('public.deposit_now') }}
