@@ -134,5 +134,11 @@ return [
     "register_agree_desc" => "Dengan mengklik 'Daftar', anda bersetuju dengan Terma Perkhidmatan dan Polisi Privasi Robotec yang terpakai.",
     "register" => "Daftar",
     "go_back" => "Kembali",
+    "invalid_referral_code" => "Kod Rujukan Tidak Sah",
+    "invalid_referral_code_desc" => "Sila semak pautan pendaftaran anda dengan perujuk anda.",
+    "success_registration" => "Akaun Telah Dibuat!",
+    "successfully_registration" => "Tahniah! Akaun anda telah berjaya dicipta. Selamat datang!",
+    "email_in_use" => "Emel Telah Digunakan",
+    "email_in_use_desc" => "Alamat emel yang anda masukkan sudah berkaitan dengan akaun sedia ada. Sila gunakan emel yang berbeza atau log masuk.",
     
 ];

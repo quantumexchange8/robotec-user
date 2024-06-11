@@ -16,11 +16,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -48,9 +44,9 @@ class User extends Authenticatable
     public function setReferralId(): void
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $randomString = 'LAT';
+        $randomString = 'RBT';
 
-        $length = 10 - strlen($randomString); // Remaining length after 'LAT'
+        $length = 10 - strlen($randomString); // Remaining length after 'RBT'
 
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
@@ -58,6 +54,13 @@ class User extends Authenticatable
 
         $this->referral_code = $randomString;
         $this->save();
+    }
+
+    public function getChildrenIds(): array
+    {
+        return User::query()->where('hierarchyList', 'like', '%-' . $this->id . '-%')
+            ->pluck('id')
+            ->toArray();
     }
     
     public function wallets(): \Illuminate\Database\Eloquent\Relations\HasMany

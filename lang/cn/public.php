@@ -134,5 +134,11 @@ return [
     "register_agree_desc" => "点击“注册”即表示您同意适用于Robotec的服务条款和隐私政策。",
     "register" => "注册",
     "go_back" => "返回",
+    "invalid_referral_code" => "推荐码无效",
+    "invalid_referral_code_desc" => "请与您的推荐人检查您的注册链接。",
+    "success_registration" => "账户已创建！",
+    "successfully_registration" => "恭喜！您的账户已成功创建。欢迎加入！",
+    "email_in_use" => "电子邮件已在使用中",
+    "email_in_use_desc" => "您输入的电子邮件地址已与现有账户关联。 请使用不同的电子邮件地址或登录。",
     
 ];

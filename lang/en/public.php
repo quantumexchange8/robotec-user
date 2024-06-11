@@ -134,5 +134,11 @@ return [
     "register_agree_desc" => "By clicking “Register” you agree to Robotec's Terms of Service and Privacy Policy applies.",
     "register" => "Register",
     "go_back" => "Go back",
+    "invalid_referral_code" => "Invalid Referral Code",
+    "invalid_referral_code_desc" => "Please check your register link with your referrer.",
+    "success_registration" => "Account Created!",
+    "successfully_registration" => "Congratulations! Your account has been successfully created. Welcome aboard!",
+    "email_in_use" => "Email Already in Use",
+    "email_in_use_desc" => "The email address you entered is already associated with an existing account. Please use a different email or log in.",
     
 ];

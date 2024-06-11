@@ -7,14 +7,14 @@ import Input from '@/Components/Input.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ProgressBar from '@/Pages/Auth/Partials/ProgressBar.vue'
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { ArrowNarrowLeftIcon } from '@/Components/Icons/outline';
 
 const props = defineProps({
     referral_code: String,
 });
 
-const step = ref('1');
+const step = ref('0');
 
 const form = useForm({
     full_name: '',
@@ -22,7 +22,7 @@ const form = useForm({
     phone_number:'',
     password: '',
     password_confirmation: '',
-    formStep: 1,
+    formStep: 0,
     referral_code: props.referral_code,
 });
 
@@ -31,9 +31,6 @@ const firstStep = () => {
         onSuccess: () => {
             step.value = '1';
             form.formStep++;
-        },
-        onError: (e) => {
-            console.log(e);
         }
     });
 }
@@ -52,35 +49,22 @@ const passwordRules = [
 ];
 
 const passwordValidation = computed(() => {
-    let valid = false;
-    let messages = [];
+    const errors = passwordRules
+    .filter(rule => !rule.regex.test(form.password))
+    .map(rule => rule.message);
 
-    for (let condition of passwordRules) {
-        const isConditionValid = condition.regex.test(form.password);
-
-        if (isConditionValid) {
-            valid = true;
-        }
-
-        messages.push({
-            message: condition.message,
-            valid: isConditionValid,
-        });
+    if (form.password !== form.password_confirmation) {
+        errors.push('Passwords do not match');
     }
 
-    // Check if the new password matches the confirm password
-    const isMatch = form.password === form.password_confirmation;
-
-    messages.push({
-        message: 'Password matched',
-        valid: isMatch && form.password !== '',
-    });
-
-    // Set valid to false if there's any condition that failed
-    valid = valid && isMatch;
-
-    return {valid, messages};
+    return errors;
 });
+
+const validatePassword = () => {
+    if (passwordValidation.value.length === 0) {
+        return true;
+    }
+};
 
 const submitForm = () => {
     form.post(route('register.store', props.referral_code), {
@@ -108,9 +92,8 @@ const submitForm = () => {
                 </div>
             </div>
         </div>
-{{ console.log(passwordValidation)
- }}
-        <ProgressBar :step="passwordValidation.valid && step === '1' ? '2' : step" />
+
+        <ProgressBar :step="validatePassword() && step === '1' ? '2' : step" />
 
         <form 
             @submit.prevent="submitForm"
