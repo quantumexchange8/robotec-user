@@ -168,3 +168,53 @@ export const ProgressCurrentIcon = defineComponent({
         )
     },
 })
+
+export const AlertSuccessIcon = defineComponent({
+    setup() {
+        return () => (
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="24" fill="url(#paint0_linear_190_5192)"/>
+                <path
+                    d="M24 0C10.7676 0 0 10.7664 0 23.9972C0 37.2281 10.7676 48 24 48C37.2324 48 48 37.2336 48 24.0028C48 10.7719 37.2324 0 24 0ZM34.3411 19.4226L22.3383 32.3434C21.7955 32.9304 21.0533 33.2295 20.3056 33.2295C19.663 33.2295 19.0261 33.008 18.4999 32.5649L12.036 27.0266C10.8728 26.0298 10.7399 24.2852 11.7369 23.1222C12.7339 21.9592 14.4787 21.8207 15.6418 22.8231L20.084 26.6279L30.2756 15.6566C31.3169 14.5379 33.0672 14.4714 34.1916 15.5126C35.3159 16.5538 35.3769 18.3039 34.3411 19.4226Z"
+                    fill="url(#paint1_linear_190_5192)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_190_5192" x1="44.5968" y1="8.66785" x2="-15.2182" y2="0.397062"
+                                    gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="1" stop-color="white" stop-opacity="0.61"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_190_5192" x1="48" y1="0" x2="14.1556" y2="39.5827"
+                                    gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#B2F763"/>
+                        <stop offset="1" stop-color="#26AB3F"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        )
+    },
+})
+
+export const AlertWarningIcon = defineComponent({
+    setup() {
+        return () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="24" fill="url(#paint0_linear_190_5201)"/>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24C0 10.7452 10.7452 0 24 0C37.2548 0 48 10.7452 48 24ZM24.0001 30.2458C25.5007 30.2458 26.7171 29.0293 26.7171 27.5287V11.52C26.7171 10.0194 25.5007 8.80297 24.0001 8.80297C22.4995 8.80297 21.2831 10.0194 21.2831 11.52V27.5287C21.2831 29.0293 22.4995 30.2458 24.0001 30.2458ZM23.9808 40.0088C22.3902 40.0088 21.1008 38.7193 21.1008 37.1288C21.1008 35.5382 22.3902 34.2488 23.9808 34.2488H24.0192C25.6098 34.2488 26.8992 35.5382 26.8992 37.1288C26.8992 38.7193 25.6098 40.0088 24.0192 40.0088H23.9808Z"
+                      fill="url(#paint1_linear_190_5201)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_190_5201" x1="44.5968" y1="8.66785" x2="-15.2182" y2="0.397062"
+                                    gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="1" stop-color="white" stop-opacity="0.61"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_190_5201" x1="48" y1="0" x2="14.1556" y2="39.5827"
+                                    gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FCD34D"/>
+                        <stop offset="1" stop-color="#D97706"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        )
+    },
+})

@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
      */
     Route::prefix('transaction')->group(function () {
         Route::get('/withdrawal', [TransactionController::class, 'withdrawal'])->name('transaction.withdrawal');
+
+        //purchase item
+        Route::post('/purchaseItem', [TransactionController::class, 'purchaseItem'])->name('transaction.purchaseItem');
     });
 
 });

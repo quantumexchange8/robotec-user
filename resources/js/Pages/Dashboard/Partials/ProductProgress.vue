@@ -37,7 +37,7 @@ const purchasingRobotec = () => {
     closeModal();
 }
 
-/* 
+/*
     status should filter out the condition of the user
     create_account -> when step 1 done (once)
     fund_in -> after create_account done && when no investment (repeatable)
@@ -110,7 +110,7 @@ const transferring = () => {
                     </div>
                 </div>
 
-                <div 
+                <div
                     v-if="step1"
                     class="flex py-3 px-4 justify-center self-stretch rounded-lg text-success-500 text-center text-sm font-semibold"
                     style="background: linear-gradient(180deg, rgba(10, 98, 23, 0.04) 0%, rgba(10, 98, 23, 0.20) 100%);"
@@ -158,11 +158,11 @@ const transferring = () => {
                     class="font-semibold flex gap-2"
                     v-slot="{ iconSizeClasses }"
                 >
-                    <Lock01Icon /> 
+                    <Lock01Icon />
                     {{ $t('public.complete_step_1_unlock') }}
                 </Button>
 
-                <div 
+                <div
                     v-if="investmentStatus"
                     class="flex flex-col items-start gap-2 self-stretch"
                 >
@@ -183,7 +183,7 @@ const transferring = () => {
                         {{ $t('public.transfer') }}
                     </Button>
 
-                    <div 
+                    <div
                         v-else
                         class="flex py-3 px-4 justify-center items-center self-stretch rounded-lg bg-gray-900 text-white text-center text-sm font-semibold"
                     >
@@ -200,16 +200,18 @@ const transferring = () => {
         @close="closeModal"
     >
         <template v-if="modalComponent === 'purchase_robotec'">
-            <PurchaseRobotecForm @closeModal = "closeModal" @purchasingRobotec="purchasingRobotec" />
+            <PurchaseRobotecForm
+                @update:productProgressModal="productProgressModal = $event"
+            />
         </template>
-        
+
         <template v-if="modalComponent === 'fund_in' || modalComponent === 'top_up_capital'">
             <InvestmentForm :modalType="modalComponent" @closeModal = "closeModal" @investment="investing" />
         </template>
-        
+
         <template v-if="modalComponent === 'transfer'">
             <TransferForm @closeModal = "closeModal" @transferring="transferring" />
         </template>
-        
+
     </Modal>
 </template>

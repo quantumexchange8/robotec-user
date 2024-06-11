@@ -1,5 +1,5 @@
 <script setup>
-import {CheckCircleIcon} from '@/Components/Icons/solid';
+import {AlertSuccessIcon, AlertWarningIcon} from '@/Components/Icons/solid';
 import Button from "@/Components/Button.vue";
 import {computed} from "vue";
 
@@ -7,7 +7,7 @@ const props = defineProps({
     intent: {
         type: String,
         validator(value) {
-            return ['success', 'warning'].includes(value)
+            return ['success', 'warning', ''].includes(value)
         },
         default: 'success'
     },
@@ -25,8 +25,8 @@ const props = defineProps({
 
 const iconComponent = computed(() => {
     const icons = {
-        success: CheckCircleIcon,
-        warning: alertTriangle
+        success: AlertSuccessIcon,
+        warning: AlertWarningIcon
     }
 
     return icons[props.intent]
@@ -42,10 +42,10 @@ function dismiss() {
         <transition leave-active-class="duration-200">
             <div
                 v-show="show"
-                class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
+                class="fixed inset-0 z-50"
                 scroll-region
             >
-                <transition
+                <Transition
                     enter-active-class="ease-out duration-200"
                     enter-from-class="opacity-0"
                     enter-to-class="opacity-100"
@@ -59,49 +59,42 @@ function dismiss() {
                         @click="dismiss"
                     >
                         <div
-                            class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"
+                            class="absolute inset-0 bg-gray-800 opacity-75"
                         />
                     </div>
-                </transition>
+                </Transition>
 
-                <transition
+                <Transition
                     enter-active-class="ease-out duration-300"
                     enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     enter-to-class="opacity-100 translate-y-0 sm:scale-100"
                     leave-active-class="ease-in duration-200"
                     leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                     leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-80 md:w-full space-y-4"
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[328px]"
                 >
-                    <div v-if="props.show" class="px-4 py-6 flex flex-col gap-5 bg-gray-100 dark:bg-gray-700 rounded-xl max-w-md">
-                        <component :is="iconComponent" />
+                    <div v-if="props.show" class="px-4 py-8 flex flex-col gap-8 bg-gray-900 rounded-xl w-full max-w-[328px] mx-auto">
+                        <div class="flex items-center justify-center">
+                            <component :is="iconComponent" />
+                        </div>
 
-                        <div class="px-2 space-y-2">
-                            <h2 class="text-xl font-semibold text-gray-700 dark:text-white">{{ props.title }}</h2>
-                            <div class="text-sm font-normal text-gray-700 dark:text-gray-400">
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="text-sm font-semibold text-white text-center">
+                                {{ title }}
+                            </div>
+                            <div class="text-xs font-normal text-neutral-400 text-center">
                                 <slot />
                             </div>
                         </div>
-                        <div class="px-2 flex flex-col items-start gap-3">
-                            <Button
-                                type="button"
-                                class="w-full flex justify-center"
-                                @click="dismiss"
-                            >
-                                {{ alertButton ?? 'OK' }}
-                            </Button>
-                            <Button
-                                v-if="alertButton !== 'OK'"
-                                type="button"
-                                class="w-full flex justify-center"
-                                variant="primary-transparent"
-                                @click="dismiss"
-                            >
-                                {{ $t('public.later') }}
-                            </Button>
-                        </div>
+                        <Button
+                            type="button"
+                            class="w-full flex justify-center"
+                            @click="dismiss"
+                        >
+                            {{ alertButton ?? 'OK' }}
+                        </Button>
                     </div>
-                </transition>
+                </Transition>
             </div>
         </transition>
     </teleport>

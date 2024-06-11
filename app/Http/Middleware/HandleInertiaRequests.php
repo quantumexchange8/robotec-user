@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
             'title' => session('title'),
             'success' => session('success'),
             'warning' => session('warning'),
+            'alertButton' => session('alertButton'),
             'locale' => session('locale') ? session('locale') : app()->getLocale(),
         ];
     }
