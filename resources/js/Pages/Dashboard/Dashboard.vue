@@ -1,9 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import HeaderReferral from './Partials/HeaderReferral.vue';
 import WalletInfo from './Partials/WalletInfo.vue';
 import ProductProgress from './Partials/ProductProgress.vue';
+
+const user = usePage().props.auth.user;
 </script>
 
 <template>
@@ -14,9 +16,9 @@ import ProductProgress from './Partials/ProductProgress.vue';
             <div class="flex py-2 justify-between items-center self-stretch">
                 <div class="flex flex-col justify-center items-start">
                     <div class="self-stretch text-white text-xs font-medium">{{ $t('public.welcome_back') }}</div>
-                    <div class="self-stretch text-white text-lg font-semibold">Amanda Watson</div>
+                    <div class="self-stretch text-white text-lg font-semibold">{{ user.name }}</div>
                 </div>
-                <HeaderReferral />
+                <HeaderReferral :user="user" />
             </div>
         </template>
 

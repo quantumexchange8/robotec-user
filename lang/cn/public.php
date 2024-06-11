@@ -140,5 +140,7 @@ return [
     "successfully_registration" => "恭喜！您的账户已成功创建。欢迎加入！",
     "email_in_use" => "电子邮件已在使用中",
     "email_in_use_desc" => "您输入的电子邮件地址已与现有账户关联。 请使用不同的电子邮件地址或登录。",
+    "copy_error" => "抱歉，无法复制。",
+    "try_again_later" => "请稍后重试！",
     
 ];

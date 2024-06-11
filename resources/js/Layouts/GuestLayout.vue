@@ -7,7 +7,7 @@ import Button from '@/Components/Button.vue';
 import Label from '@/Components/Label.vue';
 import {Head, usePage} from '@inertiajs/vue3'
 import ToastList from "@/Components/ToastList.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {Inertia} from "@inertiajs/inertia";
 import Alert from "@/Components/Alert.vue";
 import {loadLanguageAsync} from "laravel-vue-i18n";
@@ -51,6 +51,9 @@ let removeFinishEventListener = Inertia.on("finish", () => {
     }
 });
 
+onMounted(() => {
+    changeLanguage(currentLocale.value)
+});
 </script>
 
 <template>

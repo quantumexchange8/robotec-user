@@ -140,5 +140,7 @@ return [
     "successfully_registration" => "Tahniah! Akaun anda telah berjaya dicipta. Selamat datang!",
     "email_in_use" => "Emel Telah Digunakan",
     "email_in_use_desc" => "Alamat emel yang anda masukkan sudah berkaitan dengan akaun sedia ada. Sila gunakan emel yang berbeza atau log masuk.",
+    "copy_error" => "Maaf, tidak dapat disalin.",
+    "try_again_later" => "Sila cuba sebentar lagi!",
     
 ];

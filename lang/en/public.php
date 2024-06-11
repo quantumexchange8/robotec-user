@@ -140,5 +140,7 @@ return [
     "successfully_registration" => "Congratulations! Your account has been successfully created. Welcome aboard!",
     "email_in_use" => "Email Already in Use",
     "email_in_use_desc" => "The email address you entered is already associated with an existing account. Please use a different email or log in.",
+    "copy_error" => "Oops, unable to copy",
+    "try_again_later" => "Please try again later!",
     
 ];

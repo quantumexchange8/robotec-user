@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import { Upload01Icon, Key01Icon, PlusIcon } from '@/Components/Icons/outline';
 import Input from '@/Components/Input.vue';
@@ -9,6 +9,7 @@ import Modal from '@/Components/Modal.vue';
 import { ref } from 'vue';
 import AddUSDTAddressForm from './Partials/AddUSDTAddressForm.vue';
 
+const user = usePage().props.auth.user;
 const usdt = '';
 
 const profileModal = ref(false);
@@ -68,15 +69,15 @@ const closeModal = () => {
                 <div class="flex flex-col items-start gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-1 self-stretch">
                         <div class="text-neutral-500 text-sm font-medium">{{ $t('public.name') }}</div>
-                        <div class="text-gray-100 font-semibold">Amanda Watson</div>
+                        <div class="text-gray-100 font-semibold">{{ user.name }}</div>
                     </div>
                     <div class="flex flex-col items-start gap-1 self-stretch">
                         <div class="text-neutral-500 text-sm font-medium">{{ $t('public.email') }}</div>
-                        <div class="text-gray-100 font-semibold">you@example.com</div>
+                        <div class="text-gray-100 font-semibold">{{ user.email }}</div>
                     </div>
                     <div class="flex flex-col items-start gap-1 self-stretch">
                         <div class="text-neutral-500 text-sm font-medium">{{ $t('public.phone_number') }}</div>
-                        <div class="text-gray-100 font-semibold">+60 162739223</div>
+                        <div class="text-gray-100 font-semibold">{{ user.phone }}</div>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,11 @@ import Input from '@/Components/Input.vue';
 import Qrcode from "qrcode.vue";
 import EmptyQrIllustration from './EmptyQrIllustration.vue';
 import { ref } from 'vue';
+import Tooltip from '@/Components/Tooltip.vue';
+
+const props = defineProps({
+    user: Object,
+});
 
 const referralCodeModal = ref(false);
 const openReferralCodeModal = () => {
@@ -18,20 +23,29 @@ const closeReferralCodeModal = () => {
 }
 
 const step1 = true;
-const referralQr = 'http://thisisalink.test/register/asdasdasd';
+const referralQr = route('register', props.user.referral_code);
+const tooltipContent = ref('copy_link');
 
-const hoverCopy = ref(false);
 const copyLink = () => {
     const tempInput = document.createElement('input');
     tempInput.value = referralQr;
     document.body.appendChild(tempInput);
     tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
 
-    setTimeout(function () {
-        hoverCopy.value = false;
-    }, 3000);
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            tooltipContent.value = 'copied';
+            setTimeout(() => {
+                tooltipContent.value = 'copy_link';
+            }, 3000);
+        } else {
+            tooltipContent.value = 'try_again_later';
+        }
+    } catch (err) {
+        alert($t('public.copy_error'))
+    }
+    document.body.removeChild(tempInput);
 }
 
 </script>
@@ -49,7 +63,10 @@ const copyLink = () => {
         </Button>
         <div class="w-8 h-8 rounded-full overflow-hidden">
             <Link :href="route('profile.edit')">
-                <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
+                <img 
+                    :src="user.profile_photo ? user.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
+                    alt="profile_picture"
+                />
             </Link>
         </div>
     </div>
@@ -80,23 +97,17 @@ const copyLink = () => {
                             class="block w-full text-xxs"
                             readonly
                         />
-                        <div class="relative min-w-fit" @click="hoverCopy = true" @mouseleave="hoverCopy = false">
-                            <Button
-                                variant="gray"
-                                type="button"
-                                class="font-semibold self-stretch"
-                                @click="copyLink"
-                            >
-                                {{ $t('public.copy_link') }}
-                            </Button>
-
-                            <div
-                                v-show="hoverCopy"
-                                id="copied_success"
-                                class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"
-                            >
-                                {{ $t('public.copied') }}
-                            </div>
+                        <div class="relative min-w-fit">
+                            <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
+                                <Button
+                                    variant="gray"
+                                    type="button"
+                                    class="font-semibold self-stretch"
+                                    @click="copyLink"
+                                >
+                                    {{ $t('public.copy_link') }}
+                                </Button>
+                            </Tooltip>
                         </div>
                     </div>
                 </div>
