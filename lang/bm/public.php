@@ -142,5 +142,9 @@ return [
     "email_in_use_desc" => "Alamat emel yang anda masukkan sudah berkaitan dengan akaun sedia ada. Sila gunakan emel yang berbeza atau log masuk.",
     "copy_error" => "Maaf, tidak dapat disalin.",
     "try_again_later" => "Sila cuba sebentar lagi!",
+    "liability_waiver" => "penepian liabiliti",
+    "deposit_success" => "Deposit Berjaya!",
+    "deposit_success_desc" => "Deposit anda telah berjaya diselesaikan dan dana anda kini boleh digunakan. Terima kasih",
+    "back_to_dashboard" => "Kembali ke Dashboard",
     
 ];

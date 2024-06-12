@@ -14,9 +14,9 @@ import Tooltip from "@/Components/Tooltip.vue";
 
 const is_disabled = ref(true);
 const amount = ref('');
-const txId = ref('');
+const txid = ref('');
 
-const walletAddressesSelect = ["Lorem, ipsum dolor sit amet consectetur adipisicing elit.", "Officia earum eveniet dignissimos ex debitis, hic repudiandae mollitia fugiat?", "Lorem ipsum dolor sit amet consectetur adipisicing elit."];
+const walletAddressesSelect = ["0x85f5f2f0c9b1f6e4d6b9b3513f6f1c3c4e8c7c4a", "0xc18e22bb7479cab2f1330c0c7c7f6d4cc7617888", "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNah4a1ee"];
 const addressLength = walletAddressesSelect.length;
 let currentIndex = 0;
 const qrAddress = ref(walletAddressesSelect[currentIndex]);
@@ -57,7 +57,7 @@ onMounted(() => {
 });
 
 // copy the wallet address to clipboard
-const hoverCopy = ref(false);
+const tooltipContent = ref('copy_link');
 const copyCode = () => {
     const walletCode = document.querySelector('#WalletCode').textContent;
 
@@ -65,41 +65,59 @@ const copyCode = () => {
     tempInput.value = walletCode;
     document.body.appendChild(tempInput);
     tempInput.select();
-    document.execCommand('copy');
+
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            tooltipContent.value = 'copied';
+            setTimeout(() => {
+                tooltipContent.value = 'copy_link';
+            }, 3000);
+        } else {
+            tooltipContent.value = 'try_again_later';
+        }
+    } catch (err) {
+        alert($t('public.copy_error'))
+    }
     document.body.removeChild(tempInput);
 
-    setTimeout(function () {
-        hoverCopy.value = false;
-    }, 3000);
 }
 
 const form = useForm({
     amount: '',
     txid: '',
-    terms: ''
+    terms: false
 });
 
 const submitForm = () => {
     form.amount = amount.value;
-    form.txid = txId.value;
+    form.txid = txid.value;
 
-    form.post(route('dashboard.deposit'), {
+    form.post(route('transaction.deposit.store'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
         },
+        onError: () => {
+            if (form.errors.amount) {
+                form.reset('amount');
+            }
+            if (form.errors.txid) {
+                form.reset('txid');
+            }
+        }
     })
 }
 
 const buttonStatus = () => {
-    is_disabled.value = !(amount.value && txId.value);
+    is_disabled.value = !(amount.value && txid.value);
 }
 
 watch(amount, () => {
     buttonStatus();
 });
 
-watch(txId, () => {
+watch(txid, () => {
     buttonStatus();
 });
 
@@ -128,26 +146,15 @@ watch(txId, () => {
                             {{ formatTime }} {{ $t('public.minutes') }}
                         </div>
                         <div class="shrink-0">
-                            <Qrcode :value="qrAddress" :size="160" render-as="svg" :margin="1" level="M" background="#F7F7F7" />
+                            <Qrcode :value="qrAddress" :size="160" render-as="svg" :margin="1" level="M" background="#FFF" />
                         </div>
                         <div class="flex justify-center items-center gap-2 self-stretch flex-wrap">
                             <div class="text-gray-300 text-xxs" id="WalletCode">
                                 {{ qrAddress }}
                             </div>
-                            <Tooltip content="Copied!" placement="top">
-                                <Copy01Icon class="text-bilbao-700 hover:cursor-pointer hover:text-bilbao-800 focus:text-bilbao-900" @click="copyCode" />
+                            <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
+                                <Copy01Icon class="hover:cursor-pointer" @click="copyCode" />
                             </Tooltip>
-
-<!--                            <div class="relative" @click="hoverCopy = true" @mouseleave="hoverCopy = false">-->
-<!--                                <Copy01Icon class="text-bilbao-700 hover:cursor-pointer hover:text-bilbao-800 focus:text-bilbao-900" @click="copyCode" />-->
-<!--                                <div-->
-<!--                                    v-show="hoverCopy"-->
-<!--                                    id="copied_success"-->
-<!--                                    class="w-32 -left-16 absolute bottom-4 p-1 mb-2 text-sm text-center text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 transition ease-in-out"-->
-<!--                                >-->
-<!--                                    {{ $t('public.copied') }}-->
-<!--                                </div>-->
-<!--                            </div>-->
                         </div>
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
@@ -165,7 +172,7 @@ watch(txId, () => {
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <Label for="tx_id" value="TxID" :invalid="form.errors.txid" />
                         <Input
-                            v-model="txId"
+                            v-model="txid"
                             id="tx_id"
                             type="text"
                             class="block w-full"
@@ -174,10 +181,10 @@ watch(txId, () => {
                         />
                         <InputError :message="form.errors.txid" />
                     </div>
-                    <div class="flex flex-col items-start self-stretch">
+                    <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <div class="flex gap-3 items-start self-stretch">
                             <Checkbox id="terms" v-model="form.terms"/>
-                            <Label for="terms" class="text-gray-300 text-xxs">
+                            <Label for="terms" class="text-xxs" :invalid="form.errors.terms">
                                 {{ $t('public.deposit_checkbox_desc') }}
                             </Label>
                         </div>
@@ -186,7 +193,7 @@ watch(txId, () => {
 
                     <Button
                         size="lg"
-                        :disabled="is_disabled || form.processing"
+                        :disabled="is_disabled || form.processing || !form.terms"
                         class="w-full font-semibold"
                     >
                         {{ $t('public.deposit_now') }}

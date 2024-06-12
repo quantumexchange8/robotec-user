@@ -22,7 +22,6 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/deposit', [DashboardController::class, 'showDeposit'])->name('deposit');
     Route::get('/clientData', [DashboardController::class, 'showClientData'])->name('clientData');
 
     /**
@@ -46,6 +45,9 @@ Route::middleware('auth')->group(function () {
 
         //purchase item
         Route::post('/purchaseItem', [TransactionController::class, 'purchaseItem'])->name('transaction.purchaseItem');
+
+        Route::get('/deposit', [TransactionController::class, 'deposit'])->name('transaction.deposit');
+        Route::post('/deposit', [TransactionController::class, 'storeDeposit'])->name('transaction.deposit.store');
     });
 
 });

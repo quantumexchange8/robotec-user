@@ -43,7 +43,7 @@ const closeModal = () => {
 
             <Button
                 type="button"
-                :href="route('deposit')"
+                :href="route('transaction.deposit')"
                 class="text-sm font-semibold"
             >
             {{ $t('public.deposit') }}

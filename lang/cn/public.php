@@ -142,5 +142,9 @@ return [
     "email_in_use_desc" => "您输入的电子邮件地址已与现有账户关联。 请使用不同的电子邮件地址或登录。",
     "copy_error" => "抱歉，无法复制。",
     "try_again_later" => "请稍后重试！",
+    "liability_waiver" => "免除责任",
+    "deposit_success" => "存款成功!",
+    "deposit_success_desc" => "您的存款已成功完成，资金现在可供使用。谢谢!",
+    "back_to_dashboard" => "返回主页",
     
 ];

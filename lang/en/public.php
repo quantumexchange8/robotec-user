@@ -142,5 +142,9 @@ return [
     "email_in_use_desc" => "The email address you entered is already associated with an existing account. Please use a different email or log in.",
     "copy_error" => "Oops, unable to copy",
     "try_again_later" => "Please try again later!",
+    "liability_waiver" => "liability waiver",
+    "deposit_success" => "Deposit Successful!",
+    "deposit_success_desc" => "Your deposit has been successfully completed and your funds are now available for use. Thank you!",
+    "back_to_dashboard" => "Back to Dashboard",
     
 ];
