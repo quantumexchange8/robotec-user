@@ -21,6 +21,8 @@ Route::middleware('guest')->group(function () {
     Route::post('register/{referral}', [RegisteredUserController::class, 'store'])
                 ->name('register.store');
 
+    Route::get('getDialCodes', [RegisteredUserController::class, 'getDialCodes'])->name('getDialCodes');
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
@@ -37,7 +39,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('password-resend', [PasswordResetLinkController::class, 'resend'])
                 ->name('password.resend');
-                
+
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
                 ->name('password.reset');
 

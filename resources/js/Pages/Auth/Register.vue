@@ -9,7 +9,6 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ProgressBar from '@/Pages/Auth/Partials/ProgressBar.vue'
 import { computed, ref } from 'vue';
 import { ArrowNarrowLeftIcon } from '@/Components/Icons/outline';
-import CountryLists from '/public/data/countries.json'
 import Combobox from "@/Components/Combobox.vue";
 
 const props = defineProps({
@@ -17,13 +16,12 @@ const props = defineProps({
 });
 
 const step = ref('0');
-const malaysiaIndex = CountryLists.findIndex(country => country.label === "Malaysia");
-const defaultDialCode = malaysiaIndex !== -1 ? CountryLists[malaysiaIndex] : null;
+const dialCode = ref({value: '+60'});
 
 const form = useForm({
     full_name: '',
     email: '',
-    dial_code: defaultDialCode,
+    dial_code: '',
     phone_number: '',
     password: '',
     password_confirmation: '',
@@ -72,11 +70,26 @@ const validatePassword = () => {
 };
 
 const submitForm = () => {
+    form.dial_code = dialCode.value.value
     form.post(route('register.store', props.referral_code), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
 
+function loadDialCodes(query, setOptions) {
+    fetch('/getDialCodes?query=' + query)
+        .then(response => response.json())
+        .then(results => {
+            setOptions(
+                results.map(country => {
+                    return {
+                        value: country.phone_code,
+                        label: country.name,
+                    }
+                })
+            )
+        });
+}
 </script>
 
 <template>
@@ -145,11 +158,11 @@ const submitForm = () => {
                     <Label for="phoneNumber" :value="$t('public.phone_number')" :invalid="form.errors.phone_number" />
                     <div class="flex gap-1.5 items-center self-stretch">
                         <Combobox
-                            :options="CountryLists"
+                            :load-options="loadDialCodes"
                             id="dial_code"
                             class="block w-1/3"
                             :invalid="form.errors.phone_number"
-                            v-model="form.dial_code"
+                            v-model="dialCode"
                             isPhoneCode
                         />
 

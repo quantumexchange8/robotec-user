@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Auth\Events\Registered;
@@ -114,7 +115,7 @@ class RegisteredUserController extends Controller
         $userData = [
             'name' => $request->full_name,
             'email' => $request->email,
-            'dial_code' => $request->dial_code,
+            'dial_code' => $dial_code,
             'phone' => $phone,
             'password' => Hash::make($request->password),
             'role' => 'user',
@@ -157,5 +158,32 @@ class RegisteredUserController extends Controller
         return redirect()->route('login')
             ->with('title', trans('public.success_registration'))
             ->with('success', trans('public.successfully_registration'));
+    }
+
+    public function getDialCodes(Request $request)
+    {
+        $locale = app()->getLocale();
+
+        $countries = Country::query()
+            ->when($request->filled('query'), function ($query) use ($request) {
+                $search = $request->input('query');
+                $query->where(function ($innerQuery) use ($search) {
+                    $innerQuery->where('name', 'like', "%{$search}%")
+                        ->orWhere('phone_code', 'like', "%{$search}%")
+                        ->orWhere('translations', 'like', "%{$search}%");
+                });
+            })
+            ->select('id', 'name', 'phone_code', 'translations')
+            ->get()
+            ->map(function ($country) use ($locale) {
+                $translations = json_decode($country->translations, true);
+                $label = $translations[$locale] ?? $country->name;
+                return [
+                    'phone_code' => $country->phone_code,
+                    'name' => $label,
+                ];
+            });
+
+        return response()->json($countries);
     }
 }
