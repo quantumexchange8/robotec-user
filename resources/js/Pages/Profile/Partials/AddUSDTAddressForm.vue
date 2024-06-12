@@ -31,18 +31,21 @@ const submitForm = () => {
     >
         <div class="flex flex-col items-center gap-5">
             <div class="flex flex-col items-start gap-1.5 self-stretch">
-                <Label for="usdt" :value="$t('public.usdt_address')" :is_required="false" />
+                <Label for="usdt" :invalid="form.errors.usdt">
+                    {{ $t('public.usdt_address') }}
+                </Label>
                 <Input
                     v-model="form.usdt"
                     id="usdt"
                     type="text"
                     class="block w-full"
                     :placeholder="$t('public.add_usdt_placeholder')"
+                    :invalid="form.errors.usdt"
                 />
+                <InputError :message="form.errors.usdt" />
                 <div class="self-stretch text-gray-300 text-xs">
                     {{ $t('public.add_usdt_address_desc') }}
                 </div>
-                <InputError :message="form.errors.usdt" />
             </div>
 
             <div class="flex pt-8 items-center gap-3 self-stretch">

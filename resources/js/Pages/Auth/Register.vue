@@ -30,6 +30,7 @@ const form = useForm({
 });
 
 const firstStep = () => {
+    form.dial_code = dialCode.value.value
     form.post(route('register.first.step'), {
         onSuccess: () => {
             step.value = '1';
@@ -131,6 +132,7 @@ function loadDialCodes(query, setOptions) {
                         class="block w-full"
                         :invalid="form.errors.full_name"
                         :placeholder="$t('public.full_name_placeholder')"
+                        autofocus
                     />
                     <InputError :message="form.errors.full_name" />
                 </div>

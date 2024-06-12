@@ -120,9 +120,6 @@ watch(amount, () => {
 watch(txid, () => {
     buttonStatus();
 });
-
-// watch checkbox to true
-
 </script>
 
 <template>

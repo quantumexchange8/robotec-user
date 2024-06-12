@@ -59,9 +59,10 @@ const submit = () => {
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <Label
                             for="email"
-                            :value="$t('public.email')"
                             :invalid="form.errors.email"
-                        />
+                        >
+                            {{ $t('public.email') }}
+                        </Label>
                         <Input
                             id="email"
                             type="email"
@@ -78,9 +79,10 @@ const submit = () => {
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <Label
                             for="password"
-                            :value="$t('public.password')"
                             :invalid="form.errors.password"
-                        />
+                        >
+                            {{ $t('public.password') }}
+                        </Label>
                         <Input
                             id="password"
                             v-model="form.password"

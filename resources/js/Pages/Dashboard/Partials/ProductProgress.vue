@@ -206,11 +206,17 @@ const transferring = () => {
         </template>
 
         <template v-if="modalComponent === 'fund_in' || modalComponent === 'top_up_capital'">
-            <InvestmentForm :modalType="modalComponent" @closeModal = "closeModal" @investment="investing" />
+            <InvestmentForm 
+                :modalType="modalComponent"
+                @update:productProgressModal="productProgressModal = $event"
+            />
         </template>
 
         <template v-if="modalComponent === 'transfer'">
-            <TransferForm @closeModal = "closeModal" @transferring="transferring" />
+            <TransferForm
+                @closeModal = "closeModal"
+                @transferring="transferring"
+            />
         </template>
 
     </Modal>

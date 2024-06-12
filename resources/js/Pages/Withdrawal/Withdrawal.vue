@@ -135,7 +135,9 @@ const closeModal = () => {
                         <InputError :message="form.errors.amount" />
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="usdt" :value="$t('public.usdt_address')" :is_required="false" :invalid="form.errors.usdt" />
+                        <Label for="usdt" :invalid="form.errors.usdt">
+                            {{ $t('public.usdt_address') }}
+                        </Label>
                         <Input
                             v-model="usdtAddress"
                             id="usdt"
