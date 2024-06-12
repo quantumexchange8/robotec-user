@@ -12,11 +12,15 @@ import Checkbox from '@/Components/Checkbox.vue';
 import { computed, onMounted, ref, watch } from "vue";
 import Tooltip from "@/Components/Tooltip.vue";
 
+const props = defineProps({
+    'wallet_addresses': Array,
+});
+
 const is_disabled = ref(true);
 const amount = ref('');
 const txid = ref('');
 
-const walletAddressesSelect = ["0x85f5f2f0c9b1f6e4d6b9b3513f6f1c3c4e8c7c4a", "0xc18e22bb7479cab2f1330c0c7c7f6d4cc7617888", "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNah4a1ee"];
+const walletAddressesSelect = props.wallet_addresses;
 const addressLength = walletAddressesSelect.length;
 let currentIndex = 0;
 const qrAddress = ref(walletAddressesSelect[currentIndex]);
@@ -86,12 +90,14 @@ const copyCode = () => {
 const form = useForm({
     amount: '',
     txid: '',
-    terms: false
+    terms: false,
+    to_wallet_address: '',
 });
 
 const submitForm = () => {
     form.amount = amount.value;
     form.txid = txid.value;
+    form.to_wallet_address = qrAddress.value;
 
     form.post(route('transaction.deposit.store'), {
         preserveScroll: true,

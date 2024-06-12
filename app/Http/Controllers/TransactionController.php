@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DepositRequest;
+use App\Models\SettingWalletAddress;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use App\Services\RunningNumberService;
@@ -27,7 +28,8 @@ class TransactionController extends Controller
 
     public function deposit()
     {
-        return Inertia::render('Dashboard/Deposit');
+        $wallet_addresses = SettingWalletAddress::all()->pluck('wallet_address')->shuffle();
+        return Inertia::render('Dashboard/Deposit', ['wallet_addresses' => $wallet_addresses]);
     }
 
     public function storeDeposit(DepositRequest $request)
@@ -41,15 +43,15 @@ class TransactionController extends Controller
             'user_id' => Auth::user()->id,
             'category' => 'wallet',
             'transaction_type' => 'deposit',
-            'txn_hash' => $request->txid,
-            'amount' => $amount,
-            'status' => 'processing',
             'to_wallet_id' => $cash_wallet->id,
             'transaction_number' => RunningNumberService::getID('transaction'),
-            'to_wallet_address' => 'Tsrafcasyas751t2txsaf67ast76',
+            'to_wallet_address' => $request->to_wallet_address,
+            'txn_hash' => $request->txid,
+            'amount' => $amount,
             'transaction_charges' => 0,
             'transaction_amount' => $amount,
             'old_wallet_amount' => $cash_wallet->balance,
+            'status' => 'processing',
         ]);
 
         return redirect()->route('dashboard')
