@@ -34,7 +34,6 @@ const progress = ref('0');
 const purchasingRobotec = () => {
     step1.value = true;
     progress.value = '1';
-    closeModal();
 }
 
 /*
@@ -42,7 +41,7 @@ const purchasingRobotec = () => {
     create_account -> when step 1 done (once)
     fund_in -> after create_account done && when no investment (repeatable)
     start_auto_trading -> after fund_in (repeatable)
-    top_up -> when got investment (repeatable)
+    top_up_capital -> when got investment (repeatable)
 */
 const button2Status = ref('create_account');
 const investmentStatus = ref(false);
@@ -54,7 +53,6 @@ const button2 = (status) => {
             button2Status.value = 'fund_in';
             break;
         case 'fund_in':
-            console.log('open fund in modal');
             openProductProgressModal('fund_in');
             break;
         case 'start_auto_trading':
@@ -64,19 +62,8 @@ const button2 = (status) => {
             investmentStatus.value = true;
             break;
         case 'top_up_capital':
-            console.log('open top up capital modal');
             openProductProgressModal('top_up_capital');
             break;
-    }
-}
-
-const investing = () => {
-    if (modalComponent.value === 'fund_in') {
-        button2Status.value = 'start_auto_trading';
-        closeModal();
-    } else if (modalComponent.value === 'top_up_capital') {
-        console.log('add investment');
-        closeModal();
     }
 }
 
@@ -86,7 +73,6 @@ const transferring = () => {
     console.log('transferring');
     button2Status.value = 'fund_in';
     investmentStatus.value = false;
-    closeModal();
 }
 
 </script>
@@ -202,6 +188,7 @@ const transferring = () => {
         <template v-if="modalComponent === 'purchase_robotec'">
             <PurchaseRobotecForm
                 @update:productProgressModal="productProgressModal = $event"
+                @update:button2="purchasingRobotec"
             />
         </template>
 
@@ -209,13 +196,14 @@ const transferring = () => {
             <InvestmentForm 
                 :modalType="modalComponent"
                 @update:productProgressModal="productProgressModal = $event"
+                @update:button2="button2Status = $event"
             />
         </template>
 
         <template v-if="modalComponent === 'transfer'">
             <TransferForm
-                @closeModal = "closeModal"
-                @transferring="transferring"
+                @update:productProgressModal="productProgressModal = $event"
+                @update:button2="transferring"
             />
         </template>
 

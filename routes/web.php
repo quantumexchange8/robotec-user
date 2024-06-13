@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
 
         //purchase item
         Route::post('/purchaseItem', [TransactionController::class, 'purchaseItem'])->name('transaction.purchaseItem');
+        Route::post('/investment', [TransactionController::class, 'addFund'])->name('transaction.investment');
+        Route::post('/transfer', [TransactionController::class, 'transfer'])->name('transaction.transfer');
 
         Route::get('/deposit', [TransactionController::class, 'deposit'])->name('transaction.deposit');
         Route::post('/deposit', [TransactionController::class, 'storeDeposit'])->name('transaction.deposit.store');

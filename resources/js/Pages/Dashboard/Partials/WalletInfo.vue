@@ -28,7 +28,6 @@ getWallets();
 watchEffect(() => {
     if (usePage().props.title !== null) {
         getWallets();
-        getRefereeCount();
     }
 });
 
@@ -51,7 +50,7 @@ const getRefereeCount = async () => {
 
 onMounted(() => {
     getRefereeCount();
-    intervalId = setInterval(getRefereeCount, 5000);
+    intervalId = setInterval(getRefereeCount, 10000);
 });
 
 onUnmounted(() => {

@@ -1,5 +1,4 @@
 <script setup>
-import Input from '@/Components/Input.vue';
 import Label from '@/Components/Label.vue';
 import Button from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
@@ -11,16 +10,28 @@ const props = defineProps({
     modalType: String,
 });
 
-const emit = defineEmits(['update:productProgressModal', 'investment']);
+const emit = defineEmits([
+    'update:productProgressModal',
+    'update:button2'
+]);
 
 const form = useForm({
     wallet: '',
-    amount: ''
+    amount: '',
+    type: props.modalType
 });
 
 const submitForm = () => {
-    console.log('sumitting');
-    closeModal()
+    form.post(route('transaction.investment'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            closeModal();
+            if (props.modalType === 'fund_in') {
+                emit('update:button2', 'start_auto_trading');
+            }
+        },
+    });
 }
 
 const closeModal = () => {
@@ -62,7 +73,10 @@ const amounts = [
                             class="bg-gray-900 border-gray-600 text-primary-500 focus:ring-primary-500 focus:ring-offset-gray-900"
                         />
                         <label for="cash_wallet" class="text-white text-sm font-semibold">Cash Wallet</label>
-                        <div class="text-gray-300 text-xs font-medium">Balance: $ 500.00</div>
+                        <div class="text-gray-300 text-xs font-medium">
+                            <!-- based on user wallet -->
+                            Balance: $ 500.00
+                        </div>
                     </div>
 
                     <div class="flex items-center gap-3">
@@ -74,7 +88,10 @@ const amounts = [
                             class="bg-gray-900 border-gray-600 text-primary-500 focus:ring-primary-500 focus:ring-offset-gray-900"
                         />
                         <label for="commission_wallet" class="text-white text-sm font-semibold">Commission Wallet</label>
-                        <div class="text-gray-300 text-xs font-medium">Balance: $ 250.00</div>
+                        <div class="text-gray-300 text-xs font-medium">
+                            <!-- based on user wallet -->
+                            Balance: $ 250.00
+                        </div>
                     </div>
                 </div>
                 <InputError :message="form.errors.wallet" />
@@ -90,7 +107,7 @@ const amounts = [
                             as="template"
                             v-for="(amount, index) in amounts"
                             :key="index"
-                            :value="amount"
+                            :value="amount.value"
                             v-slot="{ active, checked }"
                         >
                             <div
@@ -123,7 +140,7 @@ const amounts = [
             </div>
 
             <div
-                v-if="modalType === 'top_up_capital'"
+                v-if="props.modalType === 'top_up_capital'"
                 class="self-stretch text-neutral-400 text-xs"
             >
                 <div class="flex flex-col gap-4">
@@ -146,6 +163,7 @@ const amounts = [
                 <Button
                     size="lg"
                     class="w-full font-semibold"
+                    :disabled="form.processing"
                 >
                     {{ $t('public.confirm') }}
                 </Button>

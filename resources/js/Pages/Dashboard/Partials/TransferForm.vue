@@ -1,6 +1,40 @@
 <script setup>
 import Button from '@/Components/Button.vue';
 import { ArrowNarrowUpRightIcon } from '@/Components/Icons/outline';
+import { useForm } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+
+const emit = defineEmits([
+    'update:productProgressModal',
+    'update:button2'
+]);
+
+const closeModal = () => {
+    emit('update:productProgressModal', false);
+}
+
+const bal = ref(300.00);
+const fundIn = ref(250.00);
+const percentage = computed(() => {
+    return (bal.value - fundIn.value) / fundIn.value * 100;
+});
+
+const form = useForm({
+    amount: ''
+});
+
+const submitForm = () => {
+    form.amount = bal.value;
+
+    form.post(route('transaction.transfer'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            closeModal();
+            emit('update:button2', 'fund_in');
+        },
+    });
+}
 
 </script>
 
@@ -11,12 +45,12 @@ import { ArrowNarrowUpRightIcon } from '@/Components/Icons/outline';
                 <div class="text-gray-300 text-center font-semibold">{{ $t('public.current_account_balance') }}</div>
                 <div class="flex justify-center items-center gap-3">
                     <div class="text-white text-center text-xxl font-semibold">
-                        $ 300.00
+                        $ {{ bal }}
                     </div>
                     <div class="flex items-center gap-1">
                         <ArrowNarrowUpRightIcon />
                         <div class="text-success-500 text-center text-sm font-medium">
-                            20%
+                            {{ percentage }} %
                         </div>
                     </div>
                 </div>
@@ -32,7 +66,7 @@ import { ArrowNarrowUpRightIcon } from '@/Components/Icons/outline';
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
-                    @click="$emit('closeModal')"
+                    @click="closeModal"
                 >
                     {{ $t('public.cancel') }}
                 </Button>
@@ -41,7 +75,8 @@ import { ArrowNarrowUpRightIcon } from '@/Components/Icons/outline';
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
-                    @click="$emit('transferring')"
+                    :disabled="form.processing"
+                    @click="submitForm"
                 >
                     {{ $t('public.transfer_now') }}
                 </Button>

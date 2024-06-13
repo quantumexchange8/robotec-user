@@ -42,7 +42,10 @@ const closeModal = () => {
             <div class="flex py-8 px-4 flex-col items-center gap-8 self-stretch rounded-2xl bg-gray-800">
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-14 h-14 rounded-full overflow-hidden">
-                        <img src="https://pbs.twimg.com/profile_images/1497716648240836608/0T_n2qXz_400x400.jpg" alt="profile_picture">
+                        <img 
+                            :src="user.profile_photo ? user.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
+                            alt="profile_picture"
+                        />
                     </div>
                     <Button
                         type="button"

@@ -20,15 +20,51 @@ class TransactionController extends Controller
 
     public function purchaseItem()
     {
+        $cash_wallet = Wallet::where('user_id', Auth::id())
+            ->where('type', 'cash_wallet')
+            ->first();
+
+        $balance = $cash_wallet->balance;
+        if ($balance >= 250) {
+            // $balance = $balance - 250;
+            // dd($balance);
+
+            // $cash_wallet->save();
+
+            // add transaction history
+
+            return back()
+                ->with('title', trans('public.purchase_robotec_success'))
+                ->with('success', trans('public.purchase_robotec_success_desc') )
+                ->with('alertButton', trans('public.alright'));
+        }
+
         return to_route('transaction.deposit')
             ->with('title', trans('public.insufficient_balance'))
             ->with('warning', trans('public.insufficient_balance_desc') )
             ->with('alertButton', trans('public.deposit'));
+    }
 
-        return back()
-            ->with('title', trans('public.purchase_robotec_success'))
-            ->with('success', trans('public.purchase_robotec_success_desc') )
-            ->with('alertButton', trans('public.alright'));
+    public function addFund(Request $request)
+    {
+        $request = $request->validate([
+            'wallet' => ['required'],
+            'amount' => ['required', 'numeric']
+        ]);
+
+        // if fund in, add fund. if top up capital, top up
+        // add transaction history
+
+        // return back with toast
+        return back();
+    }
+
+    public function transfer() {
+        // add balance into commission wallet
+        // add transaction history
+        
+        // return back with toast
+        return back();
     }
 
     public function deposit()

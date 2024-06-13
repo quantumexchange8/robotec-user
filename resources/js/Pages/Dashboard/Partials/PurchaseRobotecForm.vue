@@ -3,17 +3,22 @@ import RobotecBanner from '@/Pages/Dashboard/Partials/RobotecBanner.vue';
 import Button from '@/Components/Button.vue';
 import {useForm} from "@inertiajs/vue3";
 
-const emit = defineEmits(['update:productProgressModal'])
+const emit = defineEmits([
+    'update:productProgressModal',
+    'update:button2'
+])
 
 const form = useForm({
     amount: '',
 })
 
-const submit = () => {
+const submitForm = () => {
     form.post(route('transaction.purchaseItem'), {
+        preserveScroll: true,
         onSuccess: () => {
             form.reset();
             closeModal();
+            emit('update:button2');
         },
     });
 }
@@ -53,7 +58,8 @@ const closeModal = () => {
                 size="lg"
                 type="button"
                 class="w-full font-semibold"
-                @click="submit"
+                :disabled="form.processing"
+                @click="submitForm"
             >
                 {{ $t('public.purchase') }}
             </Button>
