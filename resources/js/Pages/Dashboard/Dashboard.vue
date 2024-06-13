@@ -6,6 +6,9 @@ import WalletInfo from './Partials/WalletInfo.vue';
 import ProductProgress from './Partials/ProductProgress.vue';
 
 const user = usePage().props.auth.user;
+const props = defineProps({
+    walletIds: Object,
+});
 </script>
 
 <template>
@@ -22,7 +25,7 @@ const user = usePage().props.auth.user;
             </div>
         </template>
 
-        <WalletInfo />
+        <WalletInfo :walletIds="props.walletIds"/>
 
         <ProductProgress />
 

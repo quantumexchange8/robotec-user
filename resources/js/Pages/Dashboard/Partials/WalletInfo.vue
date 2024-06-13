@@ -8,18 +8,21 @@ import CommissionWalletTransactions from '@/Pages/Dashboard/Partials/CommissionW
 import InviteHistory from '@/Pages/Dashboard/Partials/InviteHistory.vue';
 import { usePage } from '@inertiajs/vue3';
 
-const wallets = ref([]);
-const isLoading = ref(false);
+const props = defineProps({
+    walletIds: Object,
+});
+
+const cashWallet = ref(null);
+const commissionWallet = ref(null);
 
 const getWallets = async () => {
     try {
-        isLoading.value = true
-        const response = await axios.get(route('getWallets'));
-        wallets.value = response.data;
+        const responseCash = await axios.get(route('getWallets', props.walletIds.cash_wallet));
+        cashWallet.value = responseCash.data;
+        const responseCommission = await axios.get(route('getWallets', props.walletIds.commission_wallet));
+        commissionWallet.value = responseCommission.data;
     } catch (error) {
         console.error('Error refreshing wallets data:', error);
-    } finally {
-        isLoading.value = false
     }
 };
 
@@ -40,7 +43,6 @@ const getRefereeCount = async () => {
         isLoadingReferee.value = true
         const response = await axios.get(route('getDirectClientsCount'));
         refereeCount.value = response.data;
-        console.log(refereeCount.value);
     } catch (error) {
         console.error('Error refreshing referee data:', error);
     } finally {
@@ -87,14 +89,12 @@ const closeModal = () => {
                     @click="openWalletInfoModal('cash_wallet_transactions')"
                 >
                     <div class="text-white text-xl font-semibold">
-                        <div v-show="isLoading">
+                        <div v-if="cashWallet !== null">
+                            {{ cashWallet.balance }}
+                        </div>
+                        <div v-else>
                             {{ $t('public.loading') }}
                         </div>
-                        <template v-for="wallet in wallets">
-                            <template v-if="wallet.type === 'cash_wallet'">
-                                {{ wallet.balance }}
-                            </template>
-                        </template>
                     </div>
                     <ChevronRightIcon class="text-gray-600"/>
                 </div>
@@ -119,14 +119,12 @@ const closeModal = () => {
                     @click="openWalletInfoModal('commission_wallet_transactions')"
                 >
                     <div class="text-white text-xl font-semibold">
-                        <div v-show="isLoading" class="text-md">
+                        <div v-if="commissionWallet !== null">
+                            {{ commissionWallet.balance }}
+                        </div>
+                        <div v-else>
                             {{ $t('public.loading') }}
                         </div>
-                        <template v-for="wallet in wallets">
-                            <template v-if="wallet.type === 'commission_wallet'">
-                                {{ wallet.balance }}
-                            </template>
-                        </template>
                     </div>
                     <ChevronRightIcon class="text-gray-600"/>
                 </div>
@@ -160,7 +158,9 @@ const closeModal = () => {
         @close="closeModal"
     >
         <template v-if="modalComponent === 'cash_wallet_transactions'">
-            <CashWalletTransactions />
+            <CashWalletTransactions 
+                :walletIds="props.walletIds"
+            />
         </template>
 
         <template v-if="modalComponent === 'commission_wallet_transactions'">

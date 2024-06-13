@@ -151,5 +151,6 @@ return [
     "alright" => "Baiklah!",
     "insufficient_balance" => "Baki tidak cukup!",
     "insufficient_balance_desc" => "Oops! Baki anda tidak mencukupi untuk urus niaga ini. Sila tambah nilai dompet tunai anda untuk meneruskan.",
+    "loading" => "Memuatkan...",
     
 ];

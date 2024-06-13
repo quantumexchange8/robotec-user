@@ -151,5 +151,6 @@ return [
     "alright" => "好的!",
     "insufficient_balance" => "余额不足!",
     "insufficient_balance_desc" => "哎呀！看来您的余额不足以进行此交易。请充值您的现金钱包以继续。",
+    "loading" => "加载中...",
     
 ];

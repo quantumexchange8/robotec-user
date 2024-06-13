@@ -31,7 +31,7 @@ class TransactionController extends Controller
 
             // $cash_wallet->save();
 
-            // add transaction history
+            // add transaction history (purchase_robotec)
 
             return back()
                 ->with('title', trans('public.purchase_robotec_success'))
@@ -53,7 +53,7 @@ class TransactionController extends Controller
         ]);
 
         // if fund in, add fund. if top up capital, top up
-        // add transaction history
+        // add transaction history (fund_in // top_up_capital)
 
         // return back with toast
         return back();
