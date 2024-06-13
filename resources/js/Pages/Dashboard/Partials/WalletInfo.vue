@@ -2,10 +2,61 @@
 import Button from '@/Components/Button.vue';
 import { ChevronRightIcon } from '@/Components/Icons/outline';
 import Modal from '@/Components/Modal.vue';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref, watchEffect } from 'vue';
 import CashWalletTransactions from '@/Pages/Dashboard/Partials/CashWalletTransactions.vue';
 import CommissionWalletTransactions from '@/Pages/Dashboard/Partials/CommissionWalletTransactions.vue';
 import InviteHistory from '@/Pages/Dashboard/Partials/InviteHistory.vue';
+import { usePage } from '@inertiajs/vue3';
+
+const wallets = ref([]);
+const isLoading = ref(false);
+
+const getWallets = async () => {
+    try {
+        isLoading.value = true
+        const response = await axios.get(route('getWallets'));
+        wallets.value = response.data;
+    } catch (error) {
+        console.error('Error refreshing wallets data:', error);
+    } finally {
+        isLoading.value = false
+    }
+};
+
+getWallets();
+
+watchEffect(() => {
+    if (usePage().props.title !== null) {
+        getWallets();
+        getRefereeCount();
+    }
+});
+
+const refereeCount = ref(null);
+const isLoadingReferee = ref(false);
+var intervalId;
+
+const getRefereeCount = async () => {
+    try {
+        isLoadingReferee.value = true
+        const response = await axios.get(route('getDirectClientsCount'));
+        refereeCount.value = response.data;
+        console.log(refereeCount.value);
+    } catch (error) {
+        console.error('Error refreshing referee data:', error);
+    } finally {
+        isLoadingReferee.value = false
+    }
+};
+
+onMounted(() => {
+    getRefereeCount();
+    intervalId = setInterval(getRefereeCount, 5000);
+});
+
+onUnmounted(() => {
+    clearInterval(intervalId);
+})
 
 const walletInfoModal = ref(false);
 const modalComponent = ref('');
@@ -36,7 +87,16 @@ const closeModal = () => {
                     class="flex items-center gap-5 cursor-pointer" 
                     @click="openWalletInfoModal('cash_wallet_transactions')"
                 >
-                    <div class="text-white text-xl font-semibold">0.00</div>
+                    <div class="text-white text-xl font-semibold">
+                        <div v-show="isLoading">
+                            {{ $t('public.loading') }}
+                        </div>
+                        <template v-for="wallet in wallets">
+                            <template v-if="wallet.type === 'cash_wallet'">
+                                {{ wallet.balance }}
+                            </template>
+                        </template>
+                    </div>
                     <ChevronRightIcon class="text-gray-600"/>
                 </div>
             </div> 
@@ -53,26 +113,42 @@ const closeModal = () => {
         <div class="self-stretch border-b border-solid border-gray-600 flex-1"></div>
 
         <div class="flex items-center gap-7 self-stretch">
-            <div class="flex flex-col items-start gap-1 grow">
+            <div class="flex flex-col items-start gap-1 grow w-full">
                 <div class="text-gray-300 text-xs font-medium">{{ $t('public.commission') }} ($)</div>
                 <div 
                     class="flex items-center gap-5 cursor-pointer" 
                     @click="openWalletInfoModal('commission_wallet_transactions')"
                 >
-                    <div class="text-white text-xl font-semibold">0.00</div>
+                    <div class="text-white text-xl font-semibold">
+                        <div v-show="isLoading" class="text-md">
+                            {{ $t('public.loading') }}
+                        </div>
+                        <template v-for="wallet in wallets">
+                            <template v-if="wallet.type === 'commission_wallet'">
+                                {{ wallet.balance }}
+                            </template>
+                        </template>
+                    </div>
                     <ChevronRightIcon class="text-gray-600"/>
                 </div>
             </div>
 
             <div class="self-stretch border-l border-solid border-gray-600 flex-1"></div>
 
-            <div class="flex flex-col items-start gap-1 grow">
+            <div class="flex flex-col items-start gap-1 grow w-full">
                 <div class="text-gray-300 text-xs font-medium">{{ $t('public.referee') }} (pax)</div>
                 <div 
                     class="flex items-center gap-5 cursor-pointer" 
                     @click="openWalletInfoModal('invite_history')"
                 >
-                    <div class="text-white text-xl font-semibold" >0</div>
+                    <div class="text-white text-xl font-semibold">
+                        <div v-if="isLoadingReferee" class="text-md">
+                            {{ $t('public.loading') }}
+                        </div>
+                        <template v-else>
+                            {{ refereeCount }}
+                        </template>
+                    </div>
                     <ChevronRightIcon class="text-gray-600"/>
                 </div>
             </div>

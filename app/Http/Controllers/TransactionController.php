@@ -20,10 +20,15 @@ class TransactionController extends Controller
 
     public function purchaseItem()
     {
+        return to_route('transaction.deposit')
+            ->with('title', trans('public.insufficient_balance'))
+            ->with('warning', trans('public.insufficient_balance_desc') )
+            ->with('alertButton', trans('public.deposit'));
+
         return back()
-            ->with('title', "Purchase Robotec Successful!")
-            ->with('success', "Fantastic! You've successfully finished Step 1 and unlocked your unique QR code for inviting friends. Keep going to unlock even more benefits and rewards! 🌟")
-            ->with('alertButton', 'Alright!');
+            ->with('title', trans('public.purchase_robotec_success'))
+            ->with('success', trans('public.purchase_robotec_success_desc') )
+            ->with('alertButton', trans('public.alright'));
     }
 
     public function deposit()

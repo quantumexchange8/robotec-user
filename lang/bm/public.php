@@ -146,5 +146,10 @@ return [
     "deposit_success" => "Deposit Berjaya!",
     "deposit_success_desc" => "Deposit anda telah berjaya diselesaikan dan dana anda kini boleh digunakan. Terima kasih",
     "back_to_dashboard" => "Kembali ke Dashboard",
+    "purchase_robotec_success" => "Beli Robotec Berjaya!",
+    "purchase_robotec_success_desc" => "Hebat! Anda telah berjaya menyelesaikan Langkah 1 dan membuka kod QR unik anda untuk menjemput rakan-rakan. Teruskan untuk membuka lebih banyak faedah dan ganjaran! 🌟",
+    "alright" => "Baiklah!",
+    "insufficient_balance" => "Baki tidak cukup!",
+    "insufficient_balance_desc" => "Oops! Baki anda tidak mencukupi untuk urus niaga ini. Sila tambah nilai dompet tunai anda untuk meneruskan.",
     
 ];

@@ -146,5 +146,10 @@ return [
     "deposit_success" => "存款成功!",
     "deposit_success_desc" => "您的存款已成功完成，资金现在可供使用。谢谢!",
     "back_to_dashboard" => "返回主页",
+    "purchase_robotec_success" => "购买 Robotec 成功！",
+    "purchase_robotec_success_desc" => "太棒了, 您已成功完成步骤1, 并解锁了您的独特邀请二维码。继续前进以解锁更多的好处和奖励! 🌟",
+    "alright" => "好的!",
+    "insufficient_balance" => "余额不足!",
+    "insufficient_balance_desc" => "哎呀！看来您的余额不足以进行此交易。请充值您的现金钱包以继续。",
     
 ];

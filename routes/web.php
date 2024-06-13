@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientDataController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,15 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/clientData', [DashboardController::class, 'showClientData'])->name('clientData');
+    Route::get('/getWallets', [DashboardController::class, 'getWallets'])->name('getWallets');
+    Route::get('/getDirectClientsCount', [DashboardController::class, 'getDirectClientsCount'])->name('getDirectClientsCount');
+    
+    /**
+     * ==============================
+     *          Client Data
+     * ==============================
+     */
+    Route::get('/clientData', [ClientDataController::class, 'index'])->name('clientData');
 
     /**
      * ==============================
