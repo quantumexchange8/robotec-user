@@ -140,6 +140,7 @@ class RegisteredUserController extends Controller
 
         $user = User::create($userData);
         $user->setReferralId();
+        $user->setIdNumber();
 
         Wallet::create([
             'user_id' => $user->id,

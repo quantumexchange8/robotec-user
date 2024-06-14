@@ -21,13 +21,17 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Deposit approval
+Route::get('deposit_approval/{token}', [TransactionController::class, 'deposit_approval'])->name('transaction.deposit_approval');
+Route::post('deposit/approval', [TransactionController::class, 'depositRequestApproval'])->name('depositRequestApproval');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/getWallets/{id}', [DashboardController::class, 'getWallets'])->name('getWallets');
+    Route::get('/getWallets', [DashboardController::class, 'getWallets'])->name('getWallets');
     Route::get('/getDirectClientsCount', [DashboardController::class, 'getDirectClientsCount'])->name('getDirectClientsCount');
     Route::get('/getTransactions/{id}', [DashboardController::class, 'getTransactions'])->name('getTransactions');
     Route::get('/getDirectClients', [DashboardController::class, 'getDirectClients'])->name('getDirectClients');
-    
+
     /**
      * ==============================
      *          Client Data

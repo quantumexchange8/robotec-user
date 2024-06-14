@@ -14,12 +14,17 @@ class DashboardController extends Controller
     {
         $walletIds = Wallet::where('user_id', Auth::id())->pluck('id','type');
 
-        return Inertia::render('Dashboard/Dashboard', ['walletIds' => $walletIds]);
+        return Inertia::render('Dashboard/Dashboard', [
+            'walletIds' => $walletIds
+        ]);
     }
 
-    public function getWallets($id)
+    public function getWallets(Request $request)
     {
-        return response()->json(Wallet::find($id));
+        return response()->json([
+            'cashWalletBalance' => Wallet::find($request->cash_wallet_id)->balance,
+            'commissionWalletBalance' => Wallet::find($request->commission_wallet_id)->balance,
+        ]);
     }
 
     public function getDirectClientsCount()
