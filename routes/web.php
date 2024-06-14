@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getWallets/{id}', [DashboardController::class, 'getWallets'])->name('getWallets');
     Route::get('/getDirectClientsCount', [DashboardController::class, 'getDirectClientsCount'])->name('getDirectClientsCount');
     Route::get('/getTransactions/{id}', [DashboardController::class, 'getTransactions'])->name('getTransactions');
+    Route::get('/getDirectClients', [DashboardController::class, 'getDirectClients'])->name('getDirectClients');
     
     /**
      * ==============================

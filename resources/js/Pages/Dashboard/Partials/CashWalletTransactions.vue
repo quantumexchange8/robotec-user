@@ -47,38 +47,42 @@ watchEffect(() => {
             <template v-for="transaction in transactions">
                 <div class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700">
                     <div class="flex flex-col items-start flex-1">
-                        <div class="text-gray-300 text-xs">{{ formatDateTime(transaction.created_at) }}</div>
+                        <div class="text-gray-300 text-xs">
+                            {{ formatDateTime(transaction.created_at) }}
+                        </div>
                         <div class="max-w-48 self-stretch overflow-hidden text-white text-ellipsis whitespace-nowrap text-sm font-medium">
                             {{ $t('public.'+ transaction.transaction_type) }}
                         </div>
                     </div>
                     <div 
                         class="min-w-fit text-right font-medium"
-                        :class="transaction.to_wallet_id ? 'text-success-500' : 'text-white'"
                     >
-                        <template v-if="transaction.to_wallet_id">+ $</template>
-                        <template v-if="transaction.from_wallet_id">- $</template>
-                        {{ formatAmount(transaction.amount) }}
+                        <span v-if="transaction.to_wallet_id" class="text-success-500">
+                            + $ {{ formatAmount(transaction.amount) }}
+                        </span>
+                        <span v-else class="text-white">
+                            - $ {{ formatAmount(transaction.amount) }}
+                        </span>
                     </div>
                 </div>
             </template>
+
+            <div
+                v-if="isLoading"
+                class="self-stretch text-white text-center tetx-sm font-medium"
+            >
+                {{ $t('public.loading') }}
+            </div>
         </div>
 
         <div
             v-else
             class="flex py-5 flex-col items-center gap-3 self-stretch"
         >
-            <template v-if="empty">
-                <EmptyHistoryIllustration />
-                <div class="self-stretch text-gray-300 text-center text-sm">
-                    {{ $t('public.no_transaction') }}
-                </div>
-            </template>
-            <template v-if="isLoading">
-                <div class="self-stretch text-white text-center tetx-sm font-medium">
-                    {{ $t('public.loading') }}
-                </div>
-            </template>
+            <EmptyHistoryIllustration />
+            <div class="self-stretch text-gray-300 text-center text-sm">
+                {{ $t('public.no_transaction') }}
+            </div>
         </div>
     </div>
 </template>

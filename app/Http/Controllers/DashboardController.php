@@ -33,4 +33,9 @@ class DashboardController extends Controller
 
         return response()->json($transactions);
     }
+
+    public function getDirectClients()
+    {
+        return response()->json(Auth::user()->direct_clients);
+    }
 }

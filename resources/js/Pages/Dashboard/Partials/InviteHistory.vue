@@ -1,57 +1,78 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import EmptyInviteHistoryIllustration from '@/Pages/Dashboard/Partials/EmptyInviteHistoryIllustration.vue';
+import {transactionFormat} from "@/Composables/index.js";
 
-const history = ref(true);
+import { usePage } from '@inertiajs/vue3';
+
+const { formatDateTime } = transactionFormat();
+const isLoading = ref(false);
+const clients = ref('');
+const empty = ref(false);
+
+const getDirectClients = async () => {
+    try {
+        isLoading.value = true;
+        const response = await axios.get(route('getDirectClients'));
+        clients.value = response.data;
+    } catch (error) {
+        console.error('Error refreshing clients data:', error);
+    } finally {
+        isLoading.value = false;
+        if (clients.value.length === 0) {
+            empty.value = true;
+        }
+    }
+};
+
+getDirectClients();
+
+watchEffect(() => {
+    if (usePage().props.title !== null) {
+        getDirectClients();
+    }
+});
+
 </script>
 
 <template>
     <div class="py-5">
-        <div v-if="history" class="flex flex-col items-start self-stretch rounded-xl">
-            <div class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700">
+        <div
+            v-if="!empty"
+            class="flex flex-col items-start self-stretch rounded-xl"
+        >
+            <div
+                v-for="client in clients"
+                class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700"
+            >
                 <div class="w-5 h-5 rounded-full overflow-hidden">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
+                    <img 
+                        :src="client.profile_photo ? client.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
+                        alt="profile_picture"
+                    />
                 </div>
                 <div class="flex flex-col justify-center flex-1 self-stretch">
                     <div class="max-w-36 overflow-hidden text-ellipsis whitespace-nowrap text-white text-sm font-medium">
-                        Mario Mario
+                        {{ client.name }}
                     </div>
                 </div>
                 <div class="text-gray-300 text-right text-xs">
-                    01/01/2024 09:00:00
+                    {{ formatDateTime(client.created_at) }}
                 </div>
             </div>
 
-            <div class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700">
-                <div class="w-5 h-5 rounded-full overflow-hidden">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
-                </div>
-                <div class="flex flex-col justify-center flex-1 self-stretch">
-                    <div class="max-w-36 overflow-hidden text-ellipsis whitespace-nowrap text-white text-sm font-medium">
-                        Mario Mario
-                    </div>
-                </div>
-                <div class="text-gray-300 text-right text-xs">
-                    01/01/2024 09:00:00
-                </div>
-            </div>
-
-            <div class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700">
-                <div class="w-5 h-5 rounded-full overflow-hidden">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
-                </div>
-                <div class="flex flex-col justify-center flex-1 self-stretch">
-                    <div class="max-w-36 overflow-hidden text-ellipsis whitespace-nowrap text-white text-sm font-medium">
-                        Mario Mario
-                    </div>
-                </div>
-                <div class="text-gray-300 text-right text-xs">
-                    01/01/2024 09:00:00
-                </div>
+            <div
+                v-if="isLoading"
+                class="self-stretch text-white text-center text-sm font-medium"
+            >
+                {{ $t('public.loading') }}
             </div>
         </div>
 
-        <div v-else class="py-5 flex flex-col items-center gap-3 self-stretch">
+        <div
+            v-else
+            class="py-5 flex flex-col items-center gap-3 self-stretch"
+        >
             <EmptyInviteHistoryIllustration />
             <div class="self-stretch text-gray-300 text-center text-xs">
                 {{ $t('public.invite_history_empty_desc') }}

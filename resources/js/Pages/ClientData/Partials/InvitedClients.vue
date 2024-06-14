@@ -1,21 +1,50 @@
 <script setup>
 import EmptyInviteHistoryIllustration from '@/Pages/ClientData/Partials/EmptyInviteHistoryIllustration.vue';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
+import { usePage } from '@inertiajs/vue3';
 
-const is_set = ref(true);
 const progress = ref('2');
 
 const clientDataModal = ref(false);
+const clientIndex = ref(0);
 
-const openClientDataModal = () => {
+const openClientDataModal = (index) => {
     clientDataModal.value = true;
+    clientIndex.value = index;
 }
 
 const closeModal = () => {
     clientDataModal.value = false
 }
+
+const isLoading = ref(false);
+const clients = ref('');
+const empty = ref(false);
+
+const getDirectClients = async () => {
+    try {
+        isLoading.value = true;
+        const response = await axios.get(route('getDirectClients'));
+        clients.value = response.data;
+    } catch (error) {
+        console.error('Error refreshing clients data:', error);
+    } finally {
+        isLoading.value = false;
+        if (clients.value.length === 0) {
+            empty.value = true;
+        }
+    }
+};
+
+getDirectClients();
+
+watchEffect(() => {
+    if (usePage().props.title !== null) {
+        getDirectClients();
+    }
+});
 
 </script>
 
@@ -27,20 +56,24 @@ const closeModal = () => {
         </div>
 
         <div
-            v-if="is_set"
+            v-if="!empty"
             class="grid grid-cols-3 w-full gap-3"
         >
             <div
-                @click="openClientDataModal()"
+                v-for="(client, index) in clients"
+                @click="openClientDataModal(index)"
                 class="flex min-w-24 py-5 px-2 flex-col justify-center items-center gap-2 flex-1 rounded-2xl bg-gray-800"
             >
                 <div class="w-7 h-7 rounded-full overflow-hidden">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
+                    <img
+                        :src="client.profile_photo ? client.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
+                        alt="profile_picture"
+                    />
                 </div>
                 <div
                     class="self-stretch overflow-hidden text-white text-center text-ellipsis text-xs font-medium whitespace-nowrap"
                 >
-                    Mario Mario
+                    {{ client.name }}
                 </div>
             </div>
         </div>
@@ -55,6 +88,12 @@ const closeModal = () => {
             </div>
         </div>
 
+        <div 
+            v-if="isLoading"
+            class="py-8 self-stretch text-white text-center font-medium"
+        >
+            {{ $t('public.loading') }}
+        </div>
     </div>
 
     <Modal
@@ -66,12 +105,15 @@ const closeModal = () => {
             <div class="flex flex-col items-center gap-5 self-stretch">
                 <div class="flex items-start gap-2 self-stretch">
                     <div class="w-9 h-9 rounded-full overflow-hidden">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png" alt="">
+                        <img
+                            :src="clients[clientIndex].profile_photo ? clients[clientIndex].profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
+                            alt="profile_picture"
+                        />
                     </div>
                     <div
                         class="flex flex-col justify-center self-stretch overflow-hidden text-white text-ellipsis font-medium whitespace-nowrap"
                     >
-                        Mario Mario
+                        {{ clients[clientIndex].name }}
                     </div>
                 </div>
 

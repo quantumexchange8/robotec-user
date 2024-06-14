@@ -7,11 +7,13 @@ import CashWalletTransactions from '@/Pages/Dashboard/Partials/CashWalletTransac
 import CommissionWalletTransactions from '@/Pages/Dashboard/Partials/CommissionWalletTransactions.vue';
 import InviteHistory from '@/Pages/Dashboard/Partials/InviteHistory.vue';
 import { usePage } from '@inertiajs/vue3';
+import {transactionFormat} from "@/Composables/index.js";
 
 const props = defineProps({
     walletIds: Object,
 });
 
+const { formatAmount } = transactionFormat();
 const cashWallet = ref(null);
 const commissionWallet = ref(null);
 
@@ -90,9 +92,9 @@ const closeModal = () => {
                 >
                     <div class="text-white text-xl font-semibold">
                         <div v-if="cashWallet !== null">
-                            {{ cashWallet.balance }}
+                            {{ formatAmount(cashWallet.balance) }}
                         </div>
-                        <div v-else>
+                        <div v-else class="text-md">
                             {{ $t('public.loading') }}
                         </div>
                     </div>
@@ -120,9 +122,9 @@ const closeModal = () => {
                 >
                     <div class="text-white text-xl font-semibold">
                         <div v-if="commissionWallet !== null">
-                            {{ commissionWallet.balance }}
+                            {{ formatAmount(commissionWallet.balance) }}
                         </div>
-                        <div v-else>
+                        <div v-else class="text-md">
                             {{ $t('public.loading') }}
                         </div>
                     </div>
@@ -164,7 +166,9 @@ const closeModal = () => {
         </template>
 
         <template v-if="modalComponent === 'commission_wallet_transactions'">
-            <CommissionWalletTransactions />
+            <CommissionWalletTransactions
+                :walletIds="props.walletIds"
+            />
         </template>
 
         <template v-if="modalComponent === 'invite_history'">
