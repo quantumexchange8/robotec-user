@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -59,5 +61,22 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function storeUsdt(Request $request)
+    {
+        $rule = ['usdt' => ['required', 'string']];
+        $attribute = ['usdt' => trans('public.usdt_address')];
+
+        $validator = Validator::make($request->all(), $rule);
+        $validator->setAttributeNames($attribute);
+        $validator->validate();
+
+        $user = User::find(Auth::id());
+        $user->usdt_address = $request->usdt;
+        $user->save();
+
+        // return with toast
+        return back();
     }
 }

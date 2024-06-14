@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import {ref, watch} from "vue";
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+import {onUpdated, ref, watch} from "vue";
 import Button from '@/Components/Button.vue';
 import Input from '@/Components/Input.vue';
 import Label from '@/Components/Label.vue';
@@ -9,40 +9,30 @@ import InputError from '@/Components/InputError.vue';
 import Modal from '@/Components/Modal.vue';
 import CompleteStep2Illustration from '@/Pages/Withdrawal/Partials/CompleteStep2Illustration.vue';
 import WithdrawalHistory from '@/Pages/Withdrawal/Partials/WithdrawalHistory.vue'
+import AddUSDTButton from '@/Pages/Profile/Partials/AddUSDTButton.vue';
+import AddUSDTAddressForm from '@/Pages/Profile/Partials/AddUSDTAddressForm.vue';
 
-const step2 = true;
-const commisionWalletBal = ref('300.01');
-const amountButton = ref('full_amount');
-const is_disabled = ref(true);
-const usdtAddress = ref('asd');
-const withdrawalAmount = ref('');
-
-const form = useForm({
-    amount: null,
-    usdt: '',
+const props = defineProps({
+    commissionWallet: Object,
 });
 
-const submitForm = () => {
-    form.amount = withdrawalAmount;
-    form.usdt = usdtAddress;
-    is_disabled.value = form.processing;
+const step2 = true;
+const commissionWalletBal = props.commissionWallet.balance;
+const amountButton = ref('full_amount');
+const is_disabled = ref(true);
+const withdrawalAmount = ref(null);
+const page = usePage();
+const usdtAddress = ref(page.props.auth.user.usdt_address);
 
-    // form.put(route(''), {
-    //     preserveScroll: true,
-    //     onSuccess: () => form.reset(),
-    //     onError: () => {
-    //         if (form.errors.amount) {
-    //             form.reset();
-    //         }
-    //     },
-    // });
-}
+onUpdated(() => {
+    usdtAddress.value = page.props.auth.user.usdt_address;
+})
 
 const fullOrClear = () => {
     if (amountButton.value === 'full_amount') {
-        withdrawalAmount.value = parseFloat(commisionWalletBal.value);
+        withdrawalAmount.value = parseFloat(commissionWalletBal);
     } else if (amountButton.value === 'clear') {
-        withdrawalAmount.value = '';
+        withdrawalAmount.value = null;
     }
 }
 
@@ -50,13 +40,13 @@ const feeCharge = ref('0.00');
 const receivable = ref('0.00')
 
 watch(withdrawalAmount, (newValue) => {
-    if (newValue > 0) {
+    if (newValue !== null) {
         amountButton.value = 'clear';
     } else {
         amountButton.value = 'full_amount';
     }
 
-    if (newValue >= 250 && usdtAddress.value) {
+    if (newValue >= 250 && usdtAddress) {
         is_disabled.value = false;
         feeCharge.value = (newValue * 0.1).toFixed(2);
         receivable.value = (newValue - feeCharge.value).toFixed(2);
@@ -72,11 +62,38 @@ const modalComponent = ref('');
 
 const openWithdrawalModal = (modalType) => {
     withdrawalModal.value = true;
-    modalComponent.value = modalType;
+
+    if (modalType === 'withdrawal_history') {
+        modalComponent.value = modalType;
+    } else if (modalType === 'add_usdt_address') {
+        modalComponent.value = modalType;
+    }
 }
 
 const closeModal = () => {
     withdrawalModal.value = false
+}
+
+const form = useForm({
+    amount: null,
+    charges: null,
+    receivable: null,
+});
+
+const submitForm = () => {
+    form.amount = withdrawalAmount.value;
+    form.charges = feeCharge.value;
+    form.receivable = receivable.value;
+
+    form.post(route('transaction.withdrawal.store'), {
+        preserveScroll: true,
+        onSuccess: () => form.reset(),
+        onError: () => {
+            if (form.errors.amount) {
+                form.reset();
+            }
+        },
+    });
 }
 
 </script>
@@ -107,7 +124,7 @@ const closeModal = () => {
                         <div class="text-white text-center font-semibold">{{ $t('public.commission_wallet_balance') }}</div>
                         <div class="text-gray-300 text-center text-xs">{{ $t('public.min_withdrawal_amount') }}</div>
                     </div>
-                    <div class="text-white text-center text-xxl font-semibold">$ {{ commisionWalletBal }}</div>
+                    <div class="text-white text-center text-xxl font-semibold">$ {{ commissionWalletBal }}</div>
                 </div>
                 <div class="flex flex-col items-center gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
@@ -139,18 +156,17 @@ const closeModal = () => {
                             {{ $t('public.usdt_address') }}
                         </Label>
                         <Input
+                            v-if="usdtAddress"
                             v-model="usdtAddress"
                             id="usdt"
                             type="text"
                             :is_disabled="true"
                             class="block w-full"
-                            :placeholder="usdtAddress ? usdtAddress : '-'"
+                            :placeholder="usdtAddress"
                             :invalid="form.errors.usdt"
                         />
+                        <AddUSDTButton v-else @update:usdtForm="openWithdrawalModal($event)" />
                         <InputError :message="form.errors.usdt" />
-                        <div v-if="!usdtAddress" class="self-stretch text-gray-300 text-xs">
-                            {{ $t('public.usdt_empty') }}
-                        </div>
                     </div>
                 </div>
 
@@ -168,7 +184,7 @@ const closeModal = () => {
                 </div>
                 <Button
                     size="lg"
-                    :disabled="is_disabled"
+                    :disabled="is_disabled || form.processing"
                     class="block w-full font-semibold"
                 >
                     {{ $t('public.withdraw_now') }}
@@ -196,7 +212,13 @@ const closeModal = () => {
             :title="$t('public.'+ modalComponent)"
             @close="closeModal"
         >
-            <WithdrawalHistory />
+            <template v-if="modalComponent === 'withdrawal_history'">
+                <WithdrawalHistory />
+            </template>
+
+            <template v-if="modalComponent === 'add_usdt_address'">
+                <AddUSDTAddressForm @update:modal="withdrawalModal = $event"/>
+            </template>
         </Modal>
     </AuthenticatedLayout>
 </template>

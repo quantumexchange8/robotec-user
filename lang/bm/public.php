@@ -144,13 +144,15 @@ return [
     "try_again_later" => "Sila cuba sebentar lagi!",
     "liability_waiver" => "penepian liabiliti",
     "deposit_success" => "Deposit Berjaya!",
-    "deposit_success_desc" => "Deposit anda telah berjaya diselesaikan dan dana anda kini boleh digunakan. Terima kasih",
+    "deposit_success_desc" => "Kami telah menerima deposit anda dan ia akan diproses dalam masa 24 jam. Sila tunggu dengan sabar. Terima kasih!",
     "back_to_dashboard" => "Kembali ke Dashboard",
     "purchase_robotec_success" => "Beli Robotec Berjaya!",
     "purchase_robotec_success_desc" => "Hebat! Anda telah berjaya menyelesaikan Langkah 1 dan membuka kod QR unik anda untuk menjemput rakan-rakan. Teruskan untuk membuka lebih banyak faedah dan ganjaran! 🌟",
     "alright" => "Baiklah!",
     "insufficient_balance" => "Baki tidak cukup!",
-    "insufficient_balance_desc" => "Oops! Baki anda tidak mencukupi untuk urus niaga ini. Sila tambah nilai dompet tunai anda untuk meneruskan.",
+    "insufficient_balance_desc" => "Oops! Baki anda tidak mencukupi untuk urus niaga ini. Sila tambah nilai dompet anda untuk meneruskan.",
     "loading" => "Memuatkan...",
+    "withdrawal_request_submitted" => "Permohonan Pengeluaran Dihantar",
+    "Withdrawal Request Submitted_desc" => "Permintaan pengeluaran anda telah berjaya dihantar. Ia akan diproses dalam tempoh 5 hingga 7 hari bekerja. Terima kasih atas kesabaran anda!",
     
 ];

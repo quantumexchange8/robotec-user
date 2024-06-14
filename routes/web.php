@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/usdt', [ProfileController::class, 'storeUsdt'])->name('profile.usdt');
     });
 
     /**
@@ -53,6 +54,7 @@ Route::middleware('auth')->group(function () {
      */
     Route::prefix('transaction')->group(function () {
         Route::get('/withdrawal', [TransactionController::class, 'withdrawal'])->name('transaction.withdrawal');
+        Route::post('/withdrawal', [TransactionController::class, 'storeWithdrawal'])->name('transaction.withdrawal.store');
 
         //purchase item
         Route::post('/purchaseItem', [TransactionController::class, 'purchaseItem'])->name('transaction.purchaseItem');

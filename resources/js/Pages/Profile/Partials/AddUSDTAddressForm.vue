@@ -3,25 +3,27 @@ import InputError from '@/Components/InputError.vue';
 import Label from '@/Components/Label.vue';
 import Input from '@/Components/Input.vue';
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import Button from '@/Components/Button.vue';
+
+const emit = defineEmits(['update:modal']);
 
 const form = useForm({
     usdt: '',
 });
 
 const submitForm = () => {
-    console.log('submitting');
-    // form.put(route(''), {
-    //     preserveScroll: true,
-    //     onSuccess: () => form.reset(),
-    //     onError: () => {
-    //         if (form.errors.usdt) {
-    //             form.reset();
-    //         }
-    //     },
-    // });
+    form.post(route('profile.usdt'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            closeModal();
+        },
+    });
 };
+
+const closeModal = () => {
+    emit('update:modal', false);
+}
 </script>
 
 <template>
@@ -54,7 +56,7 @@ const submitForm = () => {
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
-                    @click="$emit('closeModal')"
+                    @click="closeModal"
                 >
                     {{ $t('public.cancel') }}
                 </Button>

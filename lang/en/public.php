@@ -144,13 +144,15 @@ return [
     "try_again_later" => "Please try again later!",
     "liability_waiver" => "liability waiver",
     "deposit_success" => "Deposit Successful!",
-    "deposit_success_desc" => "Your deposit has been successfully completed and your funds are now available for use. Thank you!",
+    "deposit_success_desc" => "We've received your deposit and it will be processed within 24 hours. Please wait patiently. Thank you!",
     "back_to_dashboard" => "Back to Dashboard",
     "purchase_robotec_success" => "Purchase Robotec Successful!",
     "purchase_robotec_success_desc" => "Fantastic! You've successfully finished Step 1 and unlocked your unique QR code for inviting friends. Keep going to unlock even more benefits and rewards! 🌟",
     "alright" => "Alright!",
     "insufficient_balance" => "Insufficient Balance!",
-    "insufficient_balance_desc" => "Oops! It looks like your balance is insufficient for this transaction. Please top up your cash wallet to proceed.",
+    "insufficient_balance_desc" => "Oops! It looks like your balance is insufficient for this transaction. Please top up your wallet to proceed.",
     "loading" => "Loading...",
+    "withdrawal_request_submitted" => "Withdrawal Request Submitted",
+    "Withdrawal Request Submitted_desc" => "Your withdrawal request has been successfully submitted. It will be processed within 5 to 7 working days. Thank you for your patience!",
     
 ];

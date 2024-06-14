@@ -5,17 +5,63 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DepositRequest;
 use App\Models\SettingWalletAddress;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Models\Wallet;
 use App\Services\RunningNumberService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
     public function withdrawal()
     {
-        return Inertia::render('Withdrawal/Withdrawal');
+        $commission_wallet = Wallet::where('user_id', Auth::id())
+            ->where('type', 'commission_wallet')
+            ->first();
+        
+        return Inertia::render('Withdrawal/Withdrawal', ['commissionWallet' => $commission_wallet]);
+    }
+
+    public function storeWithdrawal(Request $request)
+    {
+        $rule = ['amount' => ['required', 'numeric', 'min:250']];
+        $attribute = ['amount' => trans('public.amount')];
+
+        $validator = Validator::make($request->all(), $rule);
+        $validator->setAttributeNames($attribute);
+        $validator->validate();
+
+        $user_id = Auth::id();
+        $user = User::find($user_id);
+        $commission_wallet = $user->wallets->where('type', 'commission_wallet')->first();
+
+        if($request->amount > $commission_wallet->balance) {
+            return back()
+                ->with('title', trans('public.insufficient_balance'))
+                ->with('warning', trans('public.insufficient_balance_desc') )
+                ->with('alertButton', trans('public.alright'));
+        }
+
+        Transaction::create([
+            'user_id' => $user_id,
+            'category' => 'wallet',
+            'transaction_type' => 'withdrawal',
+            'from_wallet_id' => $commission_wallet->id,
+            'transaction_number' => RunningNumberService::getID('transaction'),
+            'to_wallet_address' => $user->usdt_address,
+            'amount' => $request->amount,
+            'transaction_charges' => $request->charges,
+            'transaction_amount' => $request->receivable,
+            'old_wallet_amount' => $commission_wallet->balance,
+            'status' => 'processing',
+        ]);
+
+        return back()
+            ->with('title', trans('public.withdrawal_request_submitted'))
+            ->with('success', trans('public.withdrawal_request_submitted_desc'))
+            ->with('alertButton', trans('public.alright'));
     }
 
     public function purchaseItem()

@@ -1,16 +1,17 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
+import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import { Upload01Icon, Key01Icon, PlusIcon } from '@/Components/Icons/outline';
 import Input from '@/Components/Input.vue';
 import Modal from '@/Components/Modal.vue';
 import { ref } from 'vue';
-import AddUSDTAddressForm from './Partials/AddUSDTAddressForm.vue';
+import AddUSDTAddressForm from '@/Pages/Profile/Partials/AddUSDTAddressForm.vue';
+import AddUSDTButton from '@/Pages/Profile/Partials/AddUSDTButton.vue';
 
 const user = usePage().props.auth.user;
-const usdt = '';
+const usdt = user.usdt_address;
 
 const profileModal = ref(false);
 const modalComponent = ref('');
@@ -103,16 +104,7 @@ const closeModal = () => {
                 <div class="self-stretch text-gray-300 text-xs">
                     {{ $t('public.add_usdt_desc') }}
                 </div>
-                <Button
-                    variant="outline"
-                    type="button"
-                    class="font-semibold flex gap-2"
-                    v-slot="{ iconSizeClasses }"
-                    @click="openProfileModal('add_usdt_address')"
-                >
-                    <PlusIcon />
-                    {{ $t('public.add_usdt_address') }}
-                </Button>
+                <AddUSDTButton @update:usdtForm="openProfileModal($event)" />
             </div>
 
         </div>
@@ -124,11 +116,11 @@ const closeModal = () => {
         @close="closeModal"
     >
         <template v-if="modalComponent === 'change_password'">
-            <UpdatePasswordForm @closeModal = "closeModal" />
+            <UpdatePasswordForm @update:modal="profileModal = $event" />
         </template>
 
         <template v-if="modalComponent === 'add_usdt_address'">
-            <AddUSDTAddressForm @closeModal = "closeModal" />
+            <AddUSDTAddressForm @update:modal="profileModal = $event" />
         </template>
     </Modal>
 </template>
