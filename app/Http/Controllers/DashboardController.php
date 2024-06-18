@@ -13,9 +13,11 @@ class DashboardController extends Controller
     public function index()
     {
         $walletIds = Wallet::where('user_id', Auth::id())->pluck('id','type');
+        $robotecTransaction = Transaction::where('user_id', Auth::id())->where('transaction_type', 'purchase_robotec')->first();
 
         return Inertia::render('Dashboard/Dashboard', [
-            'walletIds' => $walletIds
+            'walletIds' => $walletIds,
+            'robotecTransaction' => (bool)$robotecTransaction
         ]);
     }
 
@@ -34,7 +36,8 @@ class DashboardController extends Controller
 
     public function getTransactions($id)
     {
-        $transactions = Transaction::where('from_wallet_id', $id)->orWhere('to_wallet_id', $id)->where('status', 'Success')->orderBy('created_at', 'desc')->get();
+        $transactions = Transaction::where('from_wallet_id', $id)->orWhere('to_wallet_id', $id)->orderBy('created_at', 'desc')->get();
+        $transactions = $transactions->where('status', 'success');
 
         return response()->json($transactions);
     }

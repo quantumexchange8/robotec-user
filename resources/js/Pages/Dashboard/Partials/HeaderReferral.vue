@@ -11,6 +11,7 @@ import Tooltip from '@/Components/Tooltip.vue';
 
 const props = defineProps({
     user: Object,
+    robotecTransaction: Boolean,
 });
 
 const referralCodeModal = ref(false);
@@ -22,7 +23,7 @@ const closeReferralCodeModal = () => {
     referralCodeModal.value = false
 }
 
-const step1 = true;
+const step1 = ref(props.robotecTransaction);
 const referralQr = route('register', props.user.referral_code);
 const tooltipContent = ref('copy_link');
 

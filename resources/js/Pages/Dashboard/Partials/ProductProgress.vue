@@ -3,11 +3,15 @@ import Button from '@/Components/Button.vue';
 import { Lock01Icon } from '@/Components/Icons/outline';
 import RobotIllustration from '@/Pages/Dashboard/Partials/RobotIllustration.vue';
 import Modal from '@/Components/Modal.vue';
-import { ref, watch } from 'vue';
+import { onUpdated, ref, watch } from 'vue';
 import PurchaseRobotecForm from '@/Pages/Dashboard/Partials/PurchaseRobotecForm.vue';
 import InvestmentForm from '@/Pages/Dashboard/Partials/InvestmentForm.vue';
 import TransferForm from '@/Pages/Dashboard/Partials/TransferForm.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
+
+const props = defineProps({
+    robotecTransaction: Boolean,
+});
 
 const productProgressModal = ref(false);
 const modalComponent = ref('');
@@ -28,13 +32,18 @@ const closeModal = () => {
     productProgressModal.value = false;
 }
 
-const step1 = ref(false);
+const step1 = ref(props.robotecTransaction);
 const progress = ref('0');
 
-const purchasingRobotec = () => {
-    step1.value = true;
-    progress.value = '1';
-}
+watch((step1), (newValue) => {
+    if (newValue) {
+        progress.value = '1';
+    }
+}, {immediate: true})
+
+onUpdated(()=>{
+    step1.value = props.robotecTransaction;
+})
 
 /*
     status should filter out the condition of the user
@@ -188,7 +197,6 @@ const transferring = () => {
         <template v-if="modalComponent === 'purchase_robotec'">
             <PurchaseRobotecForm
                 @update:productProgressModal="productProgressModal = $event"
-                @update:button2="purchasingRobotec"
             />
         </template>
 

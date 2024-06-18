@@ -8,6 +8,7 @@ import ProductProgress from './Partials/ProductProgress.vue';
 const user = usePage().props.auth.user;
 const props = defineProps({
     walletIds: Object,
+    robotecTransaction: Boolean,
 });
 </script>
 
@@ -21,13 +22,13 @@ const props = defineProps({
                     <div class="self-stretch text-white text-xs font-medium">{{ $t('public.welcome_back') }}</div>
                     <div class="self-stretch text-white text-lg font-semibold">{{ user.name }}</div>
                 </div>
-                <HeaderReferral :user="user" />
+                <HeaderReferral :user="user" :robotecTransaction="props.robotecTransaction" />
             </div>
         </template>
 
         <WalletInfo :walletIds="props.walletIds"/>
 
-        <ProductProgress />
+        <ProductProgress :robotecTransaction="props.robotecTransaction" />
 
         <div class="flex px-4 py-5 flex-col items-center self-stretch">
             <div class="flex py-2 items-center self-stretch text-white text-xl font-semibold">{{ $t('public.overview') }}</div>

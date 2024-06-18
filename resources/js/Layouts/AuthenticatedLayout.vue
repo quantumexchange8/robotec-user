@@ -20,7 +20,6 @@ const alertButton = ref(null);
 // Event listener for Inertia finish event
 let removeFinishEventListener = Inertia.on('finish', () => {
     if (page.props.success) {
-        console.log(page.props.success)
         showAlert.value = true;
         intent.value = 'success';
         alertTitle.value = page.props.title;

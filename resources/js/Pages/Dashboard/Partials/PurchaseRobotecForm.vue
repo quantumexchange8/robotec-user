@@ -5,7 +5,6 @@ import {useForm} from "@inertiajs/vue3";
 
 const emit = defineEmits([
     'update:productProgressModal',
-    'update:button2'
 ])
 
 const form = useForm({
@@ -18,7 +17,6 @@ const submitForm = () => {
         onSuccess: () => {
             form.reset();
             closeModal();
-            emit('update:button2');
         },
     });
 }

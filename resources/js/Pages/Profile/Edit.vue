@@ -3,15 +3,20 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
-import { Upload01Icon, Key01Icon, PlusIcon } from '@/Components/Icons/outline';
+import { Upload01Icon, Key01Icon } from '@/Components/Icons/outline';
 import Input from '@/Components/Input.vue';
 import Modal from '@/Components/Modal.vue';
-import { ref } from 'vue';
+import { onUpdated, ref } from 'vue';
 import AddUSDTAddressForm from '@/Pages/Profile/Partials/AddUSDTAddressForm.vue';
 import AddUSDTButton from '@/Pages/Profile/Partials/AddUSDTButton.vue';
 
-const user = usePage().props.auth.user;
-const usdt = user.usdt_address;
+const user = ref(usePage().props.auth.user);
+const usdt = ref(user.value.usdt_address);
+
+onUpdated(() => {
+    user.value = usePage().props.auth.user;
+    usdt.value = user.value.usdt_address;
+})
 
 const profileModal = ref(false);
 const modalComponent = ref('');
@@ -88,7 +93,7 @@ const closeModal = () => {
 
             <div class="flex py-2 items-center self-stretch flex-1 text-white font-semibold">{{ $t('public.usdt_address') }}</div>
 
-            <div v-if="usdt" class="flex flex-col items-start gap-1.5 w-full">
+            <div v-if="usdt !== null" class="flex flex-col items-start gap-1.5 w-full">
                 <Input
                     v-model="usdt"
                     id="usdt_address"

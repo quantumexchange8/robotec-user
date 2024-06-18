@@ -92,12 +92,24 @@ class TransactionController extends Controller
 
         $balance = $cash_wallet->balance;
         if ($balance >= 250) {
-            // $balance = $balance - 250;
-            // dd($balance);
+            $new_bal = $balance - 250;
 
-            // $cash_wallet->save();
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'category' => 'wallet',
+                'transaction_type' => 'purchase_robotec',
+                'from_wallet_id' => $cash_wallet->id,
+                'transaction_number' => RunningNumberService::getID('transaction'),
+                'amount' => 250,
+                'transaction_amount' => 250,
+                'transaction_charges' => 0,
+                'old_wallet_amount' => $balance,
+                'new_wallet_amount' => $new_bal,
+                'status' => 'success',
+            ]);
 
-            // add transaction history (purchase_robotec)
+            $cash_wallet->balance = $new_bal;
+            $cash_wallet->save();
 
             return back()
                 ->with('title', trans('public.purchase_robotec_success'))
