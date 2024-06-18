@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
 {
@@ -23,29 +23,42 @@ class TransactionController extends Controller
         $commission_wallet = Wallet::where('user_id', Auth::id())
             ->where('type', 'commission_wallet')
             ->first();
-        
-        return Inertia::render('Withdrawal/Withdrawal', ['commissionWallet' => $commission_wallet]);
+
+        $withdrawal_history = Transaction::where([
+            'from_wallet_id' => $commission_wallet->id,
+            'transaction_type' => 'withdrawal'
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Withdrawal/Withdrawal', [
+            'commissionWallet' => $commission_wallet,
+            'withdrawalHistory' => $withdrawal_history
+        ]);
     }
 
     public function storeWithdrawal(Request $request)
     {
-        $rule = ['amount' => ['required', 'numeric', 'min:250']];
-        $attribute = ['amount' => trans('public.amount')];
-
-        $validator = Validator::make($request->all(), $rule);
-        $validator->setAttributeNames($attribute);
+        $validator = Validator::make($request->all(), [
+            'amount' => ['required', 'numeric', 'min:250'],
+            'usdt' => ['required'],
+        ])->setAttributeNames([
+            'amount' => trans('public.amount'),
+            'usdt' => trans('public.usdt_address'),
+        ]);
         $validator->validate();
 
         $user_id = Auth::id();
         $user = User::find($user_id);
         $commission_wallet = $user->wallets->where('type', 'commission_wallet')->first();
 
-        if($request->amount > $commission_wallet->balance) {
-            return back()
-                ->with('title', trans('public.insufficient_balance'))
-                ->with('warning', trans('public.insufficient_balance_desc') )
-                ->with('alertButton', trans('public.alright'));
+        if ($commission_wallet->balance < $request->amount) {
+            throw ValidationException::withMessages(['amount' => trans('public.insufficient_balance')]);
         }
+
+        $old_bal = $commission_wallet->balance;
+        $amount = $request->amount;
+        $new_bal = $old_bal - $amount;
 
         Transaction::create([
             'user_id' => $user_id,
@@ -55,11 +68,15 @@ class TransactionController extends Controller
             'transaction_number' => RunningNumberService::getID('transaction'),
             'to_wallet_address' => $user->usdt_address,
             'amount' => $request->amount,
-            'transaction_charges' => $request->charges,
             'transaction_amount' => $request->receivable,
-            'old_wallet_amount' => $commission_wallet->balance,
+            'transaction_charges' => $request->charges,
+            'old_wallet_amount' => $old_bal,
+            'new_wallet_amount' => $new_bal,
             'status' => 'processing',
         ]);
+
+        $commission_wallet->balance = $new_bal;
+        $commission_wallet->save();
 
         return back()
             ->with('title', trans('public.withdrawal_request_submitted'))

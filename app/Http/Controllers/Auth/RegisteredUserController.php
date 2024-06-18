@@ -115,7 +115,7 @@ class RegisteredUserController extends Controller
         $userData = [
             'name' => $request->full_name,
             'email' => $request->email,
-            'dial_code' => $dial_code,
+            'dial_code' => $request->dial_code,
             'phone' => $phone,
             'password' => Hash::make($request->password),
             'role' => 'user',

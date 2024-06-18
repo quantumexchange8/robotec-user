@@ -11,18 +11,21 @@ import CompleteStep2Illustration from '@/Pages/Withdrawal/Partials/CompleteStep2
 import WithdrawalHistory from '@/Pages/Withdrawal/Partials/WithdrawalHistory.vue'
 import AddUSDTButton from '@/Pages/Profile/Partials/AddUSDTButton.vue';
 import AddUSDTAddressForm from '@/Pages/Profile/Partials/AddUSDTAddressForm.vue';
+import {transactionFormat} from "@/Composables/index.js";
 
 const props = defineProps({
     commissionWallet: Object,
+    withdrawalHistory: Array,
 });
 
 const step2 = true;
-const commissionWalletBal = props.commissionWallet.balance;
+const commissionWalletBal = ref(props.commissionWallet.balance);
 const amountButton = ref('full_amount');
 const is_disabled = ref(true);
 const withdrawalAmount = ref(null);
 const page = usePage();
 const usdtAddress = ref(page.props.auth.user.usdt_address);
+const { formatAmount } = transactionFormat();
 
 onUpdated(() => {
     usdtAddress.value = page.props.auth.user.usdt_address;
@@ -30,7 +33,7 @@ onUpdated(() => {
 
 const fullOrClear = () => {
     if (amountButton.value === 'full_amount') {
-        withdrawalAmount.value = parseFloat(commissionWalletBal);
+        withdrawalAmount.value = parseFloat(commissionWalletBal.value);
     } else if (amountButton.value === 'clear') {
         withdrawalAmount.value = null;
     }
@@ -78,23 +81,26 @@ const form = useForm({
     amount: null,
     charges: null,
     receivable: null,
+    usdt: '',
 });
 
 const submitForm = () => {
     form.amount = withdrawalAmount.value;
     form.charges = feeCharge.value;
     form.receivable = receivable.value;
+    form.usdt = usdtAddress.value;
 
     form.post(route('transaction.withdrawal.store'), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
-        onError: () => {
-            if (form.errors.amount) {
-                form.reset();
-            }
+        onSuccess: () => {
+            withdrawalAmount.value = null;
         },
     });
 }
+
+watch(() => props.commissionWallet, (newWalletValue) => {
+    commissionWalletBal.value = newWalletValue.balance;
+})
 
 </script>
 
@@ -124,7 +130,7 @@ const submitForm = () => {
                         <div class="text-white text-center font-semibold">{{ $t('public.commission_wallet_balance') }}</div>
                         <div class="text-gray-300 text-center text-xs">{{ $t('public.min_withdrawal_amount') }}</div>
                     </div>
-                    <div class="text-white text-center text-xxl font-semibold">$ {{ commissionWalletBal }}</div>
+                    <div class="text-white text-center text-xxl font-semibold">$ {{ formatAmount(commissionWalletBal) }}</div>
                 </div>
                 <div class="flex flex-col items-center gap-5 self-stretch">
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
@@ -213,7 +219,7 @@ const submitForm = () => {
             @close="closeModal"
         >
             <template v-if="modalComponent === 'withdrawal_history'">
-                <WithdrawalHistory />
+                <WithdrawalHistory :withdrawalHistory=props.withdrawalHistory />
             </template>
 
             <template v-if="modalComponent === 'add_usdt_address'">

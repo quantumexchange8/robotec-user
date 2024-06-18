@@ -1,42 +1,46 @@
 <script setup>
 import EmptyHistoryIllustration from '@/Pages/Dashboard/Partials/EmptyHistoryIllustration.vue';
-import { ref } from 'vue';
+import {transactionFormat} from "@/Composables/index.js";
 
-const approval = ref('Pending');
-const history = ref(true);
+const { formatDateTime, formatAmount } = transactionFormat();
+
+const props = defineProps({
+    withdrawalHistory:Array,
+});
 
 </script>
 
 <template>
     <div class="pt-5">
-        <div 
-            v-if="history"
-            class="flex py-2 items-center gap-3 self-stretch"
-        >
-            <div class="flex flex-col items-start flex-1">
-                <div class="text-gray-300 text-xs">01/01/2024 09:00:00</div>
-                <div
-                    v-if="approval === 'Approved'"
-                    class="text-success-500 text-sm font-medium"
-                >
-                    {{ $t('public.approved') }}
+        <template v-if="props.withdrawalHistory.length">
+            <div
+                v-for="withdrawalHistory in props.withdrawalHistory"
+                class="flex py-2 items-center gap-3 self-stretch"
+            >
+                <div class="flex flex-col items-start flex-1">
+                    <div class="text-gray-300 text-xs">{{ formatDateTime(withdrawalHistory.created_at) }}</div>
+                    <div
+                        v-if="withdrawalHistory.status === 'success'"
+                        class="text-success-500 text-sm font-medium"
+                    >
+                        {{ $t('public.success') }}
+                    </div>
+                    <div
+                        v-else-if="withdrawalHistory.status === 'processing'"
+                        class="text-warning-500 text-sm font-medium"
+                    >
+                        {{ $t('public.processing') }}
+                    </div>
+                    <div
+                        v-else-if="withdrawalHistory.status === 'failed'"
+                        class="text-error-500 text-sm font-medium"
+                    >
+                        {{ $t('public.failed') }}
+                    </div>
                 </div>
-                <div
-                    v-else-if="approval === 'Pending'"
-                    class="text-warning-500 text-sm font-medium"
-                >
-                    {{ $t('public.pending') }}
-                </div>
-                <div
-                    v-else-if="approval === 'Rejected'"
-                    class="text-error-500 text-sm font-medium"
-                >
-                    {{ $t('public.rejected') }}
-                </div>
+                <div class="text-white text-right font-medium">$ {{ formatAmount(withdrawalHistory.amount) }}</div>
             </div>
-
-            <div class="text-white text-right font-medium">$ 250.00</div>
-        </div>
+        </template>
 
         <div 
             v-else 

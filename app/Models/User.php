@@ -86,6 +86,6 @@ class User extends Authenticatable implements HasMedia
 
     public function direct_clients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(User::class, 'upline_id', 'id');
+        return $this->hasMany(User::class, 'upline_id', 'id')->orderBy('created_at', 'desc');
     }
 }

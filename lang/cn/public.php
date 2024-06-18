@@ -153,7 +153,7 @@ return [
     "insufficient_balance_desc" => "哎呀！看来您的余额不足以进行此交易。请充值您的钱包以继续。",
     "loading" => "加载中...",
     "withdrawal_request_submitted" => "提款请求已提交",
-    "Withdrawal Request Submitted_desc" => "您的提款请求已成功提交。将在5至7个工作日内处理。感谢您的耐心等待!",
+    "withdrawal_request_submitted_desc" => "您的提款请求已成功提交。将在5至7个工作日内处理。感谢您的耐心等待!",
     "deposit_approval" => "存款批准",
     "transaction_id" => "交易编号",
     "requested_date" => "请求日期",
@@ -168,4 +168,5 @@ return [
     "deposit_approval_return_message" => "交易编号 :transaction_number 的交易状态是 :status",
     "success" => "成功",
     "failed" => "失败",
+    "processing" => "处理中",
 ];

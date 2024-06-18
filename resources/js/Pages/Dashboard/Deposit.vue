@@ -119,11 +119,7 @@ const buttonStatus = () => {
     is_disabled.value = !(amount.value && txid.value);
 }
 
-watch(amount, () => {
-    buttonStatus();
-});
-
-watch(txid, () => {
+watch([amount, txid], () => {
     buttonStatus();
 });
 </script>

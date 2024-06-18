@@ -153,7 +153,7 @@ return [
     "insufficient_balance_desc" => "Oops! Baki anda tidak mencukupi untuk urus niaga ini. Sila tambah nilai dompet anda untuk meneruskan.",
     "loading" => "Memuatkan...",
     "withdrawal_request_submitted" => "Permohonan Pengeluaran Dihantar",
-    "Withdrawal Request Submitted_desc" => "Permintaan pengeluaran anda telah berjaya dihantar. Ia akan diproses dalam tempoh 5 hingga 7 hari bekerja. Terima kasih atas kesabaran anda!",
+    "withdrawal_request_submitted_desc" => "Permintaan pengeluaran anda telah berjaya dihantar. Ia akan diproses dalam tempoh 5 hingga 7 hari bekerja. Terima kasih atas kesabaran anda!",
     "deposit_approval" => "Kelulusan Deposit",
     "transaction_id" => "ID Transaksi",
     "requested_date" => "Tarikh Diminta",
@@ -168,4 +168,5 @@ return [
     "deposit_approval_return_message" => "Status transaksi untuk :transaction_number adalah :status",
     "success" => "Berjaya",
     "failed" => "Gagal",
+    "processing" => "Diproses",
 ];

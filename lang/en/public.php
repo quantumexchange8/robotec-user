@@ -153,7 +153,7 @@ return [
     "insufficient_balance_desc" => "Oops! It looks like your balance is insufficient for this transaction. Please top up your wallet to proceed.",
     "loading" => "Loading...",
     "withdrawal_request_submitted" => "Withdrawal Request Submitted",
-    "Withdrawal Request Submitted_desc" => "Your withdrawal request has been successfully submitted. It will be processed within 5 to 7 working days. Thank you for your patience!",
+    "withdrawal_request_submitted_desc" => "Your withdrawal request has been successfully submitted. It will be processed within 5 to 7 working days. Thank you for your patience!",
     "deposit_approval" => "Deposit Approval",
     "transaction_id" => "Transaction ID",
     "requested_date" => "Requested Date",
@@ -168,4 +168,5 @@ return [
     "deposit_approval_return_message" => "Transaction for :transaction_number status is :status",
     "success" => "Success",
     "failed" => "Failed",
+    "processing" => "Processing",
 ];
