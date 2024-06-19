@@ -111,6 +111,22 @@ class TransactionController extends Controller
             $cash_wallet->balance = $new_bal;
             $cash_wallet->save();
 
+            $upline = User::find(Auth::id())->upline;
+            $upline_commission_wallet = Wallet::where(['user_id' => $upline->id, 'type' => 'commission_wallet'])->first();
+
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'category' => 'wallet',
+                'transaction_type' => 'commission',
+                'to_wallet_id' => $upline_commission_wallet->id,
+                'transaction_number' => RunningNumberService::getID('transaction'),
+                'amount' => 250,
+                'transaction_amount' => 250,
+                'transaction_charges' => 0,
+                'old_wallet_amount' => $upline_commission_wallet->balance,
+                'status' => 'processing',
+            ]);
+
             return back()
                 ->with('title', trans('public.purchase_robotec_success'))
                 ->with('success', trans('public.purchase_robotec_success_desc') )

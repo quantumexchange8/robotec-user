@@ -6,7 +6,7 @@ import Modal from '@/Components/Modal.vue';
 import Input from '@/Components/Input.vue';
 import Qrcode from "qrcode.vue";
 import EmptyQrIllustration from './EmptyQrIllustration.vue';
-import { ref } from 'vue';
+import { onUpdated, ref } from 'vue';
 import Tooltip from '@/Components/Tooltip.vue';
 
 const props = defineProps({
@@ -49,6 +49,9 @@ const copyLink = () => {
     document.body.removeChild(tempInput);
 }
 
+onUpdated(()=>{
+    step1.value = props.robotecTransaction;
+})
 </script>
 
 <template>
