@@ -28,7 +28,7 @@ const props = defineProps({
 
         <WalletInfo :walletIds="props.walletIds"/>
 
-        <ProductProgress :robotecTransaction="props.robotecTransaction" />
+        <ProductProgress :robotecTransaction="props.robotecTransaction" :walletIds="props.walletIds" />
 
         <div class="flex px-4 py-5 flex-col items-center self-stretch">
             <div class="flex py-2 items-center self-stretch text-white text-xl font-semibold">{{ $t('public.overview') }}</div>

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TradingAccountController;
 use App\Http\Controllers\TransactionController;
 
 Route::get('locale/{locale}', function ($locale) {
@@ -62,13 +63,21 @@ Route::middleware('auth')->group(function () {
 
         //purchase item
         Route::post('/purchaseItem', [TransactionController::class, 'purchaseItem'])->name('transaction.purchaseItem');
-        Route::post('/investment', [TransactionController::class, 'addFund'])->name('transaction.investment');
         Route::post('/transfer', [TransactionController::class, 'transfer'])->name('transaction.transfer');
 
         Route::get('/deposit', [TransactionController::class, 'deposit'])->name('transaction.deposit');
         Route::post('/deposit', [TransactionController::class, 'storeDeposit'])->name('transaction.deposit.store');
+    });
 
-        Route::post('/createAcc', [TransactionController::class, 'createTradingAccount'])->name('createTradingAcc');
+    /**
+     * ==============================
+     *           Trading
+     * ==============================
+     */
+    Route::prefix('trading')->group(function () {
+        Route::post('/createTradingAccount', [TradingAccountController::class, 'createTradingAccount'])->name('createTradingAcc');
+        Route::post('/investment', [TradingAccountController::class, 'addFund'])->name('trading.investment');
+        Route::post('/startAutoTrading', [TradingAccountController::class, 'startAutoTrade'])->name('trading.start');
     });
 
 });

@@ -10,9 +10,11 @@ import TransferForm from '@/Pages/Dashboard/Partials/TransferForm.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 import { useForm } from '@inertiajs/vue3';
 import LoadingDialog from '@/Pages/Dashboard/Partials/LoadingDialog.vue';
+import AutoTradingConfirmationModal from '@/Pages/Dashboard/Partials/AutoTradingConfirmationModal.vue';
 
 const props = defineProps({
     robotecTransaction: Boolean,
+    walletIds: Object,
 });
 
 const productProgressModal = ref(false);
@@ -34,10 +36,10 @@ const closeModal = () => {
     productProgressModal.value = false;
 }
 
-const isOpen = ref(false)
+const openLoading = ref(false)
 
 function closeLoadingModal() {
-    isOpen.value = false
+    openLoading.value = false
 }
 
 const step1 = ref(props.robotecTransaction);
@@ -62,22 +64,23 @@ onUpdated(()=>{
 */
 const button2Status = ref('create_account');
 const investmentStatus = ref(false);
+const autoTradeModal = ref(false);
 
 const button2 = (status) => {
     switch(status) {
         case 'create_account':
             console.log('Creating trading account');
-            isOpen.value = true
+            openLoading.value = true
             submitCreateAccForm();
             break;
         case 'fund_in':
             openProductProgressModal('fund_in');
             break;
         case 'start_auto_trading':
-            console.log('open start auto trading dialog');
-            progress.value = '2';
-            button2Status.value = 'top_up_capital'
-            investmentStatus.value = true;
+            autoTradeModal.value = true;
+            // progress.value = '2';
+            // button2Status.value = 'top_up_capital'
+            // investmentStatus.value = true;
             break;
         case 'top_up_capital':
             openProductProgressModal('top_up_capital');
@@ -224,8 +227,9 @@ const transferring = () => {
         </template>
 
         <template v-if="modalComponent === 'fund_in' || modalComponent === 'top_up_capital'">
-            <InvestmentForm 
+            <InvestmentForm
                 :modalType="modalComponent"
+                :walletIds="props.walletIds"
                 @update:productProgressModal="productProgressModal = $event"
                 @update:button2="button2Status = $event"
             />
@@ -239,5 +243,10 @@ const transferring = () => {
         </template>
     </Modal>
 
-    <LoadingDialog :isOpen="isOpen" />
+    <LoadingDialog :isOpen="openLoading" />
+
+    <AutoTradingConfirmationModal
+        :isOpen="autoTradeModal"
+        @update:autoTradeConfirmModal="autoTradeModal = $event"
+    />
 </template>

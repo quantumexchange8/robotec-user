@@ -55,8 +55,8 @@ const textColor = {
             <span class="sr-only">Check icon</span>
         </div>
         <div>
-            <div class="ml-3 text-white font-semibold">{{ props.title }}</div>
-            <div class="ml-3 text-gray-300 before:text-sm font-normal">{{ props.message }}</div>
+            <div class="ml-3 text-sm text-white font-semibold">{{ props.title }}</div>
+            <div class="ml-3 text-xs text-gray-300 before:text-sm font-normal">{{ props.message }}</div>
         </div>
     </div>
 </template>

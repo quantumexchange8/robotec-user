@@ -174,4 +174,12 @@ return [
     "profile_photo_uploaded" => "Profile Photo Uploaded!",
     "new_password_updated" => "New Password Updated!",
     "usdt_added" => "USDT Address Added!",
+    "commission_wallet" => "Commission Wallet",
+    "balance" => "Balance",
+    "fund_in_success" => "Fund In Successful",
+    "fund_in_success_desc" => "Thank you! You can now start Robotec Auto Trading with us!",
+    "auto_trading_confirmation" => "Auto Trading Confirmation",
+    "auto_trading_confirmation_desc" => "Please note that the minimum trading period is 90 days or longer. Funds in the trading account cannot be withdrawn before the end of this period. Are you sure you want to proceed?",
+    "auto_trading_started" => "Robotec Auto Trading Started!",
+    "auto_trading_started_desc" => "Well done! You have completed Step 2!",
 ];

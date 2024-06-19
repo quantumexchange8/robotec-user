@@ -174,4 +174,12 @@ return [
     "profile_photo_uploaded" => "Foto Profil Dimuat Naik!",
     "new_password_updated" => "Kata Laluan Baru Dikemaskini!",
     "usdt_added" => "Alamat USDT Ditambah!",
+    "commission_wallet" => "Dompet Komisen",
+    "balance" => "Baki",
+    "fund_in_success" => "Pembiayaan Berjaya",
+    "fund_in_success_desc" => "Terima kasih! Anda boleh memulakan Perdagangan Auto Robotec dengan kami!",
+    "auto_trading_confirmation" => "Pengesahan Perdagangan Auto",
+    "auto_trading_confirmation_desc" => "Sila ambil perhatian bahawa tempoh perdagangan minimum adalah 90 hari atau lebih lama. Dana dalam akaun perdagangan tidak boleh dikeluarkan sebelum akhir tempoh ini. Adakah anda pasti mahu meneruskan?",
+    "auto_trading_started" => "Perdagangan Auto Robotec dimula!",
+    "auto_trading_started_desc" => "Baiklah! Anda telah menyelesaikan Langkah 2 dengan baik!",
 ];

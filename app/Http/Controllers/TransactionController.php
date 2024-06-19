@@ -139,20 +139,6 @@ class TransactionController extends Controller
             ->with('alertButton', trans('public.deposit'));
     }
 
-    public function addFund(Request $request)
-    {
-        $request = $request->validate([
-            'wallet' => ['required'],
-            'amount' => ['required', 'numeric']
-        ]);
-
-        // if fund in, add fund. if top up capital, top up
-        // add transaction history (fund_in // top_up_capital)
-
-        // return back with toast
-        return back();
-    }
-
     public function transfer() {
         // add balance into commission wallet
         // add transaction history
@@ -263,14 +249,5 @@ class TransactionController extends Controller
                 ->with('title', $title)
                 ->with('success', trans('public.deposit_approval_return_message', ['transaction_number' => $transaction->transaction_number, 'status' => trans('public.' . $transaction->status)]));
         }
-    }
-
-    public function createTradingAccount()
-    {
-        return back()
-            ->with('toast', [
-                'title' => trans('public.trading_account_created'),
-                'type' => 'success'
-            ]);
     }
 }

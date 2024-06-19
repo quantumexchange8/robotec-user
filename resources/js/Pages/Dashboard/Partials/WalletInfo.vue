@@ -8,7 +8,6 @@ import CommissionWalletTransactions from '@/Pages/Dashboard/Partials/CommissionW
 import InviteHistory from '@/Pages/Dashboard/Partials/InviteHistory.vue';
 import { usePage } from '@inertiajs/vue3';
 import {transactionFormat} from "@/Composables/index.js";
-import * as url from "node:url";
 
 const props = defineProps({
     walletIds: Object,

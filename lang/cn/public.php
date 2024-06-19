@@ -174,4 +174,12 @@ return [
     "profile_photo_uploaded" => "已上传个人资料照片!",
     "new_password_updated" => "新密码已更新!",
     "usdt_added" => "USDT地址已添加!",
+    "commission_wallet" => "佣金钱包",
+    "balance" => "余额",
+    "fund_in_success" => "存款成功",
+    "fund_in_success_desc" => "谢谢！您现在可以开始与我们一起进行 Robotec 自动交易！",
+    "auto_trading_confirmation" => "自动交易确认",
+    "auto_trading_confirmation_desc" => "请注意, 最短交易期限为90天或更长。在此期间结束之前, 交易账户中的资金不能提取。您确定要继续吗?",
+    "auto_trading_started" => "Robotec自动交易已启动!",
+    "auto_trading_started_desc" => "干得好! 您已完成步骤2!",
 ];

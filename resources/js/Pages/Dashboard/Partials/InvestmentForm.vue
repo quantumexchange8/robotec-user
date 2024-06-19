@@ -2,12 +2,42 @@
 import Label from '@/Components/Label.vue';
 import Button from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { ref, watchEffect } from 'vue';
 import {RadioGroup, RadioGroupLabel, RadioGroupOption} from "@headlessui/vue";
+import {transactionFormat} from "@/Composables/index.js";
 
 const props = defineProps({
     modalType: String,
+    walletIds: Object,
+});
+
+const { formatAmount } = transactionFormat();
+
+const cashWallet = ref(null);
+const commissionWallet = ref(null);
+
+const getWallets = async () => {
+    try {
+        const response = await axios.get('/getWallets', {
+            params: {
+                cash_wallet_id: props.walletIds.cash_wallet,
+                commission_wallet_id: props.walletIds.commission_wallet,
+            }
+        });
+        cashWallet.value = response.data.cashWalletBalance;
+        commissionWallet.value = response.data.commissionWalletBalance;
+    } catch (error) {
+        console.error('Error refreshing wallets data:', error);
+    }
+};
+
+getWallets();
+
+watchEffect(() => {
+    if (usePage().props.title !== null) {
+        getWallets();
+    }
 });
 
 const emit = defineEmits([
@@ -16,13 +46,13 @@ const emit = defineEmits([
 ]);
 
 const form = useForm({
-    wallet: '',
+    wallet: 'cash_wallet',
     amount: '',
     type: props.modalType
 });
 
 const submitForm = () => {
-    form.post(route('transaction.investment'), {
+    form.post(route('trading.investment'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
@@ -52,7 +82,7 @@ const amounts = [
         value: '750',
     },
     {
-        name: '$ 1000',
+        name: '$ 1,000',
         value: '1000',
     },
 ]
@@ -70,12 +100,20 @@ const amounts = [
                             id="cash_wallet"
                             value="cash_wallet"
                             v-model="form.wallet"
+                            checked
                             class="bg-gray-900 border-gray-600 text-primary-500 focus:ring-primary-500 focus:ring-offset-gray-900"
                         />
-                        <label for="cash_wallet" class="text-white text-sm font-semibold">Cash Wallet</label>
+                        <label for="cash_wallet" class="text-white text-sm font-semibold">
+                            {{ $t('public.cash_wallet') }}
+                        </label>
                         <div class="text-gray-300 text-xs font-medium">
-                            <!-- based on user wallet -->
-                            Balance: $ 500.00
+                            {{ $t('public.balance') }}:
+                            <template v-if="cashWallet !== null">
+                                $ {{ formatAmount(cashWallet) }}
+                            </template>
+                            <template v-else class="text-md">
+                                {{ $t('public.loading') }}
+                            </template>
                         </div>
                     </div>
 
@@ -87,10 +125,17 @@ const amounts = [
                             v-model="form.wallet"
                             class="bg-gray-900 border-gray-600 text-primary-500 focus:ring-primary-500 focus:ring-offset-gray-900"
                         />
-                        <label for="commission_wallet" class="text-white text-sm font-semibold">Commission Wallet</label>
+                        <label for="commission_wallet" class="text-white text-sm font-semibold">
+                            {{ $t('public.commission_wallet') }}
+                        </label>
                         <div class="text-gray-300 text-xs font-medium">
-                            <!-- based on user wallet -->
-                            Balance: $ 250.00
+                            {{ $t('public.balance') }}:
+                            <template v-if="commissionWallet !== null">
+                                $ {{ formatAmount(commissionWallet) }}
+                            </template>
+                            <template v-else class="text-md">
+                                {{ $t('public.loading') }}
+                            </template>
                         </div>
                     </div>
                 </div>
