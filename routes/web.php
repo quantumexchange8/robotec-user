@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
      * ==============================
      */
     Route::prefix('trading')->group(function () {
-        Route::post('/createTradingAccount', [TradingAccountController::class, 'createTradingAccount'])->name('createTradingAcc');
+        Route::post('/createTradingAccount', [TradingAccountController::class, 'createTradingAccount'])->name('trading.createTradingAccount');
         Route::post('/investment', [TradingAccountController::class, 'addFund'])->name('trading.investment');
         Route::post('/startAutoTrading', [TradingAccountController::class, 'startAutoTrade'])->name('trading.start');
     });
