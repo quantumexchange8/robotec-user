@@ -169,4 +169,9 @@ return [
     "success" => "Success",
     "failed" => "Failed",
     "processing" => "Processing",
+    "creating_account_desc" => "We're creating your trading account.",
+    "trading_account_created" => "Trading Account Created!",
+    "profile_photo_uploaded" => "Profile Photo Uploaded!",
+    "new_password_updated" => "New Password Updated!",
+    "usdt_added" => "USDT Address Added!",
 ];

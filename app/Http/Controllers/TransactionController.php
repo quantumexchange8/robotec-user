@@ -264,4 +264,13 @@ class TransactionController extends Controller
                 ->with('success', trans('public.deposit_approval_return_message', ['transaction_number' => $transaction->transaction_number, 'status' => trans('public.' . $transaction->status)]));
         }
     }
+
+    public function createTradingAccount()
+    {
+        return back()
+            ->with('toast', [
+                'title' => trans('public.trading_account_created'),
+                'type' => 'success'
+            ]);
+    }
 }

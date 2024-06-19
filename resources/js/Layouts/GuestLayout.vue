@@ -58,40 +58,42 @@ onMounted(() => {
 
 <template>
     <div class="min-h-screen flex flex-col sm:justify-center items-center" style="background: linear-gradient(180deg, rgba(0, 10, 255, 0.20) 0%, rgba(0, 0, 0, 0.00) 50%), #0C111D;">
-        <div class="flex items-center gap-2 self-stretch w-full justify-end py-5 px-4">
-            <Dropdown align="right">
-                <template #trigger>
-                    <Button
-                        iconOnly
-                        variant="transparent"
-                        type="button"
-                        class="inline-flex"
-                        srText="Change language"
-                    >
-                        <GlobeAltIcon
-                            aria-hidden="true"
-                            class="w-6 h-6"
-                        />
-                    </Button>
-                </template>
-                <template #content>
-                    <DropdownLink @click="changeLanguage('en')" :class="{'bg-primary-900': currentLocale === 'en'}">
-                        <div class="inline-flex items-center gap-2 text-white">
-                            English
-                        </div>
-                    </DropdownLink>
-                    <DropdownLink @click="changeLanguage('cn')" :class="{'bg-primary-900': currentLocale === 'cn'}">
-                        <div class="inline-flex items-center gap-2 text-white">
-                            简体中文
-                        </div>
-                    </DropdownLink>
-                    <DropdownLink @click="changeLanguage('bm')" :class="{'bg-primary-900': currentLocale === 'bm'}">
-                        <div class="inline-flex items-center gap-2 text-white">
-                            Bahasa Melayu
-                        </div>
-                    </DropdownLink>
-                </template>
-            </Dropdown>
+        <div class="w-full sm:max-w-md">
+            <div class="flex items-center gap-2 self-stretch w-full justify-end py-5 px-4">
+                <Dropdown align="right">
+                    <template #trigger>
+                        <Button
+                            iconOnly
+                            variant="transparent"
+                            type="button"
+                            class="inline-flex"
+                            srText="Change language"
+                        >
+                            <GlobeAltIcon
+                                aria-hidden="true"
+                                class="w-6 h-6"
+                            />
+                        </Button>
+                    </template>
+                    <template #content>
+                        <DropdownLink @click="changeLanguage('en')" :class="{'bg-primary-900': currentLocale === 'en'}">
+                            <div class="inline-flex items-center gap-2 text-white">
+                                English
+                            </div>
+                        </DropdownLink>
+                        <DropdownLink @click="changeLanguage('cn')" :class="{'bg-primary-900': currentLocale === 'cn'}">
+                            <div class="inline-flex items-center gap-2 text-white">
+                                简体中文
+                            </div>
+                        </DropdownLink>
+                        <DropdownLink @click="changeLanguage('bm')" :class="{'bg-primary-900': currentLocale === 'bm'}">
+                            <div class="inline-flex items-center gap-2 text-white">
+                                Bahasa Melayu
+                            </div>
+                        </DropdownLink>
+                    </template>
+                </Dropdown>
+            </div>
         </div>
 
         <div

@@ -76,7 +76,9 @@ class ProfileController extends Controller
         $user->usdt_address = $request->usdt;
         $user->save();
 
-        // return with toast
-        return back();
+        return back()->with('toast', [
+            'title' => trans('public.usdt_added'),
+            'type' => 'success'
+        ]);
     }
 }

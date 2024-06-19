@@ -8,6 +8,8 @@ import PurchaseRobotecForm from '@/Pages/Dashboard/Partials/PurchaseRobotecForm.
 import InvestmentForm from '@/Pages/Dashboard/Partials/InvestmentForm.vue';
 import TransferForm from '@/Pages/Dashboard/Partials/TransferForm.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
+import { useForm } from '@inertiajs/vue3';
+import LoadingDialog from '@/Pages/Dashboard/Partials/LoadingDialog.vue';
 
 const props = defineProps({
     robotecTransaction: Boolean,
@@ -30,6 +32,12 @@ const openProductProgressModal = (modalType) => {
 
 const closeModal = () => {
     productProgressModal.value = false;
+}
+
+const isOpen = ref(false)
+
+function closeLoadingModal() {
+    isOpen.value = false
 }
 
 const step1 = ref(props.robotecTransaction);
@@ -59,7 +67,8 @@ const button2 = (status) => {
     switch(status) {
         case 'create_account':
             console.log('Creating trading account');
-            button2Status.value = 'fund_in';
+            isOpen.value = true
+            submitCreateAccForm();
             break;
         case 'fund_in':
             openProductProgressModal('fund_in');
@@ -74,6 +83,20 @@ const button2 = (status) => {
             openProductProgressModal('top_up_capital');
             break;
     }
+}
+
+const createAccForm = useForm({
+    buttonStatus: '',
+});
+
+const submitCreateAccForm = () => {
+    createAccForm.post(route('createTradingAcc'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            button2Status.value = 'fund_in';
+            closeLoadingModal();
+        }
+    })
 }
 
 const investmentDuration = ref(90);
@@ -214,6 +237,7 @@ const transferring = () => {
                 @update:button2="transferring"
             />
         </template>
-
     </Modal>
+
+    <LoadingDialog :isOpen="isOpen" />
 </template>

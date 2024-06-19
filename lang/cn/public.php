@@ -169,4 +169,9 @@ return [
     "success" => "成功",
     "failed" => "失败",
     "processing" => "处理中",
+    "creating_account_desc" => "我们正在创建您的交易账户",
+    "trading_account_created" => "交易账户已创建完成！",
+    "profile_photo_uploaded" => "已上传个人资料照片!",
+    "new_password_updated" => "新密码已更新!",
+    "usdt_added" => "USDT地址已添加!",
 ];

@@ -169,4 +169,9 @@ return [
     "success" => "Berjaya",
     "failed" => "Gagal",
     "processing" => "Diproses",
+    "creating_account_desc" => "Kami sedang membuat akaun dagangan anda.",
+    "trading_account_created" => "Akaun Dagangan Dibuka!",
+    "profile_photo_uploaded" => "Foto Profil Dimuat Naik!",
+    "new_password_updated" => "Kata Laluan Baru Dikemaskini!",
+    "usdt_added" => "Alamat USDT Ditambah!",
 ];

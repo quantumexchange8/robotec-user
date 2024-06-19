@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/deposit', [TransactionController::class, 'deposit'])->name('transaction.deposit');
         Route::post('/deposit', [TransactionController::class, 'storeDeposit'])->name('transaction.deposit.store');
+
+        Route::post('/createAcc', [TransactionController::class, 'createTradingAccount'])->name('createTradingAcc');
     });
 
 });
