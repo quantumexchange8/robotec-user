@@ -32,19 +32,16 @@ class CTraderService
 
     public function CreateCTID($email)
     {
-        $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/create?token=$this->token", [
+        return Http::acceptJson()->post($this->baseURL . "/cid/ctid/create?token=$this->token", [
             'brokerName' => $this->brokerName,
             'email' => $email,
             'preferredLanguage' => 'EN',
         ])->json();
-
-        Log::debug($response);
-        return $response;
     }
 
     public function linkAccountTOCTID($meta_login, $password, $userId): void
     {
-        Http::acceptJson()->post($this->baseURL . "/cid/ctid/link?token=$this->token", [
+        $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/link?token=$this->token", [
             'traderLogin' => $meta_login,
             'traderPasswordHash' => md5($password),
             'userId' => $userId,
@@ -52,6 +49,8 @@ class CTraderService
             'environmentName' => $this->environmentName,
             'returnAccountDetails' => false,
         ])->json();
+
+        Log::debug($response);
     }
 
     public function createUser(UserModel $user, $mainPassword, $investorPassword, $group, $leverage, $accountType, $leadCampaign = null, $leadSource = null, $remarks = null)
@@ -73,7 +72,8 @@ class CTraderService
 
         $accountResponse = $accountResponse->json();
 
-        $this->linkAccountTOCTID($accountResponse['login'], $mainPassword, $user->ct_user_id);
+        $response = $this->linkAccountTOCTID($accountResponse['login'], $mainPassword, $user->ct_user_id);
+        Log::debug($response);
         (new CreateTradingUser)->execute($user, $accountResponse, $accountType, $remarks);
         (new CreateTradingAccount)->execute($user, $accountResponse, $accountType);
         return $accountResponse;
