@@ -68,9 +68,9 @@ class CTraderService
                 'phone' => $user->phone,
             ],
             'accountType' => CTraderAccountType::HEDGED,
-        ]);
+        ])->json();
 
-        $accountResponse = $accountResponse->json();
+        Log::debug($accountResponse);
 
         $response = $this->linkAccountTOCTID($accountResponse['login'], $mainPassword, $user->ct_user_id);
         Log::debug($response);
