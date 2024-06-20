@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TradingUser;
+use App\Models\Transaction;
+use App\Models\User;
 use App\Services\CTraderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -9,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use App\Services\ChangeTraderBalanceType;
+use App\Services\RunningNumberService;
 
 class TradingAccountController extends Controller
 {
@@ -49,15 +55,54 @@ class TradingAccountController extends Controller
         ]);
         $validator->validate();
 
-        // if fund in, add fund. if top up capital, top up
+        $amount = $request->amount;
+        $selectedWallet = Auth::user()->wallets->where('type', $request->wallet)->first();
+        if ($selectedWallet->balance < $amount) {
+            throw ValidationException::withMessages(['wallet' => trans('public.insufficient_balance')]);
+        }
 
-        // add transaction history (fund_in // top_up_capital)
+        if ($request->type === 'fund_in') {
+            $tradingAcc = Auth::user()->trading_account;
+            try {
+                $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Wallet To Account", ChangeTraderBalanceType::DEPOSIT);
+            } catch (\Throwable $e) {
+                if ($e->getMessage() == "Not found") {
+                    TradingUser::firstWhere('meta_login', $tradingAcc->meta_login)->update(['acc_status' => 'Inactive']);
+                } else {
+                    Log::error($e->getMessage());
+                }
+                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            }
 
-        return back()->with('toast', [
-            'title' => trans('public.fund_in_success'),
-            'message' => trans('public.fund_in_success_desc'),
-            'type' => 'success',
-        ]);
+            $ticket = $trade->getTicket();
+            $newBalance = $selectedWallet->balance - $amount;
+
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'category' => 'trading_account',
+                'transaction_type' => 'fund_in',
+                'from_wallet_id' => $selectedWallet->id,
+                'to_meta_login' => $tradingAcc->meta_login,
+                'transaction_number' => RunningNumberService::getID('transaction'),
+                'amount' => $amount,
+                'transaction_charges' => 0,
+                'transaction_amount' => $amount,
+                'old_wallet_amount' => $selectedWallet->balance,
+                'new_wallet_amount' => $newBalance,
+                'status' => 'success',
+                'ticket' => $ticket,
+            ]);
+
+            $selectedWallet->balance = $newBalance;
+            $selectedWallet->save();
+
+            return back()->with('toast', [
+                'title' => trans('public.fund_in_success'),
+                'message' => trans('public.fund_in_success_desc'),
+                'type' => 'success',
+            ]);
+        }
+        //top up capital
     }
 
     public function startAutoTrade()

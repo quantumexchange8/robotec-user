@@ -19,6 +19,7 @@ const props = defineProps({
     robotecTransaction: Boolean,
     walletIds: Object,
     autoTrades: Object,
+    haveTradingAcc: Boolean,
 });
 
 const productProgressModal = ref(false);
@@ -59,6 +60,7 @@ watch((step1), (newValue) => {
 
 onUpdated(()=>{
     step1.value = props.robotecTransaction;
+    updateButton2Status();
 })
 
 /*
@@ -104,6 +106,16 @@ const submitCreateAccForm = () => {
         }
     })
 }
+
+const updateButton2Status = () => {
+    if (props.haveTradingAcc) {
+        button2Status.value = 'fund_in';
+    }
+}
+
+onMounted(() => {
+    updateButton2Status();
+})
 //step 2 check auto trade history
 
 // watch(() => props.autoTrades, () => {

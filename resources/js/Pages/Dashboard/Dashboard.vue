@@ -5,6 +5,7 @@ import HeaderReferral from './Partials/HeaderReferral.vue';
 import WalletInfo from './Partials/WalletInfo.vue';
 import ProductProgress from './Partials/ProductProgress.vue';
 import {transactionFormat} from "@/Composables/index.js";
+import { computed, ref } from 'vue';
 
 const { formatAmount } = transactionFormat();
 
@@ -12,11 +13,21 @@ const user = usePage().props.auth.user;
 const props = defineProps({
     walletIds: Object,
     robotecTransaction: Boolean,
-    todayPamm: Object,
-    cumulativePamm: Number,
-    cumulativeEarnings: Number,
+    todayPamm: Number,
     autoTrades: Object,
+    haveTradingAcc: Boolean,
 });
+
+const cumulativeData = computed(() => {
+    const totalPamm = ref(0);
+    const totalEarnings = ref(0);
+    props.autoTrades.forEach(autoTrade => {
+        totalPamm.value += autoTrade.cumulative_pamm_return;
+        totalEarnings.value += autoTrade.cumulative_amount;
+    });
+
+    return {pamm:totalPamm.value, earnings:totalEarnings.value};
+})
 </script>
 
 <template>
@@ -43,6 +54,7 @@ const props = defineProps({
             :robotecTransaction="props.robotecTransaction"
             :walletIds="props.walletIds"
             :autoTrades="props.autoTrades"
+            :haveTradingAcc="props.haveTradingAcc"
         />
 
         <div class="flex px-4 pt-5 pb-9 flex-col items-center self-stretch">
@@ -56,9 +68,9 @@ const props = defineProps({
                     </div>
                     <div
                         class="text-right text-lg font-semibold"
-                        :class="props.todayPamm.value > 0 ? 'text-success-500' : 'text-error-500'"
+                        :class="props.todayPamm > 0 ? 'text-success-500' : 'text-error-500'"
                     >
-                        {{ props.todayPamm.value }}
+                        {{ props.todayPamm }}
                     </div>
                 </div>
 
@@ -67,7 +79,7 @@ const props = defineProps({
                         {{ $t('public.culmulative_pamm_return') }} (%)
                     </div>
                     <div class="text-white text-right text-lg font-semibold">
-                        {{ props.cumulativePamm }}
+                        {{ cumulativeData.pamm }}
                     </div>
                 </div>
 
@@ -76,7 +88,7 @@ const props = defineProps({
                         {{ $t('public.culmulative_earnings') }} ($)
                     </div>
                     <div class="text-white text-right text-lg font-semibold">
-                        {{ formatAmount(props.cumulativeEarnings) }}
+                        {{ formatAmount(cumulativeData.earnings) }}
                     </div>
                 </div>
             </div>

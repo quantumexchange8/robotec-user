@@ -88,4 +88,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(User::class, 'upline_id', 'id')->orderBy('created_at', 'desc');
     }
+
+    public function trading_account(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(TradingAccount::class, 'user_id', 'id');
+    }
 }
