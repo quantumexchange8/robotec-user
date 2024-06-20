@@ -139,14 +139,6 @@ class TransactionController extends Controller
             ->with('alertButton', trans('public.deposit'));
     }
 
-    public function transfer() {
-        // add balance into commission wallet
-        // add transaction history
-
-        // return back with toast
-        return back();
-    }
-
     public function deposit()
     {
         $wallet_addresses = SettingWalletAddress::all()->pluck('wallet_address')->shuffle();

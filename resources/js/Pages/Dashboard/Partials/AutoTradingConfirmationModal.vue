@@ -15,7 +15,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
-    'update:autoTradeConfirmModal'
+    'update:autoTradeConfirmModal',
+    'update:button2'
 ]);
 
 const form = useForm({
@@ -27,6 +28,7 @@ const submitForm = () => {
         preserveScroll: true,
         onSuccess: () => {
             closeModal();
+            emit('update:button2', 'top_up_capital');
         }
     })
 }

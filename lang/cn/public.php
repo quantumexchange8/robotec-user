@@ -182,4 +182,7 @@ return [
     "auto_trading_confirmation_desc" => "请注意, 最短交易期限为90天或更长。在此期间结束之前, 交易账户中的资金不能提取。您确定要继续吗?",
     "auto_trading_started" => "Robotec自动交易已启动!",
     "auto_trading_started_desc" => "干得好! 您已完成步骤2!",
+    "transfer_success" => "转账成功",
+    "transfer_success_desc" => "您已成功将资金转入佣金钱包。",
+    "top_up_capital_success" => "充值资金成功！",
 ];

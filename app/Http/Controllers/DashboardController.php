@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AutoTrading;
+use App\Models\Setting;
+use App\Models\SettingHistory;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use Inertia\Inertia;
@@ -14,10 +17,26 @@ class DashboardController extends Controller
     {
         $walletIds = Wallet::where('user_id', Auth::id())->pluck('id','type');
         $robotecTransaction = Transaction::where('user_id', Auth::id())->where('transaction_type', 'purchase_robotec')->first();
+        $pamm = Setting::where('slug', 'pamm-return')->first();
+
+        $auto_trades = AutoTrading::where('user_id', Auth::id())->get(); // need to filter status
+
+        $cumulative_pamm = 0;
+        $cumulative_earnings = 0;
+        foreach ($auto_trades as $auto_trade) {
+            $histories = SettingHistory::whereDate('created_at', '>', $auto_trade->created_at)->get();
+            $total = $histories->sum('setting_new_value');
+            $cumulative_pamm += $total;
+            $cumulative_earnings += $auto_trade->investment_amount * $total / 100;
+        }
 
         return Inertia::render('Dashboard/Dashboard', [
             'walletIds' => $walletIds,
-            'robotecTransaction' => (bool)$robotecTransaction
+            'robotecTransaction' => (bool)$robotecTransaction,
+            'todayPamm' => $pamm,
+            'cumulativePamm' => $cumulative_pamm,
+            'cumulativeEarnings' => $cumulative_earnings,
+            'autoTrades' => $auto_trades,
         ]);
     }
 

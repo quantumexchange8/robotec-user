@@ -48,4 +48,17 @@ class TradingAccountController extends Controller
             'type' => 'success'
         ]);
     }
+
+    public function transfer()
+    {
+        // add balance into commission wallet
+        // add transaction history
+
+        // return back with toast
+        return back()->with('toast', [
+            'title' => trans('public.transfer_success'),
+            'message' => trans('public.transfer_success_desc'),
+            'type' => 'success'
+        ]);
+    }
 }

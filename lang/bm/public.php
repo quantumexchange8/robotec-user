@@ -182,4 +182,7 @@ return [
     "auto_trading_confirmation_desc" => "Sila ambil perhatian bahawa tempoh perdagangan minimum adalah 90 hari atau lebih lama. Dana dalam akaun perdagangan tidak boleh dikeluarkan sebelum akhir tempoh ini. Adakah anda pasti mahu meneruskan?",
     "auto_trading_started" => "Perdagangan Auto Robotec dimula!",
     "auto_trading_started_desc" => "Baiklah! Anda telah menyelesaikan Langkah 2 dengan baik!",
+    "transfer_success" => "Pemindahan Berjaya",
+    "transfer_success_desc" => "Anda telah berjaya memindahkan dana anda ke dalam dompet komisen.",
+    "top_up_capital_success" => "Penambahan Modal Berjaya!",
 ];

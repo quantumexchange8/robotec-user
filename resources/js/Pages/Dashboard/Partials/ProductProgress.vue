@@ -3,7 +3,7 @@ import Button from '@/Components/Button.vue';
 import { Lock01Icon } from '@/Components/Icons/outline';
 import RobotIllustration from '@/Pages/Dashboard/Partials/RobotIllustration.vue';
 import Modal from '@/Components/Modal.vue';
-import { onUpdated, ref, watch } from 'vue';
+import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 import PurchaseRobotecForm from '@/Pages/Dashboard/Partials/PurchaseRobotecForm.vue';
 import InvestmentForm from '@/Pages/Dashboard/Partials/InvestmentForm.vue';
 import TransferForm from '@/Pages/Dashboard/Partials/TransferForm.vue';
@@ -11,16 +11,21 @@ import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 import { useForm } from '@inertiajs/vue3';
 import LoadingDialog from '@/Pages/Dashboard/Partials/LoadingDialog.vue';
 import AutoTradingConfirmationModal from '@/Pages/Dashboard/Partials/AutoTradingConfirmationModal.vue';
+import {transactionFormat} from "@/Composables/index.js";
+
+const { formatAmount } = transactionFormat();
 
 const props = defineProps({
     robotecTransaction: Boolean,
     walletIds: Object,
+    autoTrades: Object,
 });
 
 const productProgressModal = ref(false);
 const modalComponent = ref('');
+const transferIndex = ref(0);
 
-const openProductProgressModal = (modalType) => {
+const openProductProgressModal = (modalType, index = 0) => {
     productProgressModal.value = true;
 
     if (modalType === 'purchase_robotec') {
@@ -29,6 +34,7 @@ const openProductProgressModal = (modalType) => {
         modalComponent.value = modalType;
     } else if (modalType === 'transfer') {
         modalComponent.value = modalType;
+        transferIndex.value = index;
     }
 }
 
@@ -63,7 +69,6 @@ onUpdated(()=>{
     top_up_capital -> when got investment (repeatable)
 */
 const button2Status = ref('create_account');
-const investmentStatus = ref(false);
 const autoTradeModal = ref(false);
 
 const button2 = (status) => {
@@ -79,8 +84,6 @@ const button2 = (status) => {
         case 'start_auto_trading':
             autoTradeModal.value = true;
             // progress.value = '2';
-            // button2Status.value = 'top_up_capital'
-            // investmentStatus.value = true;
             break;
         case 'top_up_capital':
             openProductProgressModal('top_up_capital');
@@ -101,14 +104,13 @@ const submitCreateAccForm = () => {
         }
     })
 }
+//step 2 check auto trade history
 
-const investmentDuration = ref(90);
-
-const transferring = () => {
-    console.log('transferring');
-    button2Status.value = 'fund_in';
-    investmentStatus.value = false;
-}
+// watch(() => props.autoTrades, () => {
+//     if (props.autoTrades.length === 0) {
+//         button2Status.value = 'fund_in'
+//     }
+// }, {immediate:true})
 
 </script>
 
@@ -183,34 +185,37 @@ const transferring = () => {
                     {{ $t('public.complete_step_1_unlock') }}
                 </Button>
 
-                <div
-                    v-if="investmentStatus"
-                    class="flex flex-col items-start gap-2 self-stretch"
-                >
-                    <div class="text-xs font-medium">
-                        <span class="text-gray-300">{{ $t('public.investment') }} 1: </span>
-                        <span class="text-success-500">$ 250.00</span>
-                    </div>
-
-                    <Button
-                        v-if="investmentDuration >= 90"
-                        variant="gray"
-                        type="button"
-                        size="lg"
-                        :disabled="false"
-                        class="w-full font-semibold"
-                        @click="openProductProgressModal('transfer');"
-                    >
-                        {{ $t('public.transfer') }}
-                    </Button>
-
+                <template v-if="props.autoTrades.length != 0">
                     <div
-                        v-else
-                        class="flex py-3 px-4 justify-center items-center self-stretch rounded-lg bg-gray-900 text-white text-center text-sm font-semibold"
+                        v-for="(autoTrade, index) in props.autoTrades"
+                        class="flex flex-col items-start gap-2 self-stretch"
                     >
-                        {{ $t('public.matures_in') }} {{ 90 - investmentDuration }} {{ $t('public.days') }}
+                        <div class="text-xs font-medium">
+                            <span class="text-gray-300">
+                                {{ $t('public.investment') }} {{ index+1 }}: 
+                            </span>
+                            <span class="text-success-500">
+                                $ {{ formatAmount(autoTrade.investment_amount) }}
+                            </span>
+                        </div>
+                        <Button
+                            v-if="autoTrade.matured_at <= 0"
+                            variant="gray"
+                            type="button"
+                            size="lg"
+                            class="w-full font-semibold"
+                            @click="openProductProgressModal('transfer', index);"
+                        >
+                            {{ $t('public.transfer') }}
+                        </Button>
+                        <div
+                            v-else
+                            class="flex py-3 px-4 justify-center items-center self-stretch rounded-lg bg-gray-900 text-white text-center text-sm font-semibold"
+                        >
+                            {{ $t('public.matures_in') }} {{ autoTrade.matured_at }} {{ $t('public.days') }}
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
         </div>
     </div>
@@ -237,8 +242,9 @@ const transferring = () => {
 
         <template v-if="modalComponent === 'transfer'">
             <TransferForm
+                :autoTrades="props.autoTrades"
+                :index="transferIndex"
                 @update:productProgressModal="productProgressModal = $event"
-                @update:button2="transferring"
             />
         </template>
     </Modal>
@@ -247,6 +253,7 @@ const transferring = () => {
 
     <AutoTradingConfirmationModal
         :isOpen="autoTradeModal"
+        @update:button2="button2Status = $event"
         @update:autoTradeConfirmModal="autoTradeModal = $event"
     />
 </template>

@@ -3,6 +3,14 @@ import Button from '@/Components/Button.vue';
 import { ArrowNarrowUpRightIcon } from '@/Components/Icons/outline';
 import { useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import {transactionFormat} from "@/Composables/index.js";
+
+const { formatAmount } = transactionFormat();
+
+const props = defineProps({
+    autoTrades: Object,
+    index: Number,
+});
 
 const emit = defineEmits([
     'update:productProgressModal',
@@ -12,9 +20,10 @@ const emit = defineEmits([
 const closeModal = () => {
     emit('update:productProgressModal', false);
 }
+const trade = props.autoTrades[props.index];
+const bal = ref(trade.investment_amount + trade.cumulative_amount);
+const fundIn = ref(trade.investment_amount);
 
-const bal = ref(300.00);
-const fundIn = ref(250.00);
 const percentage = computed(() => {
     return (bal.value - fundIn.value) / fundIn.value * 100;
 });
@@ -26,12 +35,11 @@ const form = useForm({
 const submitForm = () => {
     form.amount = bal.value;
 
-    form.post(route('transaction.transfer'), {
+    form.post(route('trading.transfer'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
             closeModal();
-            emit('update:button2', 'fund_in');
         },
     });
 }
@@ -45,12 +53,12 @@ const submitForm = () => {
                 <div class="text-gray-300 text-center font-semibold">{{ $t('public.current_account_balance') }}</div>
                 <div class="flex justify-center items-center gap-3">
                     <div class="text-white text-center text-xxl font-semibold">
-                        $ {{ bal }}
+                        $ {{ formatAmount(bal) }}
                     </div>
                     <div class="flex items-center gap-1">
                         <ArrowNarrowUpRightIcon />
                         <div class="text-success-500 text-center text-sm font-medium">
-                            {{ percentage }} %
+                            {{ formatAmount(percentage) }} %
                         </div>
                     </div>
                 </div>
@@ -66,6 +74,7 @@ const submitForm = () => {
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
+                    :disabled="form.processing"
                     @click="closeModal"
                 >
                     {{ $t('public.cancel') }}
