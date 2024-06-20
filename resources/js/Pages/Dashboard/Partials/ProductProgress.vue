@@ -96,11 +96,11 @@ const createAccForm = useForm({
 });
 
 const submitCreateAccForm = () => {
-    createAccForm.post(route('createTradingAcc'), {
+    createAccForm.post(route('trading.createTradingAccount'), {
         preserveScroll: true,
         onSuccess: () => {
-            button2Status.value = 'fund_in';
             closeLoadingModal();
+            button2Status.value = 'fund_in';
         }
     })
 }

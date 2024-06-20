@@ -2,13 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CTraderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TradingAccountController extends Controller
 {
     public function createTradingAccount()
     {
+        $conn = (new CTraderService)->connectionStatus();
+        if ($conn['code'] != 0) {
+            return back()
+                ->with('toast', [
+                    'title' => 'Connection Error',
+                    'type' => 'error'
+                ]);
+        }
+
+        $user = Auth::user();
+
+        if (App::environment('production')) {
+            $mainPassword = Str::random(8);
+            $investorPassword = Str::random(8);
+            (new CTraderService)->createUser($user,  $mainPassword, $investorPassword, 'STANDARD.t', 500, 1, null, null, '');
+        }
+
         return back()
             ->with('toast', [
                 'title' => trans('public.trading_account_created'),
