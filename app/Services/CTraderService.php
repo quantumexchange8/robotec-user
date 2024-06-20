@@ -32,27 +32,30 @@ class CTraderService
 
     public function CreateCTID($email)
     {
-        $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/create?token=$this->token", [
+        return Http::acceptJson()->post($this->baseURL . "/cid/ctid/create?token=$this->token", [
             'brokerName' => $this->brokerName,
             'email' => $email,
             'preferredLanguage' => 'EN',
         ])->json();
-        Log::debug($response);
-        return $response;
     }
 
     public function linkAccountTOCTID($meta_login, $password, $userId)
     {
-        $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/link?token=$this->token", [
-            'traderLogin' => $meta_login,
-            'traderPasswordHash' => md5($password),
-            'userId' => $userId,
-            'brokerName' => $this->brokerName,
-            'environmentName' => $this->environmentName,
-            'returnAccountDetails' => false,
-        ])->json();
-
-        Log::debug($response);
+        try {
+            $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/link?token=$this->token", [
+                'traderLogin' => $meta_login,
+                'traderPasswordHash' => md5($password),
+                'userId' => $userId,
+                'brokerName' => $this->brokerName,
+                'environmentName' => $this->environmentName,
+                'returnAccountDetails' => false,
+            ]);
+            Log::debug('linkAccountTOCTID response', ['response' => $response->json()]);
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('Error in linkAccountTOCTID', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return null;
+        }
     }
 
     public function createUser(UserModel $user, $mainPassword, $investorPassword, $group, $leverage, $accountType, $leadCampaign = null, $leadSource = null, $remarks = null)
@@ -71,8 +74,6 @@ class CTraderService
             ],
             'accountType' => CTraderAccountType::HEDGED,
         ])->json();
-
-        Log::debug($accountResponse);
 
         $response = $this->linkAccountTOCTID($accountResponse['login'], $mainPassword, $user->ct_user_id);
         Log::debug($response);
