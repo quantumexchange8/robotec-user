@@ -60,26 +60,39 @@ class CTraderService
 
     public function createUser(UserModel $user, $mainPassword, $investorPassword, $group, $leverage, $accountType, $leadCampaign = null, $leadSource = null, $remarks = null)
     {
-        $accountResponse = Http::acceptJson()->post($this->baseURL . "/v2/webserv/traders?token={$this->token}", [
-            'hashedPassword' => md5($mainPassword),
-            'groupName' => $group,
-            'depositCurrency' => 'USD',
-            'name' => $user->name,
-            'description' => $remarks,
-            'accessRights' => CTraderAccessRights::NO_TRADING,
-            'balance' => 0,
-            'leverageInCents' => $leverage * 100,
-            'contactDetails' => [
-                'phone' => $user->phone,
-            ],
-            'accountType' => CTraderAccountType::HEDGED,
-        ])->json();
+        try {
+            $accountResponse = Http::acceptJson()->post($this->baseURL . "/v2/webserv/traders?token=$this->token", [
+                'hashedPassword' => md5($mainPassword),
+                'groupName' => $group,
+                'depositCurrency' => 'USD',
+                'name' => $user->name,
+                'description' => $remarks,
+                'accessRights' => CTraderAccessRights::NO_TRADING,
+                'balance' => 0,
+                'leverageInCents' => $leverage * 100,
+                'contactDetails' => [
+                    'phone' => $user->phone,
+                ],
+                'accountType' => CTraderAccountType::HEDGED,
+            ])->json();
 
-        $response = $this->linkAccountTOCTID($accountResponse['login'], $mainPassword, $user->ct_user_id);
-        Log::debug($response);
-        (new CreateTradingUser)->execute($user, $accountResponse, $accountType, $remarks);
-        (new CreateTradingAccount)->execute($user, $accountResponse, $accountType);
-        return $accountResponse;
+            Log::debug('createUser accountResponse', ['accountResponse' => $accountResponse]);
+
+            if (isset($accountResponse['login'])) {
+                $response = $this->linkAccountTOCTID($accountResponse['login'], $mainPassword, $user->ct_user_id);
+                Log::debug('linkAccountTOCTID result', ['response' => $response]);
+
+                (new CreateTradingUser)->execute($user, $accountResponse, $accountType, $remarks);
+                (new CreateTradingAccount)->execute($user, $accountResponse, $accountType);
+                return $accountResponse;
+            } else {
+                Log::error('createUser error', ['accountResponse' => $accountResponse]);
+                return null;
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in createUser', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return null;
+        }
     }
 
     public function getUser($meta_login)
