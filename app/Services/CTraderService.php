@@ -32,11 +32,14 @@ class CTraderService
 
     public function CreateCTID($email)
     {
-        return Http::acceptJson()->post($this->baseURL . "/cid/ctid/create?token=$this->token", [
+        $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/create?token=$this->token", [
             'brokerName' => $this->brokerName,
             'email' => $email,
             'preferredLanguage' => 'EN',
         ])->json();
+
+        Log::debug($response);
+        return $response;
     }
 
     public function linkAccountTOCTID($meta_login, $password, $userId): void
