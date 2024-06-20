@@ -39,7 +39,7 @@ class CTraderService
         ])->json();
     }
 
-    public function linkAccountTOCTID($meta_login, $password, $userId): void
+    public function linkAccountTOCTID($meta_login, $password, $userId)
     {
         $response = Http::acceptJson()->post($this->baseURL . "/cid/ctid/link?token=$this->token", [
             'traderLogin' => $meta_login,
