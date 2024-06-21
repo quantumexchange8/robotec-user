@@ -18,15 +18,12 @@ const props = defineProps({
     haveTradingAcc: Boolean,
 });
 
-const cumulativeData = computed(() => {
-    const totalPamm = ref(0);
-    const totalEarnings = ref(0);
-    props.autoTrades.forEach(autoTrade => {
-        totalPamm.value += autoTrade.cumulative_pamm_return;
-        totalEarnings.value += autoTrade.cumulative_amount;
-    });
+const cumulativePamm = computed(() => {
+    return props.autoTrades.reduce((sum, trade) => sum + trade.cumulative_pamm_return, 0);
+})
 
-    return {pamm:totalPamm.value, earnings:totalEarnings.value};
+const cumulativeAmount = computed(() => {
+    return props.autoTrades.reduce((sum, trade) => sum + trade.cumulative_amount, 0);
 })
 </script>
 
@@ -78,8 +75,8 @@ const cumulativeData = computed(() => {
                     <div class="text-gray-300 text-sm font-medium">
                         {{ $t('public.culmulative_pamm_return') }} (%)
                     </div>
-                    <div class="text-white text-right text-lg font-semibold">
-                        {{ cumulativeData.pamm }}
+                    <div v-if="props.autoTrades" class="text-white text-right text-lg font-semibold">
+                        {{ cumulativePamm }}
                     </div>
                 </div>
 
@@ -88,7 +85,7 @@ const cumulativeData = computed(() => {
                         {{ $t('public.culmulative_earnings') }} ($)
                     </div>
                     <div class="text-white text-right text-lg font-semibold">
-                        {{ formatAmount(cumulativeData.earnings) }}
+                        {{ formatAmount(cumulativeAmount) }}
                     </div>
                 </div>
             </div>
