@@ -3,7 +3,7 @@ import Button from '@/Components/Button.vue';
 import { Lock01Icon } from '@/Components/Icons/outline';
 import RobotIllustration from '@/Pages/Dashboard/Partials/RobotIllustration.vue';
 import Modal from '@/Components/Modal.vue';
-import { computed, onMounted, onUpdated, ref, watch } from 'vue';
+import { onMounted, onUpdated, ref, watch } from 'vue';
 import PurchaseRobotecForm from '@/Pages/Dashboard/Partials/PurchaseRobotecForm.vue';
 import InvestmentForm from '@/Pages/Dashboard/Partials/InvestmentForm.vue';
 import TransferForm from '@/Pages/Dashboard/Partials/TransferForm.vue';
@@ -19,7 +19,8 @@ const props = defineProps({
     robotecTransaction: Boolean,
     walletIds: Object,
     autoTrades: Object,
-    haveTradingAcc: Boolean,
+    tradingAcc: Object,
+    autoTradesCount: Number,
 });
 
 const productProgressModal = ref(false);
@@ -76,7 +77,6 @@ const autoTradeModal = ref(false);
 const button2 = (status) => {
     switch(status) {
         case 'create_account':
-            console.log('Creating trading account');
             openLoading.value = true
             submitCreateAccForm();
             break;
@@ -85,7 +85,6 @@ const button2 = (status) => {
             break;
         case 'start_auto_trading':
             autoTradeModal.value = true;
-            // progress.value = '2';
             break;
         case 'top_up_capital':
             openProductProgressModal('top_up_capital');
@@ -108,22 +107,26 @@ const submitCreateAccForm = () => {
 }
 
 const updateButton2Status = () => {
-    if (props.haveTradingAcc) {
+    if (props.tradingAcc) {
         button2Status.value = 'fund_in';
+
+        if (props.tradingAcc.balance > 0) {
+            button2Status.value = 'start_auto_trading';
+        }
+    }
+
+    if (props.autoTrades.length != 0) {
+        button2Status.value = 'top_up_capital';
+    }
+
+    if (props.autoTradesCount > 0) {
+        progress.value = '2';
     }
 }
 
 onMounted(() => {
     updateButton2Status();
 })
-//step 2 check auto trade history
-
-// watch(() => props.autoTrades, () => {
-//     if (props.autoTrades.length === 0) {
-//         button2Status.value = 'fund_in'
-//     }
-// }, {immediate:true})
-
 </script>
 
 <template>

@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $walletIds = Wallet::where('user_id', Auth::id())->pluck('id','type');
         $robotecTransaction = Transaction::where('user_id', Auth::id())->where('transaction_type', 'purchase_robotec')->first();
-        $haveTradingAcc = !empty(Auth::user()->trading_account);
+        $tradingAcc = Auth::user()->trading_account;
 
         $pamm = Setting::where('slug', 'pamm-return')->whereDate('updated_at', date("Y-m-d"))->first();
         if ($pamm) {
@@ -27,13 +27,15 @@ class DashboardController extends Controller
         }
 
         $autoTrades = AutoTrading::where(['user_id' => Auth::id()])->whereNot('status', 'transferred')->get();
+        $autoTradesCount = AutoTrading::where(['user_id' => Auth::id()])->get()->count();
 
         return Inertia::render('Dashboard/Dashboard', [
             'walletIds' => $walletIds,
             'robotecTransaction' => (bool)$robotecTransaction,
             'todayPamm' => $pamm,
-            'autoTrades' => $autoTrades,
-            'haveTradingAcc' => $haveTradingAcc,
+            'autoTrades' => $autoTrades,    
+            'tradingAcc' => $tradingAcc,
+            'autoTradesCount' => $autoTradesCount,
         ]);
     }
 

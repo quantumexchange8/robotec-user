@@ -15,7 +15,8 @@ const props = defineProps({
     robotecTransaction: Boolean,
     todayPamm: Number,
     autoTrades: Object,
-    haveTradingAcc: Boolean,
+    tradingAcc: Object,
+    autoTradesCount: Number,
 });
 
 const cumulativePamm = computed(() => {
@@ -51,7 +52,8 @@ const cumulativeAmount = computed(() => {
             :robotecTransaction="props.robotecTransaction"
             :walletIds="props.walletIds"
             :autoTrades="props.autoTrades"
-            :haveTradingAcc="props.haveTradingAcc"
+            :tradingAcc="props.tradingAcc"
+            :autoTradesCount="props.autoTradesCount"
         />
 
         <div class="flex px-4 pt-5 pb-9 flex-col items-center self-stretch">
