@@ -56,6 +56,7 @@ const closeModal = () => {
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
+                    :disabled="form.processing"
                     @click="closeModal"
                 >
                     {{ $t('public.cancel') }}

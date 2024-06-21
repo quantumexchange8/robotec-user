@@ -5,6 +5,8 @@ import Input from '@/Components/Input.vue';
 import { useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 
+const emit = defineEmits(['update:modal']);
+
 const form = useForm({
     current_password: '',
     password: '',
@@ -16,7 +18,7 @@ const updatePassword = () => {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            emit('update:modal', false);
+            closeModal();
         },
         onError: () => {
             if (form.errors.password) {
@@ -28,6 +30,10 @@ const updatePassword = () => {
         },
     });
 };
+
+const closeModal = () => {
+    emit('update:modal', false)
+}
 </script>
 
 <template>
@@ -81,7 +87,8 @@ const updatePassword = () => {
                     size="lg"
                     type="button"
                     class="w-full font-semibold"
-                    @click="$emit('closeModal')"
+                    :disabled="form.processing"
+                    @click="closeModal()"
                 >
                     {{ $t('public.cancel') }}
                 </Button>

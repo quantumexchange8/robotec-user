@@ -16,9 +16,10 @@ import {transactionFormat} from "@/Composables/index.js";
 const props = defineProps({
     commissionWallet: Object,
     withdrawalHistory: Array,
+    autoTradingCount: Number,
 });
 
-const step2 = true;
+const step2 = props.autoTradingCount > 0 ? true : false;
 const commissionWalletBal = ref(props.commissionWallet.balance);
 const amountButton = ref('full_amount');
 const is_disabled = ref(true);

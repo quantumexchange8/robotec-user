@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DepositRequest;
+use App\Models\AutoTrading;
 use App\Models\CommissionPayout;
 use App\Models\SettingWalletAddress;
 use App\Models\Transaction;
@@ -32,9 +33,12 @@ class TransactionController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $autoTradingCount = AutoTrading::where(['user_id' => Auth::id()])->get()->count();
+
         return Inertia::render('Withdrawal/Withdrawal', [
             'commissionWallet' => $commission_wallet,
-            'withdrawalHistory' => $withdrawal_history
+            'withdrawalHistory' => $withdrawal_history,
+            'autoTradingCount' => $autoTradingCount,
         ]);
     }
 
