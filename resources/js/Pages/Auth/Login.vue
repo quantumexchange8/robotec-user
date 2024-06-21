@@ -7,14 +7,17 @@ import Input from '@/Components/Input.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import Switch from '@/Components/Switch.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import TermsConditionsModal from '@/Pages/Auth/Partials/TermsConditionsModal.vue';
+import { ref } from 'vue';
 
-defineProps({
+const props = defineProps({
     canResetPassword: {
         type: Boolean,
     },
     status: {
         type: String,
     },
+    term: Object,
 });
 
 const form = useForm({
@@ -23,12 +26,15 @@ const form = useForm({
     remember: false,
 });
 
-const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
+const submit = (agreement) => {
+    if (agreement) {
+        form.post(route('login'), {
+            onFinish: () => form.reset('password'),
+        });
+    }
 };
 
+const openTermModal = ref(false);
 </script>
 
 <template>
@@ -39,8 +45,8 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div class="flex flex-col justify-center items-center gap-10 px-4">
+        <form @submit.prevent="openTermModal = true">
+            <div class="flex flex-col justify-center items-center gap-10 px-4 py-1">
                 <div class="flex flex-col items-center gap-3 self-stretch">
                     <Link href="/">
                         <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
@@ -122,5 +128,12 @@ const submit = () => {
                 </Button>
             </div>
         </form>
+
+        <TermsConditionsModal
+            :isOpen="openTermModal"
+            :term="props.term"
+            @update:termsConditionsModal="openTermModal = $event"
+            @confirmation:agreement="submit($event)"
+        />
     </GuestLayout>
 </template>

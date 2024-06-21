@@ -185,4 +185,8 @@ return [
     "transfer_success" => "Transfer Successful",
     "transfer_success_desc" => "You have successfully transferred your funds into commission wallet.",
     "top_up_capital_success" => "Top Up Capital Successful!",
+    "agree" => "Agree",
+    "disagree" => "Disagree",
+    "login_agreement_desc" => "By clicking “Agree” you agree to Robotec's Terms of Service and Privacy Policy applies.",
+    "terms_and_conditions" => "Terms & Conditions",
 ];

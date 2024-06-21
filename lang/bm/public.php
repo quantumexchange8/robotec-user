@@ -185,4 +185,8 @@ return [
     "transfer_success" => "Pemindahan Berjaya",
     "transfer_success_desc" => "Anda telah berjaya memindahkan dana anda ke dalam dompet komisen.",
     "top_up_capital_success" => "Penambahan Modal Berjaya!",
+    "agree" => "Setuju",
+    "disagree" => "Tidak Setuju",
+    "login_agreement_desc" => "Dengan mengklik 'Setuju', anda bersetuju dengan Terma Perkhidmatan dan Dasar Privasi Robotec.",
+    "terms_and_conditions" => "Terma & Syarat",
 ];

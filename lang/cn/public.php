@@ -185,4 +185,8 @@ return [
     "transfer_success" => "转账成功",
     "transfer_success_desc" => "您已成功将资金转入佣金钱包。",
     "top_up_capital_success" => "充值资金成功！",
+    "agree" => "同意",
+    "disagree" => "不同意",
+    "login_agreement_desc" => "点击“同意”即表示您同意Robotec的服务条款和隐私政策。",
+    "terms_and_conditions" => "条款与条件",
 ];
