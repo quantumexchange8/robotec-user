@@ -20,6 +20,7 @@ class Transaction extends Model implements HasMedia
         'to_wallet_id',
         'from_meta_login',
         'to_meta_login',
+        'ticket',
         'transaction_number',
         'from_wallet_address',
         'to_wallet_address',
