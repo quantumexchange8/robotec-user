@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AutoTrading;
+use App\Models\TradingAccount;
 use App\Models\TradingUser;
 use App\Models\Transaction;
 use App\Models\User;
@@ -107,7 +109,30 @@ class TradingAccountController extends Controller
 
     public function startAutoTrade()
     {
-        // auto trade
+        $user = Auth::user();
+        $trading_account = TradingAccount::where('user_id', $user->id)->first();
+        $transaction = Transaction::where('user_id', $user->id)
+            ->where('transaction_type', 'fund_in')
+            ->latest()
+            ->first();
+
+        if ($trading_account->balance >= $transaction->transaction_amount) {
+            AutoTrading::create([
+               'user_id' => $user->id,
+               'meta_login' => $trading_account->meta_login,
+               'trading_account_id' => $trading_account->id,
+               'transaction_id' => $transaction->id,
+               'investment_amount' => $transaction->transaction_amount,
+               'period' => 90,
+               'status' => 'ongoing',
+               'matured_at' => now()->addDays(90)->endOfDay(),
+            ]);
+        } else {
+            return back()
+                ->with('title', trans('public.insufficient_balance'))
+                ->with('warning', trans('public.insufficient_balance_desc'))
+                ->with('alertButton', 'OK');
+        }
 
         return back()->with('toast', [
             'title' => trans('public.auto_trading_started'),
