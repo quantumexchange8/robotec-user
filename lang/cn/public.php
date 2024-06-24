@@ -189,4 +189,6 @@ return [
     "disagree" => "不同意",
     "login_agreement_desc" => "点击“同意”即表示您同意Robotec的服务条款和隐私政策。",
     "terms_and_conditions" => "条款与条件",
+    "sender_address" => "发送地址",
+    "receiver_address" => "接收地址",
 ];

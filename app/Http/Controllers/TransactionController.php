@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
@@ -163,6 +164,10 @@ class TransactionController extends Controller
             'old_wallet_amount' => $cash_wallet->balance,
             'status' => 'processing',
         ]);
+
+        $response = Http::acceptJson()->get("https://apilist.tronscanapi.com/api/transaction-info?hash={$request->txid}")->json();
+        $transaction->from_wallet_address = $response['ownerAddress'];
+        $transaction->save();
 
         Notification::route('mail', 'payment@currenttech.pro')
             ->notify(new DepositRequestNotification($transaction, $user));

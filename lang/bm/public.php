@@ -189,4 +189,6 @@ return [
     "disagree" => "Tidak Setuju",
     "login_agreement_desc" => "Dengan mengklik 'Setuju', anda bersetuju dengan Terma Perkhidmatan dan Dasar Privasi Robotec.",
     "terms_and_conditions" => "Terma & Syarat",
+    "sender_address" => "Alamat Penghantar",
+    "receiver_address" => "Alamat Penerima",
 ];

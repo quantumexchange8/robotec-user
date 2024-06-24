@@ -189,4 +189,6 @@ return [
     "disagree" => "Disagree",
     "login_agreement_desc" => "By clicking “Agree” you agree to Robotec's Terms of Service and Privacy Policy applies.",
     "terms_and_conditions" => "Terms & Conditions",
+    "sender_address" => "Sender Address",
+    "receiver_address" => "Receiver Address",
 ];
