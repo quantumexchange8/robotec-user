@@ -34,7 +34,7 @@ class TradingAccountController extends Controller
         if (App::environment('production')) {
             $mainPassword = Str::random(8);
             $investorPassword = Str::random(8);
-            (new CTraderService)->createUser($user,  $mainPassword, $investorPassword, 'STANDARD.t', 500, 1, null, null, '');
+            (new CTraderService)->createUser($user,  $mainPassword, $investorPassword, 'ROBOTEC', 500, 1, null, null, '');
         }
 
         return back()
