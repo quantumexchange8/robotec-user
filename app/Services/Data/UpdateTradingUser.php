@@ -3,9 +3,7 @@
 namespace App\Services\Data;
 
 use App\Models\TradingUser;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class UpdateTradingUser
 {

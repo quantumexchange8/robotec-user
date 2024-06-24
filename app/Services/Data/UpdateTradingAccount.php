@@ -2,9 +2,7 @@
 
 namespace App\Services\Data;
 
-use App\Models\AccountType;
 use App\Models\TradingAccount;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class UpdateTradingAccount
