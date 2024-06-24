@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $walletIds = Wallet::where('user_id', Auth::id())->pluck('id','type');
         $robotecTransaction = Transaction::where('user_id', Auth::id())->where('transaction_type', 'purchase_robotec')->first();
-        $tradingAcc = Auth::user()->trading_account;
+        $tradingAcc = Auth::user()->getTradingAccount;
 
         $pamm = Setting::where('slug', 'pamm-return')->whereDate('updated_at', date("Y-m-d"))->first();
         if ($pamm) {
@@ -49,7 +49,16 @@ class DashboardController extends Controller
 
     public function getDirectClientsCount()
     {
-        return Auth::user()->direct_clients->count();
+        $directClient = Auth::user()->getDirectClients;
+        $totalClientCount = $directClient->count();
+        $step1ClientCount = Transaction::whereIn('user_id', $directClient->pluck('id'))->where('transaction_type', 'purchase_robotec')->count();
+        $step2ClientCount = AutoTrading::distinct('user_id')->whereIn('user_id', $directClient->pluck('id'))->pluck('user_id')->count();
+
+        return response()->json([
+            'totalCount' => $totalClientCount,
+            'step1Count' => $step1ClientCount,
+            'step2Count' => $step2ClientCount,
+        ]);
     }
 
     public function getTransactions($id)
@@ -62,6 +71,22 @@ class DashboardController extends Controller
 
     public function getDirectClients()
     {
-        return response()->json(Auth::user()->direct_clients);
+        $directClients = Auth::user()->getDirectClients->map(function($directClient) {
+            $directClient->progress = '0';
+
+            $step1 = Transaction::where('user_id', $directClient->id)->where('transaction_type', 'purchase_robotec')->count();
+            if ($step1 > 0) {
+                $directClient->progress = '1';
+            }
+
+            $step2 = AutoTrading::where('user_id', $directClient->id)->count();
+            if ($step2 > 0) {
+                $directClient->progress = '2';
+            }
+
+            return $directClient;
+        });
+
+        return response()->json($directClients);
     }
 }

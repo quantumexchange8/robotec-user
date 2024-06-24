@@ -42,7 +42,7 @@ watchEffect(() => {
                 <div class="flex flex-col items-center w-full">
                     <div class="text-white text-center text-lg font-semibold">
                         <template v-if="count !== null">
-                            {{ count }}
+                            {{ count.totalCount }}
                         </template>
                         <span v-else class="text-sm">
                             {{ $t('public.loading') }}
@@ -54,7 +54,12 @@ watchEffect(() => {
 
                 <div class="flex flex-col items-center w-full">
                     <div class="text-white text-center text-lg font-semibold">
-                        3 <!--change to dynamic-->
+                        <template v-if="count !== null">
+                            {{ count.step1Count }}
+                        </template>
+                        <span v-else class="text-sm">
+                            {{ $t('public.loading') }}
+                        </span>
                     </div>
                     <div class="text-white text-center text-xs font-medium">{{ $t('public.client') }}</div>
                     <div class="self-stretch text-gray-300 text-center text-xxs">{{ $t('public.client_data_1') }}</div>
@@ -62,7 +67,12 @@ watchEffect(() => {
 
                 <div class="flex flex-col items-center w-full">
                     <div class="text-white text-center text-lg font-semibold">
-                        2 <!--change to dynamic-->
+                        <template v-if="count !== null">
+                            {{ count.step2Count }}
+                        </template>
+                        <span v-else class="text-sm">
+                            {{ $t('public.loading') }}
+                        </span>
                     </div>
                     <div class="text-white text-center text-xs font-medium">{{ $t('public.client') }}</div>
                     <div class="self-stretch text-gray-300 text-center text-xxs">{{ $t('public.client_data_2') }}</div>

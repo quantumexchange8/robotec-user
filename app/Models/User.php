@@ -84,12 +84,12 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Wallet::class, 'user_id', 'id');
     }
 
-    public function direct_clients(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function getDirectClients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(User::class, 'upline_id', 'id')->orderBy('created_at', 'desc');
     }
 
-    public function trading_account(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function getTradingAccount(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(TradingAccount::class, 'user_id', 'id');
     }

@@ -142,7 +142,7 @@ const closeModal = () => {
                 >
                     <div class="text-white text-xl font-semibold">
                         <div v-if="refereeCount !== null">
-                            {{ refereeCount }}
+                            {{ refereeCount.totalCount }}
                         </div>
                         <div v-else class="text-md">
                             {{ $t('public.loading') }}

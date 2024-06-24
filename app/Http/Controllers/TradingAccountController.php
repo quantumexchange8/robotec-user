@@ -62,7 +62,7 @@ class TradingAccountController extends Controller
         }
 
         if ($request->type === 'fund_in') {
-            $tradingAcc = Auth::user()->trading_account;
+            $tradingAcc = Auth::user()->getTradingAccount;
             try {
                 $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Wallet To Account", ChangeTraderBalanceType::DEPOSIT);
             } catch (\Throwable $e) {

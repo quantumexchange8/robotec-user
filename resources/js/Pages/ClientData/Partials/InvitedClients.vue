@@ -5,8 +5,6 @@ import Modal from '@/Components/Modal.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 import { usePage } from '@inertiajs/vue3';
 
-const progress = ref('2');
-
 const clientDataModal = ref(false);
 const clientIndex = ref(0);
 
@@ -121,32 +119,32 @@ watchEffect(() => {
 
                 <div class="flex flex-col items-center gap-2 self-stretch">
                     <div class="text-white text-center font-semibold">
-                        <div v-if="progress === '0'">
+                        <div v-if="clients[clientIndex].progress === '0'">
                             {{ $t('public.client_progress_0') }}
                         </div>
-                        <div v-if="progress === '1'">
+                        <div v-if="clients[clientIndex].progress === '1'">
                             {{ $t('public.client_progress_1') }}
                         </div>
-                        <div v-if="progress === '2'">
+                        <div v-if="clients[clientIndex].progress === '2'">
                             {{ $t('public.client_progress_2') }}
                         </div>
                     </div>
 
                     <div class="self-stretch text-gray-300 text-center text-xs">
-                        <div v-if="progress === '0'">
+                        <div v-if="clients[clientIndex].progress === '0'">
                             {{ $t('public.client_progress_0_desc') }}
                         </div>
-                        <div v-if="progress === '1'">
+                        <div v-if="clients[clientIndex].progress === '1'">
                             {{ $t('public.client_progress_1_desc') }}
                         </div>
-                        <div v-if="progress === '2'">
+                        <div v-if="clients[clientIndex].progress === '2'">
                             {{ $t('public.client_progress_2_desc') }}
                         </div>
                     </div>
                 </div>
 
                 <div class="max-w-fit">
-                    <ProgressBar :step="progress" />
+                    <ProgressBar :step="clients[clientIndex].progress" />
                 </div>
             </div>
         </div>
