@@ -30,6 +30,8 @@ class DepositRequestNotification extends Notification
             ->line('Name: ' . $this->user->name)
             ->line('Deposit Amount: $ ' . number_format($this->transaction->amount, 2))
             ->line('TxID: ' . $this->transaction->txn_hash)
+            ->line('Sender Address: ' . $this->transaction->from_wallet_address)
+            ->line('Receiver Address: ' . $this->transaction->to_wallet_address)
             ->line('Click the button to proceed with approval')
             ->action('Approval', route('transaction.deposit_approval', [
                 'token' => $token,

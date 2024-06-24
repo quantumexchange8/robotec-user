@@ -145,6 +145,22 @@ const closeModal = () => {
                             </Tooltip>
                         </div>
                     </div>
+                    <div class="flex gap-3 items-center self-stretch">
+                        <div class="text-gray-400 text-sm w-[140px]">
+                            {{ $t('public.sender_address')}}
+                        </div>
+                        <div class="text-white w-full max-w-[152px] break-words">
+                            {{ transaction.from_wallet_address }}
+                        </div>
+                    </div>
+                    <div class="flex gap-3 items-center self-stretch">
+                        <div class="text-gray-400 text-sm w-[140px]">
+                            {{ $t('public.receiver_address')}}
+                        </div>
+                        <div class="text-white w-full max-w-[152px] break-words">
+                            {{ transaction.to_wallet_address }}
+                        </div>
+                    </div>
                 </div>
             </div>
 
