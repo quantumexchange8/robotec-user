@@ -9,7 +9,7 @@ import Modal from '@/Components/Modal.vue';
 import { onUpdated, ref } from 'vue';
 import AddUSDTAddressForm from '@/Pages/Profile/Partials/AddUSDTAddressForm.vue';
 import AddUSDTButton from '@/Pages/Profile/Partials/AddUSDTButton.vue';
-import DefaultProfileIcon from '@/Components/DefaultProfilePhoto.vue';
+import DefaultProfilePhoto from '@/Components/DefaultProfilePhoto.vue';
 
 const user = ref(usePage().props.auth.user);
 const usdt = ref(user.value.usdt_address);
@@ -71,7 +71,7 @@ const handleProfilePhoto = (event) => {
                             <img :src="user.profile_photo" alt="profile_picture" />
                         </template>
                         <template v-else>
-                            <DefaultProfileIcon />
+                            <DefaultProfilePhoto />
                         </template>
                     </div>
                     <input

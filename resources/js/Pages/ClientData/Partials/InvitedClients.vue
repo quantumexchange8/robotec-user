@@ -4,6 +4,7 @@ import { ref, watchEffect } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import ProgressBar from '@/Pages/Dashboard/Partials/ProgressBar.vue';
 import { usePage } from '@inertiajs/vue3';
+import DefaultProfilePhoto from '@/Components/DefaultProfilePhoto.vue';
 
 const clientDataModal = ref(false);
 const clientIndex = ref(0);
@@ -63,10 +64,12 @@ watchEffect(() => {
                 class="flex min-w-24 py-5 px-2 flex-col justify-center items-center gap-2 flex-1 rounded-2xl bg-gray-800"
             >
                 <div class="w-7 h-7 rounded-full overflow-hidden">
-                    <img
-                        :src="client.profile_photo ? client.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
-                        alt="profile_picture"
-                    />
+                    <template v-if="client.profile_photo">
+                        <img :src="client.profile_photo" alt="profile_picture" />
+                    </template>
+                    <template v-else>
+                        <DefaultProfilePhoto />
+                    </template>
                 </div>
                 <div
                     class="self-stretch overflow-hidden text-white text-center text-ellipsis text-xs font-medium whitespace-nowrap"
@@ -103,10 +106,12 @@ watchEffect(() => {
             <div class="flex flex-col items-center gap-5 self-stretch">
                 <div class="flex items-start gap-2 self-stretch">
                     <div class="w-9 h-9 rounded-full overflow-hidden">
-                        <img
-                            :src="clients[clientIndex].profile_photo ? clients[clientIndex].profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
-                            alt="profile_picture"
-                        />
+                        <template v-if="clients[clientIndex].profile_photo">
+                            <img :src="clients[clientIndex].profile_photo" alt="profile_picture" />
+                        </template>
+                        <template v-else>
+                            <DefaultProfilePhoto />
+                        </template>
                     </div>
                     <div
                         class="flex flex-col justify-center self-stretch overflow-hidden text-white text-ellipsis font-medium whitespace-nowrap"

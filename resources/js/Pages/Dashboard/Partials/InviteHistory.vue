@@ -2,8 +2,8 @@
 import { ref, watchEffect } from 'vue';
 import EmptyInviteHistoryIllustration from '@/Pages/Dashboard/Partials/EmptyInviteHistoryIllustration.vue';
 import {transactionFormat} from "@/Composables/index.js";
-
 import { usePage } from '@inertiajs/vue3';
+import DefaultProfilePhoto from '@/Components/DefaultProfilePhoto.vue';
 
 const { formatDateTime } = transactionFormat();
 const isLoading = ref(false);
@@ -46,10 +46,12 @@ watchEffect(() => {
                 class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700"
             >
                 <div class="w-5 h-5 rounded-full overflow-hidden">
-                    <img 
-                        :src="client.profile_photo ? client.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
-                        alt="profile_picture"
-                    />
+                    <template v-if="client.profile_photo">
+                        <img :src="client.profile_photo" alt="profile_picture" />
+                    </template>
+                    <template v-else>
+                        <DefaultProfilePhoto />
+                    </template>
                 </div>
                 <div class="flex flex-col justify-center flex-1 self-stretch">
                     <div class="max-w-36 overflow-hidden text-ellipsis whitespace-nowrap text-white text-sm font-medium">

@@ -84,6 +84,8 @@ class DashboardController extends Controller
                 $directClient->progress = '2';
             }
 
+            $directClient->profile_photo = $directClient->getFirstMediaUrl('profile_photo');
+
             return $directClient;
         });
 

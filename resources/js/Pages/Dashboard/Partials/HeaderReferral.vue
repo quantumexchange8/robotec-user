@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import { QrCode01Icon } from '@/Components/Icons/outline';
 import Modal from '@/Components/Modal.vue';
@@ -8,7 +8,9 @@ import Qrcode from "qrcode.vue";
 import EmptyQrIllustration from './EmptyQrIllustration.vue';
 import { onUpdated, ref } from 'vue';
 import Tooltip from '@/Components/Tooltip.vue';
+import DefaultProfilePhoto from '@/Components/DefaultProfilePhoto.vue';
 
+const user = ref(usePage().props.auth.user);
 const props = defineProps({
     user: Object,
     robotecTransaction: Boolean,
@@ -51,6 +53,7 @@ const copyLink = () => {
 
 onUpdated(()=>{
     step1.value = props.robotecTransaction;
+    user.value = usePage().props.auth.user;
 })
 </script>
 
@@ -67,10 +70,12 @@ onUpdated(()=>{
         </Button>
         <div class="w-8 h-8 rounded-full overflow-hidden">
             <Link :href="route('profile.edit')">
-                <img 
-                    :src="user.profile_photo ? user.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
-                    alt="profile_picture"
-                />
+                <template v-if="user.profile_photo">
+                    <img :src="user.profile_photo" alt="profile_picture" />
+                </template>
+                <template v-else>
+                    <DefaultProfilePhoto />
+                </template>
             </Link>
         </div>
     </div>
