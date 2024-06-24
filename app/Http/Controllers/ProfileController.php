@@ -81,4 +81,18 @@ class ProfileController extends Controller
             'type' => 'success'
         ]);
     }
+
+    public function storePhoto(Request $request)
+    {
+        $user = Auth::user();
+        if ($request->hasFile('profilePhoto')) {
+            $user->clearMediaCollection('profile_photo');
+            $user->addMedia($request->profilePhoto)->toMediaCollection('profile_photo');
+        }
+
+        return back()->with('toast', [
+            'title' => trans('public.profile_photo_uploaded'),
+            'type' => 'success'
+        ]);
+    }
 }

@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/usdt', [ProfileController::class, 'storeUsdt'])->name('profile.usdt');
+        Route::post('/photo', [ProfileController::class, 'storePhoto'])->name('profile.photo');
     });
 
     /**

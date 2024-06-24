@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import { Upload01Icon, Key01Icon } from '@/Components/Icons/outline';
 import Input from '@/Components/Input.vue';
@@ -9,6 +9,7 @@ import Modal from '@/Components/Modal.vue';
 import { onUpdated, ref } from 'vue';
 import AddUSDTAddressForm from '@/Pages/Profile/Partials/AddUSDTAddressForm.vue';
 import AddUSDTButton from '@/Pages/Profile/Partials/AddUSDTButton.vue';
+import DefaultProfileIcon from '@/Components/DefaultProfilePhoto.vue';
 
 const user = ref(usePage().props.auth.user);
 const usdt = ref(user.value.usdt_address);
@@ -34,6 +35,24 @@ const closeModal = () => {
     profileModal.value = false;
 }
 
+const form = useForm({
+    profilePhoto: null,
+});
+
+const handleProfilePhoto = (event) => {
+    form.profilePhoto = event.target.files[0];
+
+    form.post(route('profile.photo'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+        },
+        onError:() => {
+            form.reset();
+            console.log(form.errors);
+        }
+    })
+}
 </script>
 
 <template>
@@ -48,15 +67,27 @@ const closeModal = () => {
             <div class="flex py-8 px-4 flex-col items-center gap-8 self-stretch rounded-2xl bg-gray-800">
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-14 h-14 rounded-full overflow-hidden">
-                        <img 
-                            :src="user.profile_photo ? user.profile_photo : 'https://img.freepik.com/free-icon/user_318-159711.jpg'"
-                            alt="profile_picture"
-                        />
+                        <template v-if="user.profile_photo">
+                            <img :src="user.profile_photo" alt="profile_picture" />
+                        </template>
+                        <template v-else>
+                            <DefaultProfileIcon />
+                        </template>
                     </div>
+                    <input
+                        ref="profilePhotoInput"
+                        id="profile_photo"
+                        type="file"
+                        class="hidden"
+                        accept="image/*"
+                        @change="handleProfilePhoto"
+                    />
                     <Button
                         type="button"
                         size="lg"
                         class="font-semibold flex gap-2 self-stretch"
+                        :disabled="form.processing"
+                        @click="$refs.profilePhotoInput.click()"
                         v-slot="{ iconSizeClasses }"
                     >
                         <Upload01Icon />
