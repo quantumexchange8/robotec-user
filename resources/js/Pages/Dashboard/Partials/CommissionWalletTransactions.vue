@@ -18,6 +18,7 @@ const getTransactions = async () => {
         isLoading.value = true;
         const response = await axios.get(route('getTransactions', props.walletIds.commission_wallet));
         transactions.value = response.data;
+        console.log(transactions.value);
     } catch (error) {
         console.error('Error refreshing transactions data:', error);
     } finally {
@@ -31,7 +32,7 @@ const getTransactions = async () => {
 getTransactions();
 
 watchEffect(() => {
-    if (usePage().props.title !== null) {
+    if (usePage().props.title !== null || usePage().props.toast !== null) {
         getTransactions();
     }
 });
@@ -44,8 +45,11 @@ watchEffect(() => {
             v-if="!empty" 
             class="flex flex-col items-start self-stretch rounded-xl"
         >
-            <template v-for="transaction in transactions">
-                <div class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700">
+            <template v-for="(transaction, index) in transactions">
+                <div 
+                    class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700"
+                    :class="{ 'border-transparent': index == Object.keys(transactions).length - 1 }"
+                >
                     <div class="flex flex-col items-start flex-1">
                         <div class="text-gray-300 text-xs">
                             {{ formatDateTime(transaction.created_at) }}

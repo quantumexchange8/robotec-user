@@ -28,7 +28,7 @@ const getDirectClients = async () => {
 getDirectClients();
 
 watchEffect(() => {
-    if (usePage().props.title !== null) {
+    if (usePage().props.title !== null || usePage().props.toast !== null) {
         getDirectClients();
     }
 });
@@ -42,8 +42,9 @@ watchEffect(() => {
             class="flex flex-col items-start self-stretch rounded-xl"
         >
             <div
-                v-for="client in clients"
+                v-for="(client, index) in clients"
                 class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700"
+                :class="{ 'border-transparent': index == Object.keys(clients).length - 1 }"
             >
                 <div class="w-5 h-5 rounded-full overflow-hidden">
                     <template v-if="client.profile_photo">

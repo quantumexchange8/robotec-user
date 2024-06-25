@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\SettingHistory;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,8 +27,13 @@ class DashboardController extends Controller
             $pamm = 0;
         }
 
-        $autoTrades = AutoTrading::where(['user_id' => Auth::id()])->whereNot('status', 'transferred')->get();
         $autoTradesCount = AutoTrading::where(['user_id' => Auth::id()])->get()->count();
+        $autoTrades = AutoTrading::where(['user_id' => Auth::id()])->whereNot('status', 'transferred')->get()->map(function($autoTrade) {
+            $now = Carbon::now();
+            $autoTrade->countdown = $now->diffInDays($autoTrade->matured_at);
+
+            return $autoTrade;
+        });
 
         return Inertia::render('Dashboard/Dashboard', [
             'walletIds' => $walletIds,
@@ -63,8 +69,12 @@ class DashboardController extends Controller
 
     public function getTransactions($id)
     {
-        $transactions = Transaction::where('from_wallet_id', $id)->orWhere('to_wallet_id', $id)->orderBy('created_at', 'desc')->get();
-        $transactions = $transactions->where('status', 'success');
+        $transactions = Transaction::where('status', 'success')
+                        ->where(function($query) use ($id) {
+                            $query->where('from_wallet_id', $id)->orWhere('to_wallet_id', $id);
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get();
 
         return response()->json($transactions);
     }

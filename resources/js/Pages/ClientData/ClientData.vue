@@ -22,7 +22,7 @@ const getDirectClientsCount = async () => {
 getDirectClientsCount();
 
 watchEffect(() => {
-    if (usePage().props.title !== null) {
+    if (usePage().props.title !== null || usePage().props.toast !== null) {
         getDirectClientsCount();
     }
 });

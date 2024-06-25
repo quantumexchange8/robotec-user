@@ -3,6 +3,7 @@ import { ref, watchEffect } from 'vue';
 import EmptyHistoryIllustration from '@/Pages/Dashboard/Partials/EmptyHistoryIllustration.vue';
 import {transactionFormat} from "@/Composables/index.js";
 import { usePage } from '@inertiajs/vue3';
+import Loader from '@/Pages/Dashboard/Partials/Loader.vue';
 
 const props = defineProps({
     walletIds: Object,
@@ -31,7 +32,7 @@ const getTransactions = async () => {
 getTransactions();
 
 watchEffect(() => {
-    if (usePage().props.title !== null) {
+    if (usePage().props.title !== null || usePage().props.toast !== null) {
         getTransactions();
     }
 });
@@ -44,8 +45,11 @@ watchEffect(() => {
             v-if="!empty" 
             class="flex flex-col items-start self-stretch rounded-xl"
         >
-            <template v-for="transaction in transactions">
-                <div class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700">
+            <template v-for="(transaction, index) in transactions">
+                <div 
+                    class="flex py-2 items-center gap-3 self-stretch border-b border-solid border-gray-700"
+                    :class="{ 'border-transparent': index == Object.keys(transactions).length - 1 }"
+                >
                     <div class="flex flex-col items-start flex-1">
                         <div class="text-gray-300 text-xs">
                             {{ formatDateTime(transaction.created_at) }}
@@ -69,9 +73,10 @@ watchEffect(() => {
 
             <div
                 v-if="isLoading"
-                class="self-stretch text-white text-center tetx-sm font-medium"
+                class="flex flex-col items-center self-stretch text-white text-center tetx-sm font-medium"
             >
-                {{ $t('public.loading') }}
+                <Loader />
+                <!-- {{ $t('public.loading') }} -->
             </div>
         </div>
 

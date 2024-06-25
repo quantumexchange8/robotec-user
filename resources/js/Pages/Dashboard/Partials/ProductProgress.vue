@@ -214,7 +214,7 @@ onMounted(() => {
                             </span>
                         </div>
                         <Button
-                            v-if="autoTrade.matured_at <= 0"
+                            v-if="autoTrade.countdown <= 0"
                             variant="gray"
                             type="button"
                             size="lg"
@@ -227,7 +227,7 @@ onMounted(() => {
                             v-else
                             class="flex py-3 px-4 justify-center items-center self-stretch rounded-lg bg-gray-900 text-white text-center text-sm font-semibold"
                         >
-                            {{ $t('public.matures_in') }} {{ autoTrade.matured_at }} {{ $t('public.days') }}
+                            {{ $t('public.matures_in') }} {{ parseInt(autoTrade.countdown) }} {{ $t('public.days') }}
                         </div>
                     </div>
                 </template>
