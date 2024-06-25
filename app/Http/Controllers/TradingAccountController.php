@@ -141,12 +141,69 @@ class TradingAccountController extends Controller
         ]);
     }
 
-    public function transfer()
+    public function transfer(Request $request)
     {
-        // add balance into commission wallet
-        // add transaction history
+        dd($request->all());
+        $tradingAcc = Auth::user()->getTradingAccount;
+        (new CTraderService)->getUserInfo(collect($tradingAcc));
 
-        // return back with toast
+        $amount = $request->amount;
+        $tradingAcc = Auth::user()->getTradingAccount;
+
+        if ($tradingAcc->balance > $amount) {
+            try {
+                $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Withdraw pamm return", ChangeTraderBalanceType::WITHDRAW);
+            } catch (\Throwable $e) {
+                if ($e->getMessage() == "Not found") {
+                    TradingUser::firstWhere('meta_login', $tradingAcc->meta_login)->update(['acc_status' => 'Inactive']);
+                } else {
+                    Log::error($e->getMessage());
+                }
+                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            }
+        } else {
+            dd('not enough balance');
+        }
+
+        $ticket = $trade->getTicket();
+        Transaction::create([
+            'user_id' => Auth::id(),
+            'category' => 'trading_account',
+            'transaction_type' => 'withdrawal',
+            'from_meta_login' => $tradingAcc->meta_login,
+            'ticket' => $ticket,
+            'transaction_number' => RunningNumberService::getID('transaction'),
+            'amount' => $amount,
+            'transaction_charges' => 0,
+            'transaction_amount' => $amount,
+            'status' => 'success',
+        ]);
+        
+        $autoTrade = AutoTrading::find($request->auto_trade_id);
+        $autoTrade->status = 'transferred';
+        $autoTrade->save();
+
+        $commission_wallet = Auth::user()->wallets->where('type', 'commission_wallet')->first();
+        $new_balance = $commission_wallet->balance + ($amount);
+
+        Transaction::create([
+            'user_id' => Auth::id(),
+            'category' => 'wallet',
+            'transaction_type' => 'auto_trade_profit',
+            'to_wallet_id' => $commission_wallet->id,
+            'from_meta_login' => $tradingAcc->meta_login,
+            'transaction_number' => RunningNumberService::getID('transaction'),
+            'amount' => $amount,
+            'transaction_charges' => 0,
+            'transaction_amount' => $amount,
+            'old_wallet_amount' => $commission_wallet->balance,
+            'new_wallet_amount' => $new_balance,
+            'status' => 'success',
+        ]);
+
+        $commission_wallet->balance = $new_balance;
+        $commission_wallet->save();
+
         return back()->with('toast', [
             'title' => trans('public.transfer_success'),
             'message' => trans('public.transfer_success_desc'),

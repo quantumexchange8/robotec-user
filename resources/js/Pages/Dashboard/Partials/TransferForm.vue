@@ -21,19 +21,21 @@ const closeModal = () => {
     emit('update:productProgressModal', false);
 }
 const trade = props.autoTrades[props.index];
-const bal = ref(trade.investment_amount + trade.cumulative_amount);
-const fundIn = ref(trade.investment_amount);
+const bal = ref(parseFloat(trade.investment_amount) + parseFloat(trade.cumulative_amount));
+const fundIn = ref(parseInt(trade.investment_amount));
 
 const percentage = computed(() => {
     return (bal.value - fundIn.value) / fundIn.value * 100;
 });
 
 const form = useForm({
-    amount: ''
+    amount: '',
+    auto_trade_id: '',
 });
 
 const submitForm = () => {
     form.amount = bal.value;
+    form.auto_trade_id = trade.id;
 
     form.post(route('trading.transfer'), {
         preserveScroll: true,

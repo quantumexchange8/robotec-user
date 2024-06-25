@@ -26,7 +26,7 @@ return [
     "purchase_robotec" => "Beli Robotec",
     "no_transaction" => "Tiada transaksi dijumpai",
     "commission_wallet_transactions" => "Transaksi Dompet Komisen",
-    "receive_auto_trading" => "Terima dari Perdagangan Auto",
+    "auto_trade_profit" => "Terima dari Perdagangan Auto",
     "invite_history" => "Sejarah Jemputan",
     "invite_history_empty_desc" => "Sejarah jemputan anda kosong. Mulakan menjemput rakan sekarang untuk mendapatkan komisen! 🚀",
     "qr_countdown_desc" => "Kod QR akan disegarkan secara automatik dalam",

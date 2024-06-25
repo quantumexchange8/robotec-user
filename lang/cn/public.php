@@ -26,7 +26,7 @@ return [
     "purchase_robotec" => "购买 Robotec",
     "no_transaction" => "没有找到交易",
     "commission_wallet_transactions" => "佣金钱包交易",
-    "receive_auto_trading" => "自动交易收入",
+    "auto_trade_profit" => "自动交易收入",
     "invite_history" => "邀请历史",
     "invite_history_empty_desc" => "看起来您的邀请历史是空的。立即开始邀请朋友来赚取佣金吧！ 🚀",
     "qr_countdown_desc" => "二维码将在",

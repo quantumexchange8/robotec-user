@@ -26,7 +26,7 @@ return [
     "purchase_robotec" => "Purchase Robotec",
     "no_transaction" => "No transactions found",
     "commission_wallet_transactions" => "Commission Wallet Transactions",
-    "receive_auto_trading" => "Receive from Auto Trading",
+    "auto_trade_profit" => "Receive from Auto Trading",
     "invite_history" => "Invite History",
     "invite_history_empty_desc" => "It looks like your invite history is empty. Start inviting friends now to earn commission! 🚀",
     "qr_countdown_desc" => "QR code will be refreshed automatically in",
