@@ -63,76 +63,70 @@ class TradingAccountController extends Controller
             throw ValidationException::withMessages(['wallet' => trans('public.insufficient_balance')]);
         }
 
-        if ($request->type === 'fund_in') {
-            $tradingAcc = Auth::user()->getTradingAccount;
-            try {
-                $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Wallet To Account", ChangeTraderBalanceType::DEPOSIT);
-            } catch (\Throwable $e) {
-                if ($e->getMessage() == "Not found") {
-                    TradingUser::firstWhere('meta_login', $tradingAcc->meta_login)->update(['acc_status' => 'Inactive']);
-                } else {
-                    Log::error($e->getMessage());
-                }
-                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        $tradingAcc = Auth::user()->getTradingAccount;
+        try {
+            $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Wallet To Account", ChangeTraderBalanceType::DEPOSIT);
+        } catch (\Throwable $e) {
+            if ($e->getMessage() == "Not found") {
+                TradingUser::firstWhere('meta_login', $tradingAcc->meta_login)->update(['acc_status' => 'Inactive']);
+            } else {
+                Log::error($e->getMessage());
             }
-
-            $ticket = $trade->getTicket();
-            $newBalance = $selectedWallet->balance - $amount;
-
-            Transaction::create([
-                'user_id' => Auth::id(),
-                'category' => 'trading_account',
-                'transaction_type' => 'fund_in',
-                'from_wallet_id' => $selectedWallet->id,
-                'to_meta_login' => $tradingAcc->meta_login,
-                'transaction_number' => RunningNumberService::getID('transaction'),
-                'amount' => $amount,
-                'transaction_charges' => 0,
-                'transaction_amount' => $amount,
-                'old_wallet_amount' => $selectedWallet->balance,
-                'new_wallet_amount' => $newBalance,
-                'status' => 'success',
-                'ticket' => $ticket,
-            ]);
-
-            $selectedWallet->balance = $newBalance;
-            $selectedWallet->save();
-
-            return back()->with('toast', [
-                'title' => trans('public.fund_in_success'),
-                'message' => trans('public.fund_in_success_desc'),
-                'type' => 'success',
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
-        //top up capital
+
+        $ticket = $trade->getTicket();
+        $newBalance = $selectedWallet->balance - $amount;
+
+        $transaction = Transaction::create([
+            'user_id' => Auth::id(),
+            'category' => 'trading_account',
+            'transaction_type' => 'fund_in',
+            'from_wallet_id' => $selectedWallet->id,
+            'to_meta_login' => $tradingAcc->meta_login,
+            'transaction_number' => RunningNumberService::getID('transaction'),
+            'amount' => $amount,
+            'transaction_charges' => 0,
+            'transaction_amount' => $amount,
+            'old_wallet_amount' => $selectedWallet->balance,
+            'new_wallet_amount' => $newBalance,
+            'status' => 'success',
+            'ticket' => $ticket,
+        ]);
+
+        $selectedWallet->balance = $newBalance;
+        $selectedWallet->save();
+        
+        $autoTradeCount = AutoTrading::where('user_id', Auth::id())->whereNot('status', 'transferred')->count();
+        $status = 'pending';
+        if ($autoTradeCount > 0) {
+            $status = 'ongoing';
+        }
+
+        AutoTrading::create([
+            'user_id' => Auth::id(),
+            'meta_login' => $tradingAcc->meta_login,
+            'trading_account_id' => $tradingAcc->id,
+            'transaction_id' => $transaction->id,
+            'investment_amount' => $amount,
+            'period' => 90,
+            'status' => $status,
+            'matured_at' => now()->addDays(90)->endOfDay()
+        ]);
+
+        return back()->with('toast', [
+            'title' => trans('public.fund_in_success'),
+            'message' => trans('public.fund_in_success_desc'),
+            'type' => 'success',
+        ]);
     }
 
     public function startAutoTrade()
     {
-        $user = Auth::user();
-        $trading_account = TradingAccount::where('user_id', $user->id)->first();
-        $transaction = Transaction::where('user_id', $user->id)
-            ->where('transaction_type', 'fund_in')
-            ->latest()
-            ->first();
-
-        if ($trading_account->balance >= $transaction->transaction_amount) {
-            AutoTrading::create([
-               'user_id' => $user->id,
-               'meta_login' => $trading_account->meta_login,
-               'trading_account_id' => $trading_account->id,
-               'transaction_id' => $transaction->id,
-               'investment_amount' => $transaction->transaction_amount,
-               'period' => 90,
-               'status' => 'ongoing',
-               'matured_at' => now()->addDays(90)->endOfDay(),
-            ]);
-        } else {
-            return back()
-                ->with('title', trans('public.insufficient_balance'))
-                ->with('warning', trans('public.insufficient_balance_desc'))
-                ->with('alertButton', 'OK');
-        }
+        $pendingAutoTrade = AutoTrading::where('user_id', Auth::id())->where('status', 'pending')->first();
+        $pendingAutoTrade->status = 'ongoing';
+        $pendingAutoTrade->matured_at = now()->addDays(90)->endOfDay();
+        $pendingAutoTrade->save();
 
         return back()->with('toast', [
             'title' => trans('public.auto_trading_started'),

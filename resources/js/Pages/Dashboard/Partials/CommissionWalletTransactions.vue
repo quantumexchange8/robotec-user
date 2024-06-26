@@ -18,7 +18,6 @@ const getTransactions = async () => {
         isLoading.value = true;
         const response = await axios.get(route('getTransactions', props.walletIds.commission_wallet));
         transactions.value = response.data;
-        console.log(transactions.value);
     } catch (error) {
         console.error('Error refreshing transactions data:', error);
     } finally {

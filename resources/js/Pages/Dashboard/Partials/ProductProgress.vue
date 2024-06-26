@@ -21,6 +21,7 @@ const props = defineProps({
     autoTrades: Object,
     tradingAcc: Object,
     autoTradesCount: Number,
+    pendingAutoTrade: Number,
 });
 
 const productProgressModal = ref(false);
@@ -109,10 +110,10 @@ const submitCreateAccForm = () => {
 const updateButton2Status = () => {
     if (props.tradingAcc) {
         button2Status.value = 'fund_in';
+    }
 
-        if (props.tradingAcc.balance > 0) {
-            button2Status.value = 'start_auto_trading';
-        }
+    if (props.pendingAutoTrade > 0) {
+        button2Status.value = 'start_auto_trading';
     }
 
     if (props.autoTrades.length != 0) {
@@ -200,9 +201,9 @@ onMounted(() => {
                     {{ $t('public.complete_step_1_unlock') }}
                 </Button>
 
-                <template v-if="props.autoTrades.length != 0">
+                <template v-if="autoTrades.length != 0">
                     <div
-                        v-for="(autoTrade, index) in props.autoTrades"
+                        v-for="(autoTrade, index) in autoTrades"
                         class="flex flex-col items-start gap-2 self-stretch"
                     >
                         <div class="text-xs font-medium">
@@ -214,7 +215,7 @@ onMounted(() => {
                             </span>
                         </div>
                         <Button
-                            v-if="autoTrade.countdown <= 0"
+                            v-if="autoTrade.status === 'matured' && autoTrade.cumulative_earning > 0"
                             variant="gray"
                             type="button"
                             size="lg"
@@ -249,7 +250,7 @@ onMounted(() => {
         <template v-if="modalComponent === 'fund_in' || modalComponent === 'top_up_capital'">
             <InvestmentForm
                 :modalType="modalComponent"
-                :walletIds="props.walletIds"
+                :walletIds="walletIds"
                 @update:productProgressModal="productProgressModal = $event"
                 @update:button2="button2Status = $event"
             />
@@ -257,9 +258,9 @@ onMounted(() => {
 
         <template v-if="modalComponent === 'transfer'">
             <TransferForm
-                :autoTrades="props.autoTrades"
+                :autoTrades="autoTrades"
                 :index="transferIndex"
-                :tradingAcc="props.tradingAcc"
+                :tradingAcc="tradingAcc"
                 @update:productProgressModal="productProgressModal = $event"
             />
         </template>

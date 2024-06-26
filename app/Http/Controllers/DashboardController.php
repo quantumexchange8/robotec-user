@@ -21,14 +21,9 @@ class DashboardController extends Controller
         $tradingAcc = Auth::user()->getTradingAccount;
 
         $pamm = Setting::where('slug', 'pamm-return')->whereDate('updated_at', date("Y-m-d"))->first();
-        if ($pamm) {
-            $pamm = (double)$pamm->value;
-        } else {
-            $pamm = 0;
-        }
 
-        $autoTradesCount = AutoTrading::where(['user_id' => Auth::id()])->get()->count();
-        $autoTrades = AutoTrading::where(['user_id' => Auth::id()])->whereNot('status', 'transferred')->get()->map(function($autoTrade) {
+        $autoTradeQuery = AutoTrading::where('user_id', Auth::id());
+        $autoTrades = $autoTradeQuery->whereNotIn('status', ['transferred', 'pending'])->get()->map(function($autoTrade) {
             $now = Carbon::now();
             $autoTrade->countdown = $now->diffInDays($autoTrade->matured_at);
 
@@ -38,10 +33,11 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard/Dashboard', [
             'walletIds' => $walletIds,
             'robotecTransaction' => (bool)$robotecTransaction,
-            'todayPamm' => $pamm,
-            'autoTrades' => $autoTrades,    
+            'todayPamm' => (double)$pamm->value ?? 0,
+            'autoTrades' => $autoTrades,
             'tradingAcc' => $tradingAcc,
-            'autoTradesCount' => $autoTradesCount,
+            'autoTradesCount' => $autoTradeQuery->get()->count(),
+            'pendingAutoTrade' => $autoTradeQuery->where('status', 'pending')->count(),
         ]);
     }
 

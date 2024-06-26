@@ -48,7 +48,6 @@ const emit = defineEmits([
 const form = useForm({
     wallet: 'cash_wallet',
     amount: '',
-    type: props.modalType
 });
 
 const submitForm = () => {

@@ -17,11 +17,26 @@ const props = defineProps({
     autoTrades: Object,
     tradingAcc: Object,
     autoTradesCount: Number,
+    pendingAutoTrade: Number,
 });
 
 const cumulativePamm = computed(() => {
     return props.autoTrades.reduce((sum, trade) => sum + trade.cumulative_pamm_return, 0);
 })
+
+const tradingAccBalance = ref(props.tradingAcc ? props.tradingAcc.balance : 0);
+
+const handleDecimal = (value) => {
+    const decimalPart = value.toString().split('.')[1];
+
+    if (decimalPart) {
+        if (decimalPart.length > 2) {
+            return decimalPart.length;
+        }
+    }
+
+    return 2;
+}
 </script>
 
 <template>
@@ -38,18 +53,19 @@ const cumulativePamm = computed(() => {
                         {{ user.name }}
                     </div>
                 </div>
-                <HeaderReferral :user="user" :robotecTransaction="props.robotecTransaction" />
+                <HeaderReferral :user="user" :robotecTransaction="robotecTransaction" />
             </div>
         </template>
 
-        <WalletInfo :walletIds="props.walletIds"/>
+        <WalletInfo :walletIds="walletIds"/>
 
         <ProductProgress
-            :robotecTransaction="props.robotecTransaction"
-            :walletIds="props.walletIds"
-            :autoTrades="props.autoTrades"
-            :tradingAcc="props.tradingAcc"
-            :autoTradesCount="props.autoTradesCount"
+            :robotecTransaction="robotecTransaction"
+            :walletIds="walletIds"
+            :autoTrades="autoTrades"
+            :tradingAcc="tradingAcc"
+            :autoTradesCount="autoTradesCount"
+            :pendingAutoTrade="pendingAutoTrade"
         />
 
         <div class="flex px-4 pt-5 pb-9 flex-col items-center self-stretch">
@@ -63,9 +79,9 @@ const cumulativePamm = computed(() => {
                     </div>
                     <div
                         class="text-right text-lg font-semibold"
-                        :class="props.todayPamm > 0 ? 'text-success-500' : 'text-error-500'"
+                        :class="todayPamm > 0 ? 'text-success-500' : 'text-error-500'"
                     >
-                        {{ props.todayPamm }}
+                        {{ formatAmount(todayPamm, handleDecimal(todayPamm)) }}
                     </div>
                 </div>
 
@@ -73,8 +89,8 @@ const cumulativePamm = computed(() => {
                     <div class="text-gray-300 text-sm font-medium">
                         {{ $t('public.culmulative_pamm_return') }} (%)
                     </div>
-                    <div v-if="props.autoTrades" class="text-white text-right text-lg font-semibold">
-                        {{ cumulativePamm }}
+                    <div v-if="autoTrades" class="text-white text-right text-lg font-semibold">
+                        {{ formatAmount(cumulativePamm, handleDecimal(cumulativePamm)) }}
                     </div>
                 </div>
 
@@ -83,7 +99,7 @@ const cumulativePamm = computed(() => {
                         {{ $t('public.culmulative_earnings') }} ($)
                     </div>
                     <div class="text-white text-right text-lg font-semibold">
-                        {{ formatAmount(props.tradingAcc.balance) }}
+                        {{ formatAmount(tradingAccBalance, handleDecimal(tradingAccBalance)) }}
                     </div>
                 </div>
             </div>

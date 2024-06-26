@@ -22,7 +22,7 @@ const closeModal = () => {
     emit('update:productProgressModal', false);
 }
 const trade = props.autoTrades[props.index];
-const bal = ref(parseFloat(trade.investment_amount) + parseFloat(trade.cumulative_amount));
+const bal = ref(parseFloat(trade.cumulative_amount));
 const fundIn = ref(parseInt(trade.investment_amount));
 
 const percentage = computed(() => {
