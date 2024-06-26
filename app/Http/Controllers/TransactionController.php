@@ -166,7 +166,28 @@ class TransactionController extends Controller
         ]);
 
         $response = Http::acceptJson()->get("https://apilist.tronscanapi.com/api/transaction-info?hash={$request->txid}")->json();
-        $transaction->from_wallet_address = $response['ownerAddress'];
+
+        if ($response) {
+            $transaction->from_wallet_address = $response['ownerAddress'];
+
+            $amount_str = $response['trc20TransferInfo'][0]['amount_str'];
+            $crypto_amount = $transaction->transaction_amount * 1000000;
+            $range = 2 * 1000000;
+            // Update the status of the payment based on the transaction info
+            if ($response['contractRet'] == 'SUCCESS' && $response['confirmed'] && $response['trc20TransferInfo'][0]['to_address'] == $transaction->to_wallet_address) {
+                if ($amount_str >= ($crypto_amount - $range) && $amount_str <= ($crypto_amount + $range)) {
+                    $transaction->status = 'success';
+
+                    $wallet = Wallet::find($transaction->to_wallet_id);
+                    $wallet->balance += $transaction->amount;
+                    $wallet->save();
+
+                    $transaction->new_wallet_amount = $wallet->balance;
+                }
+            }
+        } else {
+            $transaction->from_wallet_address = 'TestOwnerAddress';
+        }
         $transaction->save();
 
         Notification::route('mail', 'payment@currenttech.pro')

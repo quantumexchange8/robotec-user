@@ -76,7 +76,7 @@ const closeModal = () => {
     <GuestLayout>
         <Head :title="$t('public.deposit_approval')" />
 
-        <div class="flex flex-col justify-center items-center gap-5 px-4">
+        <div class="flex flex-col justify-center items-center gap-5 px-4 pb-12">
             <div class="flex flex-col items-center gap-3 self-stretch">
                 <Link href="/">
                     <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
