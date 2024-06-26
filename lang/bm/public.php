@@ -62,7 +62,7 @@ return [
     "top_up_desc_2" => "Dengan mengklik 'sahkan', dana anda akan dikunci untuk memulakan Perdagangan Auto Robotec.",
     "cancel" => "Batal",
     "confirm" => "Sahkan",
-    "current_account_balance" => "Baki Akaun Semasa",
+    "total_earning" => "Jumlah Pendapatan",
     "transfer_desc" => "Sila ambil perhatian bahawa baki akaun anda akan dipindahkan ke dompet komisen.",
     "transfer_now" => "Pindah Sekarang",
     "client" => "Pelanggan",

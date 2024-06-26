@@ -62,7 +62,7 @@ return [
     "top_up_desc_2" => "点击“确认”后, 您的资金将被锁定以开始Robotec自动交易。",
     "cancel" => "取消",
     "confirm" => "确认",
-    "current_account_balance" => "当前账户余额",
+    "total_earning" => "总收入",
     "transfer_desc" => "请注意，您的账户余额将转入佣金钱包。",
     "transfer_now" => "立即转账",
     "client" => "客户",

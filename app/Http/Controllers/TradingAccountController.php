@@ -146,7 +146,7 @@ class TradingAccountController extends Controller
 
         $amount = 0;
         if ($autoTradeCount > 1) {
-            $amount = $autoTrade->investment_amount + $autoTrade->cumulative_amount;
+            $amount = $autoTrade->cumulative_earning;
         } else {
             $amount = $tradingAcc->balance;
         }

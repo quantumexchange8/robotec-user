@@ -62,7 +62,7 @@ return [
     "top_up_desc_2" => "By clicking 'confirm', your funds will be locked to start Robotec Auto Trading.",
     "cancel" => "Cancel",
     "confirm" => "Confirm",
-    "current_account_balance" => "Current Account Balance",
+    "total_earning" => "Total Earning",
     "transfer_desc" => "Please note that your account balance will be transferred to commission wallet.",
     "transfer_now" => "Transfer Now",
     "client" => "Client",
