@@ -8,7 +8,7 @@ const props = defineProps({
     type: String, // Accepts 'success', 'info', 'warning', 'error'
     duration: {
         type: Number,
-        default: 10000
+        default: 5000
     }
 });
 
