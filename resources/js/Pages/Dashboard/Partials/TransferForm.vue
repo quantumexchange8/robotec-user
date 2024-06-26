@@ -10,6 +10,7 @@ const { formatAmount } = transactionFormat();
 const props = defineProps({
     autoTrades: Object,
     index: Number,
+    tradingAcc: Object,
 });
 
 const emit = defineEmits([
@@ -29,12 +30,10 @@ const percentage = computed(() => {
 });
 
 const form = useForm({
-    amount: '',
     auto_trade_id: '',
 });
 
 const submitForm = () => {
-    form.amount = bal.value;
     form.auto_trade_id = trade.id;
 
     form.post(route('trading.transfer'), {

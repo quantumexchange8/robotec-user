@@ -143,26 +143,29 @@ class TradingAccountController extends Controller
 
     public function transfer(Request $request)
     {
-        dd($request->all());
         $tradingAcc = Auth::user()->getTradingAccount;
         (new CTraderService)->getUserInfo(collect($tradingAcc));
 
-        $amount = $request->amount;
         $tradingAcc = Auth::user()->getTradingAccount;
+        $autoTrade = AutoTrading::find($request->auto_trade_id);
+        $autoTradeCount = AutoTrading::where('user_id', Auth::id())->count();
 
-        if ($tradingAcc->balance > $amount) {
-            try {
-                $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Withdraw pamm return", ChangeTraderBalanceType::WITHDRAW);
-            } catch (\Throwable $e) {
-                if ($e->getMessage() == "Not found") {
-                    TradingUser::firstWhere('meta_login', $tradingAcc->meta_login)->update(['acc_status' => 'Inactive']);
-                } else {
-                    Log::error($e->getMessage());
-                }
-                return response()->json(['success' => false, 'message' => $e->getMessage()]);
-            }
+        $amount = 0;
+        if ($autoTradeCount > 1) {
+            $amount = $autoTrade->investment_amount + $autoTrade->cumulative_amount;
         } else {
-            dd('not enough balance');
+            $amount = $tradingAcc->balance;
+        }
+
+        try {
+            $trade = (new CTraderService)->createTrade($tradingAcc->meta_login, $amount, "Withdraw pamm return", ChangeTraderBalanceType::WITHDRAW);
+        } catch (\Throwable $e) {
+            if ($e->getMessage() == "Not found") {
+                TradingUser::firstWhere('meta_login', $tradingAcc->meta_login)->update(['acc_status' => 'Inactive']);
+            } else {
+                Log::error($e->getMessage());
+            }
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
 
         $ticket = $trade->getTicket();
@@ -179,7 +182,6 @@ class TradingAccountController extends Controller
             'status' => 'success',
         ]);
         
-        $autoTrade = AutoTrading::find($request->auto_trade_id);
         $autoTrade->status = 'transferred';
         $autoTrade->save();
 
@@ -204,7 +206,7 @@ class TradingAccountController extends Controller
         $commission_wallet->balance = $new_balance;
         $commission_wallet->save();
 
-        return back()->with('toast', [
+        return to_route('dashboard')->with('toast', [
             'title' => trans('public.transfer_success'),
             'message' => trans('public.transfer_success_desc'),
             'type' => 'success'

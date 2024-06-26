@@ -259,6 +259,7 @@ onMounted(() => {
             <TransferForm
                 :autoTrades="props.autoTrades"
                 :index="transferIndex"
+                :tradingAcc="props.tradingAcc"
                 @update:productProgressModal="productProgressModal = $event"
             />
         </template>

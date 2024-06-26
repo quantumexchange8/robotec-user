@@ -22,10 +22,6 @@ const props = defineProps({
 const cumulativePamm = computed(() => {
     return props.autoTrades.reduce((sum, trade) => sum + trade.cumulative_pamm_return, 0);
 })
-
-const cumulativeAmount = computed(() => {
-    return props.autoTrades.reduce((sum, trade) => sum + trade.cumulative_amount, 0);
-})
 </script>
 
 <template>
@@ -87,7 +83,7 @@ const cumulativeAmount = computed(() => {
                         {{ $t('public.culmulative_earnings') }} ($)
                     </div>
                     <div class="text-white text-right text-lg font-semibold">
-                        {{ formatAmount(cumulativeAmount) }}
+                        {{ formatAmount(props.tradingAcc.balance) }}
                     </div>
                 </div>
             </div>
