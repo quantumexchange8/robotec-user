@@ -12,33 +12,33 @@ const props = defineProps({
 
 <template>
     <div class="pt-5">
-        <template v-if="props.withdrawalHistory.length">
+        <template v-if="withdrawalHistory.length">
             <div
-                v-for="withdrawalHistory in props.withdrawalHistory"
+                v-for="history in withdrawalHistory"
                 class="flex py-2 items-center gap-3 self-stretch"
             >
                 <div class="flex flex-col items-start flex-1">
-                    <div class="text-gray-300 text-xs">{{ formatDateTime(withdrawalHistory.created_at) }}</div>
+                    <div class="text-gray-300 text-xs">{{ formatDateTime(history.created_at) }}</div>
                     <div
-                        v-if="withdrawalHistory.status === 'success'"
+                        v-if="history.status === 'success'"
                         class="text-success-500 text-sm font-medium"
                     >
                         {{ $t('public.success') }}
                     </div>
                     <div
-                        v-else-if="withdrawalHistory.status === 'processing'"
+                        v-else-if="history.status === 'processing'"
                         class="text-warning-500 text-sm font-medium"
                     >
                         {{ $t('public.processing') }}
                     </div>
                     <div
-                        v-else-if="withdrawalHistory.status === 'failed'"
+                        v-else-if="history.status === 'failed'"
                         class="text-error-500 text-sm font-medium"
                     >
                         {{ $t('public.failed') }}
                     </div>
                 </div>
-                <div class="text-white text-right font-medium">$ {{ formatAmount(withdrawalHistory.amount) }}</div>
+                <div class="text-white text-right font-medium">$ {{ formatAmount(history.amount) }}</div>
             </div>
         </template>
 

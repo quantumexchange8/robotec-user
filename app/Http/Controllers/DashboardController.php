@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $pamm = Setting::where('slug', 'pamm-return')->whereDate('updated_at', date("Y-m-d"))->first();
 
         $autoTradeQuery = AutoTrading::where('user_id', Auth::id());
-        $autoTrades = $autoTradeQuery->whereNotIn('status', ['transferred', 'pending'])->get()->map(function($autoTrade) {
+        $autoTrades = (clone $autoTradeQuery)->whereNotIn('status', ['transferred', 'pending'])->get()->map(function($autoTrade) {
             $now = Carbon::now();
             $autoTrade->countdown = $now->diffInDays($autoTrade->matured_at);
 
@@ -36,8 +36,8 @@ class DashboardController extends Controller
             'todayPamm' => $pamm ? (double)$pamm->value : 0,
             'autoTrades' => $autoTrades,
             'tradingAcc' => $tradingAcc,
-            'autoTradesCount' => $autoTradeQuery->get()->count(),
-            'pendingAutoTrade' => $autoTradeQuery->where('status', 'pending')->count(),
+            'autoTradesCount' => (clone $autoTradeQuery)->get()->count(),
+            'pendingAutoTrade' => (clone $autoTradeQuery)->where('status', 'pending')->count(),
         ]);
     }
 
