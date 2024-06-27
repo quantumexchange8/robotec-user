@@ -33,7 +33,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard/Dashboard', [
             'walletIds' => $walletIds,
             'robotecTransaction' => (bool)$robotecTransaction,
-            'todayPamm' => (double)$pamm->value ?? 0,
+            'todayPamm' => $pamm ? (double)$pamm->value : 0,
             'autoTrades' => $autoTrades,
             'tradingAcc' => $tradingAcc,
             'autoTradesCount' => $autoTradeQuery->get()->count(),
