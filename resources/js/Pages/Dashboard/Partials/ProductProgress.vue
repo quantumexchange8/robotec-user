@@ -116,7 +116,7 @@ const updateButton2Status = () => {
         button2Status.value = 'start_auto_trading';
     }
 
-    if (props.autoTrades.length != 0) {
+    if (props.autoTrades.length !== 0) {
         button2Status.value = 'top_up_capital';
     }
 
@@ -201,14 +201,14 @@ onMounted(() => {
                     {{ $t('public.complete_step_1_unlock') }}
                 </Button>
 
-                <template v-if="autoTrades.length != 0">
+                <template v-if="autoTrades.length !== 0">
                     <div
                         v-for="(autoTrade, index) in autoTrades"
                         class="flex flex-col items-start gap-2 self-stretch"
                     >
                         <div class="text-xs font-medium">
                             <span class="text-gray-300">
-                                {{ $t('public.investment') }} {{ index+1 }}: 
+                                {{ $t('public.investment') }} {{ index+1 }}:
                             </span>
                             <span class="text-success-500">
                                 $ {{ formatAmount(autoTrade.investment_amount) }}

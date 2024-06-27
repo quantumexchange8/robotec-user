@@ -96,7 +96,7 @@ class TradingAccountController extends Controller
 
         $selectedWallet->balance = $newBalance;
         $selectedWallet->save();
-        
+
         $autoTradeCount = AutoTrading::where('user_id', Auth::id())->whereNot('status', 'transferred')->count();
         $status = 'pending';
         if ($autoTradeCount > 0) {
@@ -111,7 +111,8 @@ class TradingAccountController extends Controller
             'investment_amount' => $amount,
             'period' => 90,
             'status' => $status,
-            'matured_at' => now()->addDays(90)->endOfDay()
+            'matured_at' => now()->addDays(90)->endOfDay(),
+            'cumulative_earning' => $amount,
         ]);
 
         return back()->with('toast', [
@@ -175,7 +176,7 @@ class TradingAccountController extends Controller
             'transaction_amount' => $amount,
             'status' => 'success',
         ]);
-        
+
         $autoTrade->status = 'transferred';
         $autoTrade->save();
 
