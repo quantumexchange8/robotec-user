@@ -76,7 +76,6 @@ watchEffect(() => {
                 class="flex flex-col items-center self-stretch text-white text-center tetx-sm font-medium"
             >
                 <Loader />
-                <!-- {{ $t('public.loading') }} -->
             </div>
         </div>
 

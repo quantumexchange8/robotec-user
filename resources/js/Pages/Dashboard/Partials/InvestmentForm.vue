@@ -184,7 +184,7 @@ const amounts = [
             </div>
 
             <div
-                v-if="props.modalType === 'top_up_capital'"
+                v-if="modalType === 'top_up_capital'"
                 class="self-stretch text-neutral-400 text-xs"
             >
                 <div class="flex flex-col gap-4">

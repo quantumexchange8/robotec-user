@@ -4,6 +4,7 @@ import EmptyInviteHistoryIllustration from '@/Pages/Dashboard/Partials/EmptyInvi
 import {transactionFormat} from "@/Composables/index.js";
 import { usePage } from '@inertiajs/vue3';
 import DefaultProfilePhoto from '@/Components/DefaultProfilePhoto.vue';
+import Loader from '@/Pages/Dashboard/Partials/Loader.vue';
 
 const { formatDateTime } = transactionFormat();
 const isLoading = ref(false);
@@ -66,9 +67,9 @@ watchEffect(() => {
 
             <div
                 v-if="isLoading"
-                class="self-stretch text-white text-center text-sm font-medium"
+                class="flex flex-col items-center self-stretch text-white text-center text-sm font-medium"
             >
-                {{ $t('public.loading') }}
+                <Loader />
             </div>
         </div>
 

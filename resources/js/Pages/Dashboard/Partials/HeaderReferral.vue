@@ -81,58 +81,58 @@ onUpdated(()=>{
     </div>
 
     <Modal
-            :show="referralCodeModal"
-            :title="$t('public.my_referral_code')"
-            @close="closeReferralCodeModal"
-        >
-            <div class="py-5">
-                <div 
-                    v-if="step1" 
-                    class="flex flex-col items-center gap-5 self-stretch"
-                >
-                    <div class="flex flex-col items-center gap-2 self-stretch">
-                        <div class="text-white font-semibold">{{ $t('public.scan_qr_code') }}</div>
-                        <div class="self-stretch text-gray-300 text-center text-xs">
-                            {{ $t('public.scan_qr_desc') }}
-                        </div>
-                    </div>
-
-                    <Qrcode :value="referralQr" :size="240" render-as="svg" :margin="1" level="M" background="#FFF" />
-
-                    <div class="flex items-center gap-2 self-stretch">
-                        <Input
-                            v-model="referralQr"
-                            type="text"
-                            class="block w-full text-xxs"
-                            readonly
-                        />
-                        <div class="relative min-w-fit">
-                            <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
-                                <Button
-                                    variant="gray"
-                                    type="button"
-                                    class="font-semibold self-stretch"
-                                    @click="copyLink"
-                                >
-                                    {{ $t('public.copy_link') }}
-                                </Button>
-                            </Tooltip>
-                        </div>
+        :show="referralCodeModal"
+        :title="$t('public.my_referral_code')"
+        @close="closeReferralCodeModal"
+    >
+        <div class="py-5">
+            <div 
+                v-if="step1" 
+                class="flex flex-col items-center gap-5 self-stretch"
+            >
+                <div class="flex flex-col items-center gap-2 self-stretch">
+                    <div class="text-white font-semibold">{{ $t('public.scan_qr_code') }}</div>
+                    <div class="self-stretch text-gray-300 text-center text-xs">
+                        {{ $t('public.scan_qr_desc') }}
                     </div>
                 </div>
 
-                <div 
-                    v-else 
-                    class="flex flex-col items-center gap-5 self-stretch"
-                >
-                    <EmptyQrIllustration />
-                    <div class="flex flex-col items-center gap-2 self-stretch">
-                        <div class="text-white text-center font-semibold">{{ $t('public.referral_qr_not_available') }}</div>
-                        <div class="self-stretch text-gray-300 text-center text-sm">
-                            {{ $t('public.referral_qr_not_available_desc') }}
-                        </div>
+                <Qrcode :value="referralQr" :size="240" render-as="svg" :margin="1" level="M" background="#FFF" />
+
+                <div class="flex items-center gap-2 self-stretch">
+                    <Input
+                        v-model="referralQr"
+                        type="text"
+                        class="block w-full text-xxs"
+                        readonly
+                    />
+                    <div class="relative min-w-fit">
+                        <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
+                            <Button
+                                variant="gray"
+                                type="button"
+                                class="font-semibold self-stretch"
+                                @click="copyLink"
+                            >
+                                {{ $t('public.copy_link') }}
+                            </Button>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
-        </Modal>
+
+            <div 
+                v-else 
+                class="flex flex-col items-center gap-5 self-stretch"
+            >
+                <EmptyQrIllustration />
+                <div class="flex flex-col items-center gap-2 self-stretch">
+                    <div class="text-white text-center font-semibold">{{ $t('public.referral_qr_not_available') }}</div>
+                    <div class="self-stretch text-gray-300 text-center text-sm">
+                        {{ $t('public.referral_qr_not_available_desc') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Modal>
 </template>

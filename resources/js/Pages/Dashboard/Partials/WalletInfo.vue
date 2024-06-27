@@ -161,13 +161,13 @@ const closeModal = () => {
     >
         <template v-if="modalComponent === 'cash_wallet_transactions'">
             <CashWalletTransactions
-                :walletIds="props.walletIds"
+                :walletIds="walletIds"
             />
         </template>
 
         <template v-if="modalComponent === 'commission_wallet_transactions'">
             <CommissionWalletTransactions
-                :walletIds="props.walletIds"
+                :walletIds="walletIds"
             />
         </template>
 
