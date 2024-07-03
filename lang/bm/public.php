@@ -191,4 +191,5 @@ return [
     "terms_and_conditions" => "Terma & Syarat",
     "sender_address" => "Alamat Penghantar",
     "receiver_address" => "Alamat Penerima",
+    "deposit_desc" => "Anda akan dialihkan ke halaman pembayaran USDT untuk melengkapkan transaksi anda."
 ];

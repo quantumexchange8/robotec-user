@@ -23,7 +23,7 @@ class DepositRequest extends FormRequest
     {
         return [
             'amount' => ['required', 'numeric', 'min:1'],
-            'txid' => ['required', 'string'],
+//            'txid' => ['required', 'string'],
             'terms' => ['required'],
         ];
     }
@@ -32,7 +32,7 @@ class DepositRequest extends FormRequest
     {
         return [
             'amount' => trans('public.deposit_amount'),
-            'txid' => 'TxID',
+//            'txid' => 'TxID',
             'terms' => trans('public.liability_waiver'),
         ];
     }

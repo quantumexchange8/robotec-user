@@ -191,4 +191,5 @@ return [
     "terms_and_conditions" => "条款与条件",
     "sender_address" => "发送地址",
     "receiver_address" => "接收地址",
+    "deposit_desc" => "您将被重定向到USDT支付页面以完成您的入金。"
 ];

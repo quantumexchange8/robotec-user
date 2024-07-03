@@ -17,7 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\LocalizationMiddleware::class,
         ]);
 
-        //
+        $middleware->validateCsrfTokens(except: [
+            'depositCallback' // <-- exclude this route
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
