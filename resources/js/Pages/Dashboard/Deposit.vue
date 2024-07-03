@@ -97,7 +97,7 @@ const form = useForm({
 const submitForm = () => {
     form.amount = amount.value;
     // form.txid = txid.value;
-    form.to_wallet_address = qrAddress.value;
+    // form.to_wallet_address = qrAddress.value;
 
     form.post(route('transaction.deposit.store'), {
         preserveScroll: true,
