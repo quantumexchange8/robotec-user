@@ -298,36 +298,29 @@ class TransactionController extends Controller
     {
         $data = $request->all();
 
-        return redirect()->route('dashboard')
-            ->with('title', trans('public.deposit_success'))
-            ->with('success', trans('public.deposit_success_desc'))
-            ->with('alertButton', trans('public.back_to_dashboard'));
-    }
-
-    public function depositCallback(Request $request)
-    {
-        $data = $request->all();
-
+        Log::debug('deposit return ', $data);
         $result = [
-            "token" => $data['token'],
-            "transactionID" => $data['transactionID'],
-            "address" => $data["address"],
-            "amount" => $data["amount"],
+            "token" => $data['vCode'],
+            "from_wallet_address" => $data['from_wallet'],
+            "to_wallet_address" => $data['to_wallet'],
+            "txn_hash" => $data['txID'],
+            "transactionID" => $data['transaction_number'],
             "status" => $data["status"],
-            "remarks" => $data["remarks"],
+            "remarks" => 'System Approval',
         ];
-
-        Log::debug($result);
 
         $transaction = Transaction::query()
             ->where('transaction_number', $result['transactionID'])
             ->first();
 
-        $dataToHash = md5($transaction->transaction_number . $transaction->to_wallet_address);
+        $dataToHash = md5($transaction->transaction_number . 'robotec' . '10');
 
         if ($result['token'] === $dataToHash) {
             //proceed approval
             $transaction->update([
+                'from_wallet_address' => $result['from_wallet_address'],
+                'to_wallet_address' => $result['to_wallet_address'],
+                'txn_hash' => $result['txn_hash'],
                 'status' => $result['status'],
                 'remarks' => $result['remarks']
             ]);
@@ -338,11 +331,58 @@ class TransactionController extends Controller
                     $wallet->update([
                         'balance' => $wallet->balance + $transaction->transaction_amount
                     ]);
+                }
+            }
+        }
 
-                    $user = User::find($transaction->user_id);
+        $user = User::find($transaction->user_id);
 
-                    Notification::route('mail', 'payment@currenttech.pro')
-                        ->notify(new DepositRequestNotification($transaction, $user));
+        Notification::route('mail', 'payment@currenttech.pro')
+            ->notify(new DepositRequestNotification($transaction, $user));
+
+        return redirect()->route('dashboard')
+            ->with('title', trans('public.deposit_success'))
+            ->with('success', trans('public.deposit_success_desc'))
+            ->with('alertButton', trans('public.back_to_dashboard'));
+    }
+
+    public function depositCallback(Request $request)
+    {
+        $data = $request->all();
+
+        Log::debug('deposit callback ', $data);
+        $result = [
+            "token" => $data['vCode'],
+            "from_wallet_address" => $data['from_wallet'],
+            "to_wallet_address" => $data['to_wallet'],
+            "txn_hash" => $data['txID'],
+            "transactionID" => $data['transaction_number'],
+            "status" => $data["status"],
+            "remarks" => 'System Approval',
+        ];
+
+        $transaction = Transaction::query()
+            ->where('transaction_number', $result['transactionID'])
+            ->first();
+
+        $dataToHash = md5($transaction->transaction_number . 'robotec' . '10');
+
+        if ($result['token'] === $dataToHash) {
+            //proceed approval
+            $transaction->update([
+                'from_wallet_address' => $result['from_wallet_address'],
+                'to_wallet_address' => $result['to_wallet_address'],
+                'txn_hash' => $result['txn_hash'],
+                'status' => $result['status'],
+                'remarks' => $result['remarks']
+            ]);
+            if ($transaction->status =='success') {
+                if ($transaction->transaction_type == 'deposit') {
+                    $wallet = Wallet::find($transaction->to_wallet_id);
+
+                    $wallet->update([
+                        'balance' => $wallet->balance + $transaction->transaction_amount
+                    ]);
 
                     return response()->json(['success' => true, 'message' => 'Deposit Success']);
 
