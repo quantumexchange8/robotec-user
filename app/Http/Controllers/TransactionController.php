@@ -301,15 +301,17 @@ class TransactionController extends Controller
         Log::debug('deposit return ', $data);
 
         if ($data['response_status'] == 'success') {
-            return redirect()->route('dashboard')
-                ->with('title', trans('public.deposit_success'))
-                ->with('success', trans('public.deposit_success_desc'))
-                ->with('alertButton', trans('public.back_to_dashboard'));
+            return to_route('dashboard')->with('toast', [
+                'title' => trans('public.deposit_success'),
+                'message' => trans('public.deposit_success_desc'),
+                'type' => 'success'
+            ]);
         } else {
-            return redirect()->route('dashboard')
-                ->with('title', trans('public.deposit_success'))
-                ->with('warning', 'Transaction failed, contact admin')
-                ->with('alertButton', trans('public.back_to_dashboard'));
+            return to_route('dashboard')->with('toast', [
+                'title' => 'Transaction failed',
+                'message' => 'Contact admin for further details',
+                'type' => 'warning'
+            ]);
         }
     }
 
