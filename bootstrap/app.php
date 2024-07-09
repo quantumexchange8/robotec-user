@@ -18,7 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->validateCsrfTokens(except: [
-            'depositCallback' // <-- exclude this route
+            'deposit_return',
+            'deposit_callback'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
