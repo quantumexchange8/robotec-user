@@ -29,7 +29,7 @@ Route::post('deposit/approval', [TransactionController::class, 'depositRequestAp
 Route::post('deposit_callback', [TransactionController::class, 'depositCallback'])->name('depositCallback');
 
 Route::middleware('auth')->group(function () {
-    Route::post('deposit_return', [TransactionController::class, 'depositReturn']);
+    Route::get('deposit_return', [TransactionController::class, 'depositReturn']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/getWallets', [DashboardController::class, 'getWallets'])->name('getWallets');

@@ -300,10 +300,17 @@ class TransactionController extends Controller
 
         Log::debug('deposit return ', $data);
 
-        return redirect()->route('dashboard')
-            ->with('title', trans('public.deposit_success'))
-            ->with('success', trans('public.deposit_success_desc'))
-            ->with('alertButton', trans('public.back_to_dashboard'));
+        if ($data['response_status'] == 'success') {
+            return redirect()->route('dashboard')
+                ->with('title', trans('public.deposit_success'))
+                ->with('success', trans('public.deposit_success_desc'))
+                ->with('alertButton', trans('public.back_to_dashboard'));
+        } else {
+            return redirect()->route('dashboard')
+                ->with('title', trans('public.deposit_success'))
+                ->with('warning', 'Transaction failed, contact admin')
+                ->with('alertButton', trans('public.back_to_dashboard'));
+        }
     }
 
     public function depositCallback(Request $request)
