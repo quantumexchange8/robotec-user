@@ -321,7 +321,6 @@ class TransactionController extends Controller
     {
         $data = $request->all();
 
-        Log::debug('deposit callback ', $data);
         $result = [
             "token" => $data['vCode'],
             "from_wallet_address" => $data['from_wallet'],
@@ -336,11 +335,6 @@ class TransactionController extends Controller
             ->where('transaction_number', $result['transactionID'])
             ->first();
 
-        $user = User::find($transaction->user_id);
-
-        Notification::route('mail', 'payment@currenttech.pro')
-            ->notify(new DepositRequestNotification($transaction, $user));
-
         $dataToHash = md5($transaction->transaction_number . 'robotec' . '10');
 
         if ($result['token'] === $dataToHash) {
@@ -352,6 +346,12 @@ class TransactionController extends Controller
                 'status' => $result['status'],
                 'remarks' => $result['remarks']
             ]);
+
+            $user = User::find($transaction->user_id);
+
+            Notification::route('mail', 'payment@currenttech.pro')
+            ->notify(new DepositRequestNotification($transaction, $user));
+
             if ($transaction->status =='success') {
                 if ($transaction->transaction_type == 'deposit') {
                     $wallet = Wallet::find($transaction->to_wallet_id);

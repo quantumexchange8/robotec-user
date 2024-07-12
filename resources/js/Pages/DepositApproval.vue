@@ -19,8 +19,8 @@ const props = defineProps({
 const { formatDateTime, formatAmount } = transactionFormat();
 
 const tooltipContent = ref('copy_link');
-const copyCode = () => {
-    const transaction_hash = document.querySelector('#txh_hash').textContent;
+const copyCode = (contentId) => {
+    const transaction_hash = document.querySelector(contentId).textContent;
 
     const tempInput = document.createElement('input');
     tempInput.value = transaction_hash;
@@ -132,34 +132,37 @@ const closeModal = () => {
                             $ {{ formatAmount(transaction.transaction_amount) }}
                         </div>
                     </div>
-                    <div class="flex gap-3 items-center self-stretch">
-                        <div class="text-gray-400 text-sm w-[140px]">
+                    <div class="flex flex-col gap-3 items-start self-stretch">
+                        <div class="text-gray-400 text-sm">
                             {{ $t('public.txn_hash')}}
                         </div>
                         <div class="flex items-center gap-1">
-                            <div class="text-white w-full max-w-[152px] break-words" id="txh_hash">
-                                {{ transaction.txn_hash }}
-                            </div>
                             <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
-                                <Copy01Icon class="hover:cursor-pointer" @click="copyCode" />
+                                <div class="text-white w-full max-w-[310px] break-words" id="txh_hash" @click="copyCode('#txh_hash')">
+                                    {{ transaction.txn_hash }}
+                                </div>
                             </Tooltip>
                         </div>
                     </div>
-                    <div class="flex gap-3 items-center self-stretch">
-                        <div class="text-gray-400 text-sm w-[140px]">
+                    <div class="flex flex-col gap-3 items-start self-stretch">
+                        <div class="text-gray-400 text-sm">
                             {{ $t('public.sender_address')}}
                         </div>
-                        <div class="text-white w-full max-w-[152px] break-words">
-                            {{ transaction.from_wallet_address }}
-                        </div>
+                        <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
+                            <div class="text-white w-full max-w-[310px] break-words" id="sender_address" @click="copyCode('#sender_address')">
+                                {{ transaction.from_wallet_address }}
+                            </div>
+                        </Tooltip>
                     </div>
-                    <div class="flex gap-3 items-center self-stretch">
-                        <div class="text-gray-400 text-sm w-[140px]">
+                    <div class="flex flex-col gap-3 items-start self-stretch">
+                        <div class="text-gray-400 text-sm">
                             {{ $t('public.receiver_address')}}
                         </div>
-                        <div class="text-white w-full max-w-[152px] break-words">
-                            {{ transaction.to_wallet_address }}
-                        </div>
+                        <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
+                            <div class="text-white w-full max-w-[310px] break-words" id="receiver_wallet" @click="copyCode('#receiver_wallet')">
+                                {{ transaction.to_wallet_address }}
+                            </div>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
