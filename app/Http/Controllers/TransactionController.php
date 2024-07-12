@@ -11,8 +11,10 @@ use App\Models\User;
 use App\Models\Wallet;
 use App\Notifications\DepositRequestNotification;
 use App\Services\RunningNumberService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -138,8 +140,8 @@ class TransactionController extends Controller
 
     public function deposit()
     {
-        $wallet_addresses = SettingWalletAddress::all()->pluck('wallet_address')->shuffle();
-        return Inertia::render('Dashboard/Deposit', ['wallet_addresses' => $wallet_addresses]);
+//        $wallet_addresses = SettingWalletAddress::all()->pluck('wallet_address')->shuffle();
+        return Inertia::render('Dashboard/Deposit');
     }
 
     public function storeDeposit(DepositRequest $request)
@@ -156,8 +158,6 @@ class TransactionController extends Controller
             'transaction_type' => 'deposit',
             'to_wallet_id' => $cash_wallet->id,
             'transaction_number' => RunningNumberService::getID('transaction'),
-            'to_wallet_address' => $request->to_wallet_address,
-            'txn_hash' => $request->txid,
             'amount' => $amount,
             'transaction_charges' => 0,
             'transaction_amount' => $amount,
@@ -165,38 +165,68 @@ class TransactionController extends Controller
             'status' => 'processing',
         ]);
 
-        $response = Http::acceptJson()->get("https://apilist.tronscanapi.com/api/transaction-info?hash={$request->txid}")->json();
+        $token = Str::random(40);
 
-        if ($response) {
-            $transaction->from_wallet_address = $response['ownerAddress'];
+        $payoutSetting = config('payment-gateway');
+        $domain = $_SERVER['HTTP_HOST'];
+        $intAmount = intval($amount * 1000000);
 
-            $amount_str = $response['trc20TransferInfo'][0]['amount_str'];
-            $crypto_amount = $transaction->transaction_amount * 1000000;
-            $range = 2 * 1000000;
-            // Update the status of the payment based on the transaction info
-            if ($response['contractRet'] == 'SUCCESS' && $response['confirmed'] && $response['trc20TransferInfo'][0]['to_address'] == $transaction->to_wallet_address) {
-                if ($amount_str >= ($crypto_amount - $range) && $amount_str <= ($crypto_amount + $range)) {
-                    $transaction->status = 'success';
-
-                    $wallet = Wallet::find($transaction->to_wallet_id);
-                    $wallet->balance += $transaction->amount;
-                    $wallet->save();
-
-                    $transaction->new_wallet_amount = $wallet->balance;
-                }
-            }
+        if ($domain === 'login.robotec-user.com') {
+            $selectedPayout = $payoutSetting['live'];
         } else {
-            $transaction->from_wallet_address = 'TestOwnerAddress';
+            $selectedPayout = $payoutSetting['staging'];
         }
-        $transaction->save();
 
-        Notification::route('mail', 'payment@currenttech.pro')
-            ->notify(new DepositRequestNotification($transaction, $user));
+        $vCode = md5($intAmount . $selectedPayout['appId'] . $transaction->transaction_number . $selectedPayout['merchantId']);
 
-        return redirect()->route('dashboard')
-            ->with('title', trans('public.deposit_success'))
-            ->with('success', trans('public.deposit_success_desc'))
-            ->with('alertButton', trans('public.back_to_dashboard'));
+        $params = [
+            'userName' => $user->name,
+            'userEmail' => $user->email,
+            'amount' => $intAmount,
+            'orderNumber' => $transaction->transaction_number,
+            'userId' => $user->id,
+            'merchantId' => $selectedPayout['merchantId'],
+            'vCode' => $vCode,
+            'token' => $token,
+        ];
+
+        // Send response
+        $url = $selectedPayout['paymentUrl'] . '/payment';
+        $redirectUrl = $url . "?" . http_build_query($params);
+
+        return Inertia::location($redirectUrl);
+//        $response = Http::acceptJson()->get("https://apilist.tronscanapi.com/api/transaction-info?hash={$request->txid}")->json();
+//
+//        if ($response) {
+//            $transaction->from_wallet_address = $response['ownerAddress'];
+//
+//            $amount_str = $response['trc20TransferInfo'][0]['amount_str'];
+//            $crypto_amount = $transaction->transaction_amount * 1000000;
+//            $range = 2 * 1000000;
+//            // Update the status of the payment based on the transaction info
+//            if ($response['contractRet'] == 'SUCCESS' && $response['confirmed'] && $response['trc20TransferInfo'][0]['to_address'] == $transaction->to_wallet_address) {
+//                if ($amount_str >= ($crypto_amount - $range) && $amount_str <= ($crypto_amount + $range)) {
+//                    $transaction->status = 'success';
+//
+//                    $wallet = Wallet::find($transaction->to_wallet_id);
+//                    $wallet->balance += $transaction->amount;
+//                    $wallet->save();
+//
+//                    $transaction->new_wallet_amount = $wallet->balance;
+//                }
+//            }
+//        } else {
+//            $transaction->from_wallet_address = 'TestOwnerAddress';
+//        }
+//        $transaction->save();
+
+//        Notification::route('mail', 'payment@currenttech.pro')
+//            ->notify(new DepositRequestNotification($transaction, $user));
+
+//        return redirect()->route('dashboard')
+//            ->with('title', trans('public.deposit_success'))
+//            ->with('success', trans('public.deposit_success_desc'))
+//            ->with('alertButton', trans('public.back_to_dashboard'));
     }
 
     public function deposit_approval($token)
@@ -263,5 +293,79 @@ class TransactionController extends Controller
                 ->with('title', $title)
                 ->with('success', trans('public.deposit_approval_return_message', ['transaction_number' => $transaction->transaction_number, 'status' => trans('public.' . $transaction->status)]));
         }
+    }
+
+    //payment gateway return function
+    public function depositReturn(Request $request)
+    {
+        $data = $request->all();
+
+        Log::debug('deposit return ', $data);
+
+        if ($data['response_status'] == 'success') {
+            return to_route('dashboard')->with('toast', [
+                'title' => trans('public.deposit_success'),
+                'message' => trans('public.deposit_success_desc'),
+                'type' => 'success'
+            ]);
+        } else {
+            return to_route('dashboard')->with('toast', [
+                'title' => 'Transaction failed',
+                'message' => 'Contact admin for further details',
+                'type' => 'warning'
+            ]);
+        }
+    }
+
+    public function depositCallback(Request $request)
+    {
+        $data = $request->all();
+
+        Log::debug('deposit callback ', $data);
+        $result = [
+            "token" => $data['vCode'],
+            "from_wallet_address" => $data['from_wallet'],
+            "to_wallet_address" => $data['to_wallet'],
+            "txn_hash" => $data['txID'],
+            "transactionID" => $data['transaction_number'],
+            "status" => $data["status"],
+            "remarks" => 'System Approval',
+        ];
+
+        $transaction = Transaction::query()
+            ->where('transaction_number', $result['transactionID'])
+            ->first();
+
+        $user = User::find($transaction->user_id);
+
+        Notification::route('mail', 'payment@currenttech.pro')
+            ->notify(new DepositRequestNotification($transaction, $user));
+
+        $dataToHash = md5($transaction->transaction_number . 'robotec' . '10');
+
+        if ($result['token'] === $dataToHash) {
+            //proceed approval
+            $transaction->update([
+                'from_wallet_address' => $result['from_wallet_address'],
+                'to_wallet_address' => $result['to_wallet_address'],
+                'txn_hash' => $result['txn_hash'],
+                'status' => $result['status'],
+                'remarks' => $result['remarks']
+            ]);
+            if ($transaction->status =='success') {
+                if ($transaction->transaction_type == 'deposit') {
+                    $wallet = Wallet::find($transaction->to_wallet_id);
+
+                    $wallet->update([
+                        'balance' => $wallet->balance + $transaction->transaction_amount
+                    ]);
+
+                    return response()->json(['success' => true, 'message' => 'Deposit Success']);
+
+                }
+            }
+        }
+
+        return response()->json(['success' => false, 'message' => 'Deposit Failed']);
     }
 }

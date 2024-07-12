@@ -191,4 +191,5 @@ return [
     "terms_and_conditions" => "Terms & Conditions",
     "sender_address" => "Sender Address",
     "receiver_address" => "Receiver Address",
+    "deposit_desc" => "You will be redirected to the USDT Payment page to complete your transaction."
 ];
