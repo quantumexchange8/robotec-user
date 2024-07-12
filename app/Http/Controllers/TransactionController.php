@@ -180,6 +180,8 @@ class TransactionController extends Controller
         $vCode = md5($intAmount . $selectedPayout['appId'] . $transaction->transaction_number . $selectedPayout['merchantId']);
 
         $params = [
+            'userName' => $user->name,
+            'userEmail' => $user->email,
             'amount' => $intAmount,
             'orderNumber' => $transaction->transaction_number,
             'userId' => $user->id,
