@@ -132,35 +132,35 @@ const closeModal = () => {
                             $ {{ formatAmount(transaction.transaction_amount) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-3 items-start self-stretch">
+                    <div class="flex flex-col items-start self-stretch">
                         <div class="text-gray-400 text-sm">
                             {{ $t('public.txn_hash')}}
                         </div>
                         <div class="flex items-center gap-1">
                             <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
                                 <div class="text-white w-full max-w-[310px] break-words" id="txh_hash" @click="copyCode('#txh_hash')">
-                                    {{ transaction.txn_hash }}
+                                    {{ transaction.txn_hash ?? '-' }}
                                 </div>
                             </Tooltip>
                         </div>
                     </div>
-                    <div class="flex flex-col gap-3 items-start self-stretch">
+                    <div class="flex flex-col items-start self-stretch">
                         <div class="text-gray-400 text-sm">
                             {{ $t('public.sender_address')}}
                         </div>
                         <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
                             <div class="text-white w-full max-w-[310px] break-words" id="sender_address" @click="copyCode('#sender_address')">
-                                {{ transaction.from_wallet_address }}
+                                {{ transaction.from_wallet_address ?? '-' }}
                             </div>
                         </Tooltip>
                     </div>
-                    <div class="flex flex-col gap-3 items-start self-stretch">
+                    <div class="flex flex-col items-start self-stretch">
                         <div class="text-gray-400 text-sm">
                             {{ $t('public.receiver_address')}}
                         </div>
                         <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
                             <div class="text-white w-full max-w-[310px] break-words" id="receiver_wallet" @click="copyCode('#receiver_wallet')">
-                                {{ transaction.to_wallet_address }}
+                                {{ transaction.to_wallet_address ?? '-' }}
                             </div>
                         </Tooltip>
                     </div>
