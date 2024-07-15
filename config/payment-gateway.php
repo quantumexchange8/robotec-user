@@ -4,11 +4,11 @@ return [
     'staging' => [
         'paymentUrl' => 'https://ttpayment-gateway.currenttech.pro',
         'appId' => 'ttpay',
-        'merchantId' => '10'
+        'merchantId' => '1'
     ],
     'live' => [
         'paymentUrl' => 'https://ttpayment-gateway.currenttech.pro',
         'appId' => 'ttpay',
-        'merchantId' => '10'
+        'merchantId' => '1'
     ],
 ];
