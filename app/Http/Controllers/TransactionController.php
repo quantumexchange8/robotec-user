@@ -327,6 +327,7 @@ class TransactionController extends Controller
             "to_wallet_address" => $data['to_wallet'],
             "txn_hash" => $data['txID'],
             "transactionID" => $data['transaction_number'],
+            "amount" => $data['transfer_amount'],
             "status" => $data["status"],
             "remarks" => 'System Approval',
         ];
@@ -343,6 +344,8 @@ class TransactionController extends Controller
                 'from_wallet_address' => $result['from_wallet_address'],
                 'to_wallet_address' => $result['to_wallet_address'],
                 'txn_hash' => $result['txn_hash'],
+                'amount' => $result['amount'],
+                'transaction_amount' => $result['amount'],
                 'status' => $result['status'],
                 'remarks' => $result['remarks']
             ]);
