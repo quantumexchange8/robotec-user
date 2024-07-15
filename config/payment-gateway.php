@@ -4,10 +4,10 @@ return [
     'staging' => [
         'paymentUrl' => 'https://ttpayment-gateway.currenttech.pro',
         'appId' => 'ttpay',
-        'merchantId' => '1'
+        'merchantId' => '10'
     ],
     'live' => [
-        'paymentUrl' => 'https://ttpayment-gateway.currenttech.pro',
+        'paymentUrl' => 'https://robotec.ttpays.io/',
         'appId' => 'ttpay',
         'merchantId' => '1'
     ],

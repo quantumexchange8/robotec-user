@@ -171,7 +171,7 @@ class TransactionController extends Controller
         $domain = $_SERVER['HTTP_HOST'];
         $intAmount = intval($amount * 1000000);
 
-        if ($domain === 'login.robotec-user.com') {
+        if ($domain === 'app.robotec.live') {
             $selectedPayout = $payoutSetting['live'];
         } else {
             $selectedPayout = $payoutSetting['staging'];
