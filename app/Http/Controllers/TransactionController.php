@@ -335,7 +335,7 @@ class TransactionController extends Controller
             ->where('transaction_number', $result['transactionID'])
             ->first();
 
-        $dataToHash = md5($transaction->transaction_number . 'robotec' . '10');
+        $dataToHash = md5($transaction->transaction_number . 'robotec' . '1');
 
         if ($result['token'] === $dataToHash) {
             //proceed approval
