@@ -11,6 +11,7 @@ import Button from '@/Components/Button.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import { computed, onMounted, ref, watch } from "vue";
 import Tooltip from "@/Components/Tooltip.vue";
+import {transactionFormat} from "@/Composables/index.js";
 
 // const props = defineProps({
 //     'wallet_addresses': Array,
@@ -18,6 +19,8 @@ import Tooltip from "@/Components/Tooltip.vue";
 
 const is_disabled = ref(true);
 const amount = ref('');
+const terms = ref(false);
+const { formatAmount } = transactionFormat();
 // const txid = ref('');
 
 // const walletAddressesSelect = props.wallet_addresses;
@@ -95,9 +98,10 @@ const form = useForm({
 });
 
 const submitForm = () => {
-    form.amount = amount.value;
+    // form.amount = amount.value;
     // form.txid = txid.value;
     // form.to_wallet_address = qrAddress.value;
+    form.terms = terms.value;
 
     form.post(route('transaction.deposit.store'), {
         preserveScroll: true,
@@ -116,10 +120,10 @@ const submitForm = () => {
 }
 
 const buttonStatus = () => {
-    is_disabled.value = !(amount.value);
+    is_disabled.value = !(terms.value);
 }
 
-watch([amount], () => {
+watch([terms], () => {
     buttonStatus();
 });
 </script>
@@ -143,20 +147,16 @@ watch([amount], () => {
                         </div>
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
-                        <Label for="deposit_amount" :value="$t('public.deposit_amount')" :invalid="form.errors.amount" />
-                        <Input
-                            v-model="amount"
-                            id="deposit_amount"
-                            type="text"
-                            class="block w-full"
-                            placeholder="$ 0.00"
-                            :invalid="form.errors.amount"
-                        />
-                        <InputError :message="form.errors.amount" />
+                        <div class="text-sm font-semibold text-white">
+                            {{ $t('public.important_notice') }}
+                        </div>
+                        <div class="text-xs text-gray-300">
+                            {{ $t('public.notice_description') }} <span class="text-white">($ {{ formatAmount(250) }}).</span>
+                        </div>
                     </div>
                     <div class="flex flex-col items-start gap-1.5 self-stretch">
                         <div class="flex gap-3 items-start self-stretch">
-                            <Checkbox id="terms" v-model="form.terms"/>
+                            <Checkbox id="terms" v-model="terms"/>
                             <Label for="terms" class="text-xxs" :invalid="form.errors.terms">
                                 {{ $t('public.deposit_checkbox_desc') }}
                             </Label>
@@ -166,7 +166,7 @@ watch([amount], () => {
 
                     <Button
                         size="lg"
-                        :disabled="is_disabled || form.processing || !form.terms"
+                        :disabled="is_disabled || form.processing"
                         class="w-full font-semibold"
                     >
                         {{ $t('public.deposit_now') }}

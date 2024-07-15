@@ -191,5 +191,7 @@ return [
     "terms_and_conditions" => "Terms & Conditions",
     "sender_address" => "Sender Address",
     "receiver_address" => "Receiver Address",
-    "deposit_desc" => "You will be redirected to the USDT Payment page to complete your transaction."
+    "deposit_desc" => "You will be redirected to the USDT Payment page to complete your transaction.",
+    "important_notice" => "Important Notice",
+    "notice_description" => "When transferring funds, please ensure the amount you send includes the transaction fee. Failing to do so may result in your transferred amount being slightly below the minimum required"
 ];

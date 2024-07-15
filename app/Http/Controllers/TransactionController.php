@@ -144,7 +144,7 @@ class TransactionController extends Controller
         return Inertia::render('Dashboard/Deposit');
     }
 
-    public function storeDeposit(DepositRequest $request)
+    public function storeDeposit(Request $request)
     {
         $user = Auth::user();
         $cash_wallet = Wallet::where('user_id', $user->id)
