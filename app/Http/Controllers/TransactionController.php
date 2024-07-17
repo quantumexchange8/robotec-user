@@ -303,11 +303,20 @@ class TransactionController extends Controller
         Log::debug('deposit return ', $data);
 
         if ($data['response_status'] == 'success') {
-            return to_route('dashboard')->with('toast', [
-                'title' => trans('public.deposit_success'),
-                'message' => trans('public.deposit_success_desc'),
-                'type' => 'success'
-            ]);
+
+            $result = [
+                "amount" => $data['transfer_amount'],
+                "transaction_number" => $data['transaction_number'],
+                "txid" => $data['txID'],
+            ];
+
+            $transaction = Transaction::query()
+            ->where('transaction_number', $result['transaction_number'])
+            ->first();
+            
+            $result['dateTime'] = $transaction->approved_at;
+
+            return Inertia::render('Dashboard/DepositSuccess', $result);
         } else {
             return to_route('dashboard')->with('toast', [
                 'title' => 'Transaction failed',
@@ -336,7 +345,16 @@ class TransactionController extends Controller
             ->where('transaction_number', $result['transactionID'])
             ->first();
 
-        $dataToHash = md5($transaction->transaction_number . 'robotec' . '1');
+        $payoutSetting = config('payment-gateway');
+        $domain = $_SERVER['HTTP_HOST'];
+
+        if ($domain === 'app.robotec.live') {
+            $selectedPayout = $payoutSetting['live'];
+        } else {
+            $selectedPayout = $payoutSetting['staging'];
+        }
+
+        $dataToHash = md5($transaction->transaction_number . 'robotec' . $selectedPayout['merchantId']);
 
         if ($result['token'] === $dataToHash) {
             //proceed approval
@@ -347,7 +365,8 @@ class TransactionController extends Controller
                 'amount' => $result['amount'],
                 'transaction_amount' => $result['amount'],
                 'status' => $result['status'],
-                'remarks' => $result['remarks']
+                'remarks' => $result['remarks'],
+                'approved_at' => now()
             ]);
 
             $user = User::find($transaction->user_id);

@@ -9,9 +9,11 @@ import Tooltip from "@/Components/Tooltip.vue";
 
 const { formatDateTime, formatAmount } = transactionFormat();
 
-const dateTime = ref('2024-07-04 01:44:17');
-const amount = ref(250);
-const txid = ref('e5e66821b25c5ffecd87e159436510f3c30651ef52bf0a321585b99b11862b7d');
+const props = defineProps({
+    dateTime: String,
+    amount: String,
+    txid: String
+})
 
 const tooltipContent = ref('copy_link');
 const copyCode = (contentId) => {
@@ -74,7 +76,7 @@ const copyCode = (contentId) => {
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center self-stretch">
+                <div class="flex justify-between items-start self-stretch">
                     <div class="max-w-[120px] flex-1 text-gray-300 text-sm font-medium">
                         TxID
                     </div>
