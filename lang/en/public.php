@@ -193,5 +193,7 @@ return [
     "receiver_address" => "Receiver Address",
     "deposit_desc" => "You will be redirected to the USDT Payment page to complete your transaction.",
     "important_notice" => "Important Notice",
-    "notice_description" => "When transferring funds, please ensure the amount you send includes the transaction fee. Failing to do so may result in your transferred amount being slightly below the minimum required"
+    "notice_description" => "When transferring funds, please ensure the amount you send includes the transaction fee. Failing to do so may result in your transferred amount being slightly below the minimum required",
+    "deposit_receive" => "We've received your deposit. Thank you!",
+    "date_time" => "Date & Time"
 ];

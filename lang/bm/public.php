@@ -193,5 +193,7 @@ return [
     "receiver_address" => "Alamat Penerima",
     "deposit_desc" => "Anda akan dialihkan ke halaman pembayaran USDT untuk melengkapkan transaksi anda.",
     "important_notice" => "Notis Penting",
-    "notice_description" => "Apabila memindahkan dana, sila pastikan amaun yang anda hantar termasuk yuran transaksi. Kegagalan berbuat demikian boleh menyebabkan amaun yang anda pindahkan berada di bawah sedikit daripada minimum yang diperlukan"
+    "notice_description" => "Apabila memindahkan dana, sila pastikan amaun yang anda hantar termasuk yuran transaksi. Kegagalan berbuat demikian boleh menyebabkan amaun yang anda pindahkan berada di bawah sedikit daripada minimum yang diperlukan",
+    "deposit_receive" => "Kami telah menerima deposit anda. Terima kasih!",
+    "date_time" => "Tarikh & Masa"
 ];

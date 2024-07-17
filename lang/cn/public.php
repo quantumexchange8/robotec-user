@@ -193,5 +193,7 @@ return [
     "receiver_address" => "接收地址",
     "deposit_desc" => "您将被重定向到USDT支付页面以完成您的入金。",
     "important_notice" => "重要事项",
-    "notice_description" => "转账时，请确保您发送的金额包含交易费用。否则可能会导致您的转账金额略低于最低要求"
+    "notice_description" => "转账时，请确保您发送的金额包含交易费用。否则可能会导致您的转账金额略低于最低要求",
+    "deposit_receive" => "我们已收到您的存款。谢谢！",
+    "date_time" => "日期 & 时间"
 ];

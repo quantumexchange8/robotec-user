@@ -138,7 +138,7 @@ const closeModal = () => {
                         </div>
                         <div class="flex items-center gap-1">
                             <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
-                                <div class="text-white w-full max-w-[310px] break-words" id="txh_hash" @click="copyCode('#txh_hash')">
+                                <div class="text-white break-all" id="txh_hash" @click="copyCode('#txh_hash')">
                                     {{ transaction.txn_hash ?? '-' }}
                                 </div>
                             </Tooltip>
@@ -149,7 +149,7 @@ const closeModal = () => {
                             {{ $t('public.sender_address')}}
                         </div>
                         <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
-                            <div class="text-white w-full max-w-[310px] break-words" id="sender_address" @click="copyCode('#sender_address')">
+                            <div class="text-white break-all" id="sender_address" @click="copyCode('#sender_address')">
                                 {{ transaction.from_wallet_address ?? '-' }}
                             </div>
                         </Tooltip>
@@ -159,7 +159,7 @@ const closeModal = () => {
                             {{ $t('public.receiver_address')}}
                         </div>
                         <Tooltip :content="$t('public.'+ tooltipContent)" placement="top">
-                            <div class="text-white w-full max-w-[310px] break-words" id="receiver_wallet" @click="copyCode('#receiver_wallet')">
+                            <div class="text-white break-all" id="receiver_wallet" @click="copyCode('#receiver_wallet')">
                                 {{ transaction.to_wallet_address ?? '-' }}
                             </div>
                         </Tooltip>
